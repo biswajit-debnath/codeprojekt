@@ -53,3 +53,15 @@ body {
     font-size: 1.5rem;
     text-decoration: none;
 }
+
+
+
+@media only screen and (max-width: 768px) {
+    .coming-soon {
+        font-size: 2.8rem;
+    }
+
+    .countdown-item span {
+        font-size: 1.5rem;
+    }
+}
