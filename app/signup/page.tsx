@@ -1,16 +1,16 @@
 "use client"
 import { useState } from 'react';
-// import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const { signup } = useAuth();
+     const { signup } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // await signup(email, password);
+             await signup(email, password);
             alert('Signup successful!');
         } catch (error) {
             alert(error.message);

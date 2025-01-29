@@ -1,16 +1,16 @@
 "use client";
 import { useState } from 'react';
-//import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    //const { login } = useAuth();
+    const { login } = useAuth();
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            //await login(email, password);
+            await login(email, password);
             alert('Login successful!');
         } catch (error) {
             alert(error.message);
