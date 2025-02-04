@@ -1,45 +1,14 @@
-"use client";
-import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import Login from "../components/Login";
+import SignUp from "../components/SignUp";
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const { login } = useAuth();
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        try {
-            await login(email, password);
-            alert('Login successful!');
-        } catch (error) {
-            alert(error.message);
-        }
-    };
-
+// pages/index.js
+export default function Home() {
     return (
-        <div className="flex justify-center items-center h-screen">
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <input 
-                    type="email" 
-                    placeholder="Email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="border p-2"
-                    required 
-                />
-                <input 
-                    type="password" 
-                    placeholder="Password" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="border p-2"
-                    required 
-                />
-                <button type="submit" className="bg-blue-500 text-white p-2">Log In</button>
-            </form>
+        <div>
+            <h1>CodeProjekt Log in page</h1>
+            <h2>Sign Up</h2>
+            <Login />
+            <h2>Login</h2>
         </div>
     );
-};
-
-export default Login;
+}
