@@ -1,0 +1,35 @@
+.custom-button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ffcc00; /* Example color */
+    color: black; /* Example text color */
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+  }
+  
+  .custom-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+    z-index: -1;
+    transition: opacity 0.3s;
+    opacity: 0;
+  }
+  
+  .custom-button:hover {
+    background-color: #ff9900; /* Example hover color */
+    transform: translateY(-2px);
+  }
+  
+  .custom-button:hover::before {
+    opacity: 1;
+  }
