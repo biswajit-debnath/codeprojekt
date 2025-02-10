@@ -1,35 +1,80 @@
+
+/* Hero section styling */
+.hero {
+  font-family: 'The-Last-Shuriken', cursive;
+  letter-spacing: 0.15rem;
+}
+.hero h1 {
+  font-size: 2.8rem;
+} 
 .custom-button {
     position: relative;
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #ffcc00; /* Example color */
-    color: black; /* Example text color */
+    padding: 1.1rem 5rem 0.7rem 5rem;
+    background-color: var(--primaryColor); /* Example color */
+    color: white; /* Example text color */
     font-weight: bold;
-    border-radius: 5px;
+    font-size: 1.3rem;
+    
+
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, transform 0.3s;
-    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+    clip-path: polygon(5% 0%, 100% 0%, 100% 70%, 95% 100%, 0% 100%, 0% 30%);
   }
   
-  .custom-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
-    clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
-    z-index: -1;
-    transition: opacity 0.3s;
-    opacity: 0;
-  }
   
   .custom-button:hover {
-    background-color: #ff9900; /* Example hover color */
+    background-color: #e80303; /* Example hover color */
     transform: translateY(-2px);
   }
   
   .custom-button:hover::before {
     opacity: 1;
+  }
+
+
+
+
+
+
+  /* Nav bar stying */
+  .navbar {
+    font-family: 'Rentukka-Regular', cursive;
+    font-size: 1.1rem;
+    letter-spacing: -0.02rem;
+    background-color: var(--navBlack); 
+  }
+
+  .navbar_search {
+    padding-left: 1.5rem;
+    width: 40%;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    background-color: #474646; /* Light grey background */
+    color: #b7b6b6;
+    border-radius: 20px;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .navbar_search:focus {
+    background-color: #3d3d3d; /* Slightly darker grey on focus */
+    color: #808080; /* Slightly darker grey text on focus */
+  }
+
+  .navbar button {
+    padding-right: 5rem;;
+    padding-left: 1.5rem;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    background-color: #474646; /* Light grey background */
+    color: #b7b6b6;
+    border-radius: 20px;
+    outline: none;
+  }
+
+  .navbar a {
+    margin-top: 0.5rem;
   }
