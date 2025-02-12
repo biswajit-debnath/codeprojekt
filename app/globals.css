@@ -22,3 +22,8 @@ body {
   background: var(--background);
   font-family: 'The-Last-Shuriken', Helvetica, sans-serif;
 }
+
+nav {
+  font-family:  'Rentukka-Regular', Helvetica, sans-serif;
+  background-color: var(--navBlack);
+}

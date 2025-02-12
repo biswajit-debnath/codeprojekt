@@ -52,29 +52,26 @@ export default function Home() {
       </section>
 
       {/* Menu Section */}
-      <section className="grid grid-cols-4 gap-4 p-20 pt-16" >
-        <div className="relative" style={{ height: '65vh' }}>
+      <section className="grid grid-cols-5 gap-8 p-20 pt-16" >
+        <div className={`relative `} style={{ height: '70vh' }}>
           <Image src="/menu-imageV2.png" alt="Menu Item 1" layout="fill" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            
-          </div>
         </div>
-        <div className="relative" style={{ height: '65vh' }}>
+        <div className={`relative ${styles["menu-card"]}`} style={{ height: '70vh' }}>
           <Image src="/menu-imageV2.png" alt="Menu Item 2" layout="fill" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-2xl text-white">COMING SOON</h2>
+            <h2 className="text-2xl text-white">COMING<br/> SOON</h2>
           </div>
         </div>
-        <div className="relative" style={{ height: '65vh' }}>
+        <div className={`relative ${styles["menu-card"]}`} style={{ height: '70vh' }}>
           <Image src="/menu-imageV2.png" alt="Menu Item 3" layout="fill" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-2xl text-white">COMING SOON</h2>
+            <h2 className="text-2xl text-white">COMING<br/> SOON</h2>
           </div>
         </div>
-        <div className="relative" style={{ height: '65vh' }}>
+        <div className={`relative ${styles["menu-card"]}`} style={{ height: '70vh' }}>
           <Image src="/menu-imageV2.png" alt="Menu Item 4" layout="fill" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-2xl text-white">COMING SOON</h2>
+            <h2 className="text-2xl text-white">COMING<br/> SOON</h2>
           </div>
         </div>
       </section>
