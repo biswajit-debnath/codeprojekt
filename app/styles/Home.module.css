@@ -10,11 +10,8 @@
 .custom-button {
     position: relative;
     display: inline-block;
-    padding: 1.1rem 5rem 0.7rem 5rem;
+    /* padding: 1.1rem 5rem 0.7rem 5rem; */
     background-color: var(--primaryColor); /* Example color */
-    color: white; /* Example text color */
-    font-weight: bold;
-    font-size: 1.3rem;
     
 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -24,7 +21,6 @@
   
   
   .custom-button:hover {
-    background-color: #e80303; /* Example hover color */
     transform: translateY(-2px);
   }
   
