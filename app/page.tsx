@@ -1,7 +1,15 @@
-export default function Home() {
+'use client';
+import Hero from './_components/home/hero';
+import GameCards from './_components/home/gameCards';
+
+const HomePage = () => {
+
   return (
-      <div className="flex justify-center items-center h-screen">
-          <h1 className="text-4xl font-bold text-blue-600">Welcome to My Next.js App!</h1>
-      </div>
+    <div className="min-h-screen">
+      <Hero />
+      <GameCards />
+    </div>
   );
-}
+};
+
+export default HomePage;
