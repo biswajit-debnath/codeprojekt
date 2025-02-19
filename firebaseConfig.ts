@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth'; // Importing getAuth for authentication
 //import { getFirestore } from 'firebase/firestore'; // Importing getFirestore for Firestore
+import { getStorage } from 'firebase/storage';
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -19,3 +20,5 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase services
 export const auth = getAuth(app); // Exporting the authentication instance
 //export const db = getFirestore(app); // Exporting the Firestore instance
+
+export const storage = getStorage(app); // Exporting the storage instance for images

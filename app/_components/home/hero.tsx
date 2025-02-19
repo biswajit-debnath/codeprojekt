@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import Image from 'next/image';
+import FirebaseImage from '@/app/_components/common/FirebaseImage';
 import styles from '../../_styles/Home.module.css';
 
 const Hero = () => {
@@ -8,11 +8,12 @@ const Hero = () => {
     <div className="relative px-5 md:px-10 lg:px-20 pt-2 md:pt-5">
       <div className="relative h-[200px] md:h-[300px] lg:h-[400px] max-w-[1550px] mx-auto">
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
-        <Image
-          src="/hero-imageMain.jpg"
+        <FirebaseImage
+          path="hero/hero-imageMain.jpg"
           alt="Hero Image"
-          layout="fill"
+          fill
           objectFit="cover"
+          priority
         />
         <div className="absolute bottom-10 lg:bottom-20 inset-x-0 flex flex-col items-center z-20">
           <h1 className="text-xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-8 text-center">
