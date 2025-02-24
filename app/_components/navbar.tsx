@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,7 +32,9 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center justify-between px-4">
           <div className="flex items-center space-x-8">
             <div className="flex items-center">
+              <Link href="/">
               <Image src="/logo-imageV4white.png" alt="Logo" width={115} height={160} />
+              </Link>
             </div>
             
             <div className="flex space-x-10 text-white text-lg pl-6">
@@ -53,7 +56,9 @@ const Navbar = () => {
               />
             </div>
             <div className="flex items-center space-x-2">
-              <Image src="/profile-image.png" alt="Circle Image" width={35} height={50} className="rounded-full" />
+              <Link href="/account">
+                <Image src="/profile-image.png" alt="Circle Image" width={35} height={50} className="rounded-full" />
+              </Link>
             </div>
             <button className="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-1 text-gray-300 pr-20">
               <span>sign in/name</span>

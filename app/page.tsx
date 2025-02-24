@@ -1,6 +1,7 @@
 'use client';
 import Hero from './_components/home/hero';
 import GameCards from './_components/home/gameCards';
+import WhyUs from './_components/home/whyUs';
 
 const HomePage = () => {
 
@@ -8,6 +9,7 @@ const HomePage = () => {
     <div className="min-h-screen">
       <Hero />
       <GameCards />
+      <WhyUs />
     </div>
   );
 };

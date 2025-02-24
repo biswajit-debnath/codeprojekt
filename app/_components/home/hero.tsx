@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import FirebaseImage from '@/app/_components/common/FirebaseImage';
+import FirebaseImage from '../../_components/common/firebaseImage';
 import styles from '../../_styles/Home.module.css';
 
 const Hero = () => {
