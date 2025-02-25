@@ -1,0 +1,40 @@
+# .github/workflows/deploy-to-gh-pages.yml
+name: Deploy Next.js to GitHub Pages
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build Next.js
+        run: npm run build
+        # Make sure your next.config.js is set up for static export
+      
+      - name: Create .nojekyll file
+        run: touch out/.nojekyll
+      
+      - name: Deploy to client-demo branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: out # The folder the action should deploy
+          branch: client-demo # The branch the action should deploy to
+          clean: true # Automatically remove deleted files from the deploy branch
