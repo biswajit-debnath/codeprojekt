@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Diamond, Headphones, Wallet, Percent } from 'lucide-react';
+import { Diamond, Wallet, Percent } from 'lucide-react';
 import Image from 'next/image';
 
 

@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect } from 'react';
-import FirebaseImage from '@/app/_components/common/FirebaseImage';
+import FirebaseImage from '../common/firebaseImage';
 import FirebaseImageService from '@/services/firebaseStorage';
 
 const GameCard = ({ imagePath, alt, isComingSoon }: { imagePath: string; alt: string; isComingSoon?: boolean }) => (

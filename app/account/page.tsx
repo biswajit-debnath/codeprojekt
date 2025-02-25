@@ -2,10 +2,15 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
+interface NavItemProps {
+  id: string;
+  label: string;
+}
+
 const AccountPage = () => {
   const [activeSection, setActiveSection] = useState('id');
 
-  const NavItem = ({ id, label }) => (
+  const NavItem: React.FC<NavItemProps> = ({ id, label }) => (
     <button
       onClick={() => setActiveSection(id)}
       className={`block w-full text-left py-3 px-6 text-sm transition-colors hover:opacity-80 font-['Rentukka-Regular']
