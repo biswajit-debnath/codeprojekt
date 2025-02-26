@@ -2,13 +2,16 @@
 import React, { useRef } from 'react';
 import Image from 'next/image';
 
+type ContentRefKeys = 'id' | 'wallet' | 'personal' | 'achievements' | 'history' | 'rewards' | 'logout';
 interface NavItemProps {
-  id: string;
+  id: ContentRefKeys;
   label: string;
-  onClick: (id: string) => void;
+  onClick: (id: ContentRefKeys) => void;
 }
 
 const AccountPage = () => {
+  type ContentRefKeys = keyof typeof contentRefs;
+
   const contentRefs = {
     id: useRef<HTMLDivElement>(null),
     wallet: useRef<HTMLDivElement>(null),
@@ -19,7 +22,7 @@ const AccountPage = () => {
     logout: useRef<HTMLDivElement>(null)
   };
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = (id: ContentRefKeys) => {
     contentRefs[id]?.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -56,7 +59,7 @@ const AccountPage = () => {
           {/* Container with margin bottom to create space above footer */}
           <div className="flex-1 mb-16 relative">
             {/* Right Content Area - Scrollable with internal padding */}
-            <div id="content-container" className="absolute inset-0 overflow-y-auto overflow-x-hidden pr-6">
+            <div id="content-container" className="absolute inset-0 overflow-y-auto overflow-x-hidden pr-4">
               {/* ID Section */}
               <div ref={contentRefs.id} className="mb-6">
                 <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
