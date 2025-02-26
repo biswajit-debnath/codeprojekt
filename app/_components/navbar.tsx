@@ -2,10 +2,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const isAccountPage = pathname === '/account';
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -33,7 +36,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-8">
             <div className="flex items-center">
               <Link href="/">
-              <Image src="/logo-imageV4white.png" alt="Logo" width={115} height={160} />
+                <Image src="/logo-imageV4white.png" alt="Logo" width={115} height={160} />
               </Link>
             </div>
             
@@ -57,7 +60,9 @@ const Navbar = () => {
             </div>
             <div className="flex items-center space-x-2">
               <Link href="/account">
-                <Image src="/profile-image.png" alt="Circle Image" width={35} height={50} className="rounded-full" />
+                <div className={`rounded-full ${isAccountPage ? 'ring-2 ring-red-600 ring-offset-0' : ''}`}>
+                  <Image src="/profile-image.png" alt="Circle Image" width={35} height={50} className="rounded-full" />
+                </div>
               </Link>
             </div>
             <button className="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-1 text-gray-300 pr-20">
@@ -72,18 +77,28 @@ const Navbar = () => {
             <Image src="/logo-imageV4white.png" alt="Logo" width={100} height={50} />
           </div>
           
-          <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="text-white p-2 z-50"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <Link href="/account">
+                <div className={`rounded-full ${isAccountPage ? 'ring-2 ring-red-600 ring-offset-0' : ''}`}>
+                  <Image src="/profile-image.png" alt="Circle Image" width={30} height={30} className="rounded-full" />
+                </div>
+              </Link>
+            </div>
+            
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-white p-2 z-50"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Overlay */}
