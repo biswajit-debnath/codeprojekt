@@ -41,12 +41,42 @@ const Navbar = () => {
             </div>
             
             <div className="flex space-x-10 text-white text-lg pl-6">
-              <button className="hover:text-gray-300 transition-colors">DIAMOND PACKS</button>
-              <button className="hover:text-gray-300 transition-colors">EVENT PRE-ORDER</button>
-              <button className="hover:text-gray-300 transition-colors">REDEEM CODE</button>
-              <button className="hover:text-gray-300 transition-colors">ESPORTS</button>
-              <button className="hover:text-gray-300 transition-colors">MERCH</button>
-              <button className="hover:text-gray-300 transition-colors">MORE</button>
+              <Link href="/diamond-packs" className="relative">
+                <button className="hover:text-gray-300 transition-colors">DIAMOND PACKS</button>
+                {pathname === '/diamond-packs' && (
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                )}
+              </Link>
+              <Link href="/event-pre-order" className="relative">
+                <button className="hover:text-gray-300 transition-colors">EVENT PRE-ORDER</button>
+                {pathname === '/event-pre-order' && (
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                )}
+              </Link>
+              <Link href="/redeem-code" className="relative">
+                <button className="hover:text-gray-300 transition-colors">REDEEM CODE</button>
+                {pathname === '/redeem-code' && (
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                )}
+              </Link>
+              <Link href="/esports" className="relative">
+                <button className="hover:text-gray-300 transition-colors">ESPORTS</button>
+                {pathname === '/esports' && (
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                )}
+              </Link>
+              <Link href="/merch" className="relative">
+                <button className="hover:text-gray-300 transition-colors">MERCH</button>
+                {pathname === '/merch' && (
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                )}
+              </Link>
+              <Link href="/more" className="relative">
+                <button className="hover:text-gray-300 transition-colors">MORE</button>
+                {pathname === '/more' && (
+                  <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                )}
+              </Link>
             </div>
           </div>
           
@@ -110,12 +140,42 @@ const Navbar = () => {
               className="fixed top-0 right-0 h-screen w-64 bg-gray-900 p-6 z-50 transform transition-transform duration-300 ease-in-out"
             >
               <div className="flex flex-col space-y-6 text-white mt-16">
-                <button className="hover:text-gray-300 transition-colors">DIAMOND PACKS</button>
-                <button className="hover:text-gray-300 transition-colors">EVENT PRE-ORDER</button>
-                <button className="hover:text-gray-300 transition-colors">REDEEM CODE</button>
-                <button className="hover:text-gray-300 transition-colors">ESPORTS</button>
-                <button className="hover:text-gray-300 transition-colors">MERCH</button>
-                <button className="hover:text-gray-300 transition-colors">MORE</button>
+                <Link href="/diamond-packs" className="relative inline-block">
+                  <button className="hover:text-gray-300 transition-colors">DIAMOND PACKS</button>
+                  {pathname === '/diamond-packs' && (
+                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                  )}
+                </Link>
+                <Link href="/event-pre-order" className="relative inline-block">
+                  <button className="hover:text-gray-300 transition-colors">EVENT PRE-ORDER</button>
+                  {pathname === '/event-pre-order' && (
+                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                  )}
+                </Link>
+                <Link href="/redeem-code" className="relative inline-block">
+                  <button className="hover:text-gray-300 transition-colors">REDEEM CODE</button>
+                  {pathname === '/redeem-code' && (
+                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                  )}
+                </Link>
+                <Link href="/esports" className="relative inline-block">
+                  <button className="hover:text-gray-300 transition-colors">ESPORTS</button>
+                  {pathname === '/esports' && (
+                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                  )}
+                </Link>
+                <Link href="/merch" className="relative inline-block">
+                  <button className="hover:text-gray-300 transition-colors">MERCH</button>
+                  {pathname === '/merch' && (
+                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                  )}
+                </Link>
+                <Link href="/more" className="relative inline-block">
+                  <button className="hover:text-gray-300 transition-colors">MORE</button>
+                  {pathname === '/more' && (
+                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"></div>
+                  )}
+                </Link>
               </div>
               <div className="space-y-4 mt-8">
                 <input
