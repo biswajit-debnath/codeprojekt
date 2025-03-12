@@ -9,6 +9,7 @@ const Navbar = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const isAccountPage = pathname === '/account';
+  const isAuthPage = pathname === '/login' || pathname === '/signup';
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,6 +29,40 @@ const Navbar = () => {
     };
   }, [isMenuOpen]);
 
+  // Auth pages (login/signup) get a simplified header
+  if (isAuthPage) {
+    return (
+      <nav className="text-white py-4 z-50 sticky top-0">
+        <div className="container mx-auto px-6 flex justify-between items-center">
+          <h1 className="text-2xl font-bold tracking-wider">WELCOME TO CODE PROJEKT</h1>
+          <div className="flex items-center space-x-2">
+            {pathname === '/signup' && (
+              <>
+                <span className="text-gray-300">Already have an account</span>
+                <Link href="/login">
+                  <button className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-1 rounded-full">
+                    sign in
+                  </button>
+                </Link>
+              </>
+            )}
+            {pathname === '/login' && (
+              <>
+                <span className="text-gray-300">Don&apos;t have an account?</span>
+                <Link href="/signup">
+                  <button className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-1 rounded-full">
+                    sign up
+                  </button>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
+  // Regular navigation for other pages
   return (
     <nav className="absolute top-0 left-0 right-0 p-4 z-50 sticky">
       <div className="">
