@@ -35,10 +35,10 @@ const Navbar = () => {
       <nav className="absolute top-0 left-0 right-0 p-4 z-50 sticky">
         <div className="">
           {/* Desktop Auth Navigation */}
-          <div className="hidden lg:flex items-center justify-between px-4">
+          <div className="hidden lg:flex items-center justify-between px-6">
             <div className="flex items-center space-x-8">
               <div className="flex items-center">
-                <h1 className="text-2xl font-bold tracking-wider text-white font-['The-Last-Shuriken']">WELCOME TO CODE PROJEKT</h1>
+                <h1 className="text-3xl tracking-wider text-white font-['The-Last-Shuriken'] pl-2">WELCOME TO CODE PROJEKT</h1>
               </div>
             </div>
             
@@ -47,7 +47,7 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-300">Already have an account</span>
                   <Link href="/login">
-                    <button className="bg-[#303030] hover:bg-gray-600 text-white py-1 rounded-full w-36 text-left pl-4">
+                    <button className="bg-[#303030] hover:bg-gray-600 text-gray-400 py-1 rounded-full w-36 text-left pl-4">
                       sign in
                     </button>
                   </Link>
@@ -57,7 +57,7 @@ const Navbar = () => {
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-300">Don&apos;t have an account?</span>
                   <Link href="/signup">
-                    <button className="bg-[#303030] hover:bg-gray-600 text-light py-1 rounded-full w-36 text-left pl-4">
+                    <button className="bg-[#303030] hover:bg-gray-600 text-gray-400 py-1 rounded-full w-36 text-left pl-4">
                       sign up
                     </button>
                   </Link>
@@ -75,7 +75,7 @@ const Navbar = () => {
             <div className="flex items-center">
               {pathname === '/signup' && (
                 <Link href="/login">
-                  <button className="bg-[#303030] hover:bg-gray-600 text-white px-4 py-1.5 rounded-full w-28 text-sm text-left pl-5">
+                  <button className="bg-[#303030] hover:bg-gray-600 text-gray-300 px-4 py-1.5 rounded-full w-28 text-sm text-left pl-5">
                     sign in
                   </button>
                 </Link>
