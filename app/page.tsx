@@ -6,7 +6,7 @@ import WhyUs from './_components/home/whyUs';
 const HomePage = () => {
 
   return (
-    <div className="min-h-screen">
+    <div>
       <Hero />
       <GameCards />
       <WhyUs />

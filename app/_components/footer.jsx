@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1A1A1A] text-white py-6 pb-8 font-['Rentukka-Regular']">
+    <footer className="bg-[#1A1A1A] text-white py-6 pb-8">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-center items-center gap-6">
           {/* Left Section - Links */}

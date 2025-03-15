@@ -23,13 +23,25 @@ const AccountPage = () => {
   };
 
   const scrollToSection = (id: ContentRefKeys) => {
-    contentRefs[id]?.current?.scrollIntoView({ behavior: 'smooth' });
+    const contentContainer = document.getElementById('content-container');
+    const targetElement = contentRefs[id]?.current;
+    
+    if (contentContainer && targetElement) {
+      // Calculate the scroll position relative to the container
+      const scrollPosition = targetElement.offsetTop;
+      
+      // Smooth scroll the container to the target element
+      contentContainer.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
   const NavItem: React.FC<NavItemProps> = ({ id, label, onClick }) => (
     <button
       onClick={() => onClick(id)}
-      className="block w-full text-left py-3 px-6 text-md transition-colors hover:opacity-80 font-['Rentukka-Regular'] opacity-100 hover:opacity-100"
+      className="block w-full text-left py-3 px-6 text-md transition-colors hover:opacity-80 opacity-100 hover:opacity-100"
     >
       {label}
     </button>
@@ -38,7 +50,7 @@ const AccountPage = () => {
   return (
     <div className="flex flex-col h-screen">
       {/* Main container with padding top for header space */}
-      <div className="flex-1 flex flex-col mt-20 px-12 pb-16 overflow-hidden">
+      <div className="flex-1 flex flex-col mt-20 px-12 pb-16 overflow-hidden max-w-[1550px] mx-auto w-full">
         <h1 className="text-lg font-bold py-4 font-['The-Last-Shuriken'] text-black">YOUR ACCOUNT</h1>
         
         {/* Content area with navigation and content sections */}
@@ -77,7 +89,7 @@ const AccountPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 p-6 font-['Rentukka-Regular']">
+                  <div className="flex-1 p-6">
                     <div className="bg-[#262626] p-4">
                       <div className="flex justify-between">
                         <span>ACCOUNT NAME</span>
@@ -105,7 +117,7 @@ const AccountPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 p-6 font-['Rentukka-Regular']">
+                  <div className="flex-1 p-6">
                     <div>
                       <p className="text-gray-400 pl-7">WALLET BALANCE - Codepro coins</p>
                       <div className="flex justify-between items-center mt-2 bg-[#262626] p-4">
@@ -128,7 +140,7 @@ const AccountPage = () => {
                   <div className="w-64 bg-[#262626] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">PERSONAL INFORMATION</h2>
                   </div>
-                  <div className="flex-1 p-6 font-['Rentukka-Regular']">
+                  <div className="flex-1 p-6">
                     <div className="grid grid-cols-2 gap-6 bg-[#262626] mb-3 pl-4">
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">EMAIL</p>
@@ -159,7 +171,7 @@ const AccountPage = () => {
                   <div className="w-64 bg-[#262626] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">ACHIEVEMENT</h2>
                   </div>
-                  <div className="flex-1 p-6 font-['Rentukka-Regular']">
+                  <div className="flex-1 p-6">
                     <div className="grid grid-cols-2 gap-6">
                       <div className="bg-[#262626] p-4 rounded">
                         <p className="text-gray-400 mb-2">INVITES</p>
@@ -186,7 +198,7 @@ const AccountPage = () => {
                   <div className="w-64 bg-[#262626] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">TRANSACTION HISTORY</h2>
                   </div>
-                  <div className="flex-1 p-6 font-['Rentukka-Regular']">
+                  <div className="flex-1 p-6">
                     <div className="bg-[#262626] p-4 rounded">
                       <p className="text-gray-400">No transactions found</p>
                     </div>
@@ -200,7 +212,7 @@ const AccountPage = () => {
                   <div className="w-64 bg-[#262626] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">REWARDS</h2>
                   </div>
-                  <div className="flex-1 p-6 font-['Rentukka-Regular']">
+                  <div className="flex-1 p-6">
                     <div className="bg-[#262626] p-4 rounded">
                       <p className="text-gray-400">No rewards available</p>
                     </div>
@@ -214,7 +226,7 @@ const AccountPage = () => {
                   <div className="w-64 bg-[#262626] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">LOG OUT</h2>
                   </div>
-                  <div className="flex-1 p-6 font-['Rentukka-Regular']">
+                  <div className="flex-1 p-6">
                     <button className="bg-[#e70012] hover:bg-red-700 text-white px-6 py-3 rounded">
                       CONFIRM LOGOUT
                     </button>

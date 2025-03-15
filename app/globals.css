@@ -20,10 +20,9 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'The-Last-Shuriken', Helvetica, sans-serif;
+  font-family: 'Rentukka-Regular', Helvetica, sans-serif;
 }
 
 nav {
-  font-family:  'Rentukka-Regular', Helvetica, sans-serif;
   background-color: var(--navBlack);
 }

@@ -12,7 +12,7 @@ const GameCard = ({ imagePath, alt, isComingSoon }: { imagePath: string; alt: st
       objectFit="cover"
     />
     {isComingSoon && (
-      <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+      <div className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken']">
         <div className="text-center">
           <h3 className="text-white text-lg md:text-lg font-bold tracking-wider">
             COMING<br /> SOON

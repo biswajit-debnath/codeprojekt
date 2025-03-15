@@ -1,18 +1,10 @@
 
 /* Hero section styling  only cutom-button class is used*/
-.hero {
-  font-family: 'The-Last-Shuriken', cursive;
-  letter-spacing: 0.15rem;
-}
-.hero h1 {
-  font-size: 2.8rem;
-} 
+
 .custom-button {
     position: relative;
     display: inline-block;
-    /* padding: 1.1rem 5rem 0.7rem 5rem; */
-    background-color: var(--primaryColor); /* Example color */
-    
+    background-color: var(--primaryColor);
 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, transform 0.3s;
@@ -24,9 +16,6 @@
     transform: translateY(-2px);
   }
   
-  .custom-button:hover::before {
-    opacity: 1;
-  }
 
 
 

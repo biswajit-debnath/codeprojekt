@@ -30,36 +30,61 @@ const FirebaseImage: React.FC<FirebaseImageProps> = ({
 
   useEffect(() => {
     const loadImage = async () => {
+      setIsLoading(true);
       try {
         const url = await FirebaseImageService.getImageURL(path);
         setImageUrl(url);
       } catch (error) {
         console.error('Error loading image:', error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
     loadImage();
   }, [path]);
 
-  if (isLoading || !imageUrl) {
-    return <div className={`animate-pulse bg-gray-200 ${className}`} style={{ width, height }} />;
-  }
+  const containerStyle = {
+    position: 'relative' as const,
+    width: fill ? '100%' : width,
+    height: fill ? '100%' : height,
+    overflow: 'hidden'
+  };
+
+  const placeholderStyle = {
+    position: 'absolute' as const,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'gray',
+    objectFit
+  };
 
   return (
-    <Image
-      src={imageUrl}
-      alt={alt}
-      className={className}
-      priority={priority}
-      fill={fill}
-      width={!fill ? width : undefined}
-      height={!fill ? height : undefined}
-      style={objectFit ? { objectFit } : undefined}
-      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRoaHSQtJSEkLzYxMC8vMTQ3PEFGPDhGNzZINzQvRVhES1BPT0FCNz5BQ0j/2wBDAR"
-      placeholder="blur"
-    />
+    <div style={containerStyle} className={className}>
+      {/* Placeholder */}
+      <div 
+        className={`animate-pulse transition-opacity duration-300 ${!isLoading ? 'opacity-0' : 'opacity-100'}`}
+        style={placeholderStyle}
+      />
+      
+      {/* Image */}
+      {imageUrl && (
+        <Image
+          src={imageUrl}
+          alt={alt}
+          className={`transition-opacity duration-300 ${!isLoading ? 'opacity-100' : 'opacity-0'}`}
+          priority={priority}
+          fill={fill}
+          width={!fill ? width : undefined}
+          height={!fill ? height : undefined}
+          style={objectFit ? { objectFit } : undefined}
+          sizes={fill ? "100vw" : undefined}
+          loading={priority ? "eager" : "lazy"}
+          onLoadingComplete={() => setIsLoading(false)}
+          quality={100}
+        />
+      )}
+    </div>
   );
 };
 

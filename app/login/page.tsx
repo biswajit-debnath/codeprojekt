@@ -5,11 +5,11 @@ import Link from 'next/link';
 
 const LoginPage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-280px)] px-4 py-10 pb-20">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-280px)] px-5 md:px-16 py-10">
       {/* Main Content */}
-      <main className="flex flex-1 max-w-7xl mx-auto w-full" style={{ maxHeight: '800px' }}>
+      <main className="flex flex-1 max-w-[1550px] mx-auto w-full" style={{ maxHeight: '800px' }}>
         {/* Left side with Image */}
-        <div className="hidden md:block w-[350px] relative overflow-hidden">
+        <div className="hidden md:block w-[450px] relative overflow-hidden ">
           <Image 
             src="/hero-image.png" 
             alt="Game Character" 
@@ -23,11 +23,11 @@ const LoginPage = () => {
         <div className="w-full md:w-4/6 pt-0 px-8 md:px-12 flex items-start justify-between relative">
           <div className="w-full max-w-3xl pr-14">
             <div className="flex flex-col">
-              <h2 className="text-4xl font-extrabold tracking-wider uppercase leading-none mb-0">SIGN IN</h2>
-              <p className="text-gray-600 text-md font-['Rentukka-Regular'] -mt-1 leading-tight">Login to your account</p>
+              <h2 className="text-4xl font-bold tracking-wider uppercase leading-none mb-0 font-['The-Last-Shuriken']">SIGN IN</h2>
+              <p className="text-gray-600 text-md -mt-1 leading-tight">Login to your account</p>
             </div>
 
-            <form className="space-y-5 mt-10 font-['Rentukka-Regular'] w-full">
+            <form className="space-y-5 mt-10 w-full">
               <div className="space-y-5">
                 <div>
                   <label htmlFor="email" className="block text-md font-medium text-gray-800">
@@ -99,7 +99,7 @@ const LoginPage = () => {
           </div>
 
           {/* Logo on the right */}
-          <div className="pt-10 z-10 pointer-events-none absolute -right-6 top-0">
+          <div className="pt-10 z-10 pointer-events-none absolute right-10 top-0">
             <div className="relative">
               <div className="transform origin-center">
                 <Image 

@@ -15,10 +15,10 @@ const DiamondPacksPage = () => {
 
   const handleSelectPack = (index: number) => {
     setSelectedPack(index);
-  };
+  }; 
 
   return (
-    <div className="min-h-screen pt-8 pb-16">
+    <div className="pt-8 pb-16">
       {/* Main Content */}
       <div className="max-w-[1550px] mx-auto px-5 md:px-20">
         {/* Input and Features Row */}
@@ -31,13 +31,13 @@ const DiamondPacksPage = () => {
                 <div className="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center font-bold mr-3">
                   1
                 </div>
-                <h2 className="text-xl">INPUT YOUR IN GAME ID</h2>
+                <h2 className="text-xl font-['The-Last-Shuriken']">INPUT YOUR IN GAME ID</h2>
                 <div className="ml-2 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold">
                   i
                 </div>
               </div>
               
-              <div className="space-y-3 font-['Rentukka-Regular']">
+              <div className="space-y-3">
                 <div>
                   <label htmlFor="userId" className="block text-lg font-medium text-gray-700 mb-1">
                     Enter User ID
@@ -74,7 +74,7 @@ const DiamondPacksPage = () => {
           </div>
           
           {/* Right side - Features */}
-          <div className="md:w-3/5 bg-gray-300 p-6 pr-16 rounded-md font-['Rentukka-Regular']">
+          <div className="md:w-3/5 bg-gray-300 p-6 pr-16 rounded-md">
             <h2 className="text-xl font-bold text-red-600 mb-8">NEW FEATURES:</h2>
             
             <div className="text-xl pl-4">
@@ -94,13 +94,13 @@ const DiamondPacksPage = () => {
             <div className="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center font-bold mr-3">
               2
             </div>
-            <h2 className="text-4xl">SELECT YOUR PACKS</h2>
+            <h2 className="text-4xl font-['The-Last-Shuriken']">SELECT YOUR PACKS</h2>
             <div className="ml-2 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center text-xs font-bold">
               i
             </div>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 font-['Rentukka-Regular']">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {diamondPacks.map((pack, index) => (
               <button
                 key={index}
