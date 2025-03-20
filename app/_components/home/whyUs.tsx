@@ -5,8 +5,8 @@ import Image from 'next/image';
 
 const WhyUs = () => {
   return (
-    <div className="py-16">
-      <div className="max-w-[1550px] mx-auto px-5 md:px-10 lg:px-20">
+    <div className="px-5 md:px-10 lg:px-20 py-16">
+      <div className="max-w-[1550px] mx-auto">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 font-['The-Last-Shuriken']">WHY CODE PROJEKT</h2>
         
         <p className="mb-12 max-w-6xl text-lg leading-tight">
