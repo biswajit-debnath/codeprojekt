@@ -50,14 +50,14 @@ const AccountPage = () => {
   return (
     <div className="flex flex-col h-screen">
       {/* Main container with padding top for header space */}
-      <div className="flex-1 flex flex-col mt-20 px-12 pb-16 overflow-hidden max-w-[1550px] mx-auto w-full">
-        <h1 className="text-lg font-bold py-4 font-['The-Last-Shuriken'] text-black">YOUR ACCOUNT</h1>
+      <div className="flex-1 flex flex-col mt-20 px-16 pb-16 overflow-hidden max-w-[1550px] mx-auto w-full">
+        <h1 className="text-lg  font-['The-Last-Shuriken'] text-black">YOUR ACCOUNT</h1>
         
         {/* Content area with navigation and content sections */}
         <div className="flex flex-1 overflow-hidden">
           {/* Left Navigation - Fixed */}
           <div className="w-80 flex-shrink-0">
-            <div className="flex flex-col py-4">
+            <div className="flex flex-col py-1">
               <NavItem id="id" label="CODEPROJEKT ID" onClick={scrollToSection} />
               <NavItem id="wallet" label="MY WALLET" onClick={scrollToSection} />
               <NavItem id="personal" label="PERSONAL INFORMATION" onClick={scrollToSection} />
@@ -74,8 +74,8 @@ const AccountPage = () => {
             <div id="content-container" className="absolute inset-0 overflow-y-auto overflow-x-hidden pr-4">
               {/* ID Section */}
               <div ref={contentRefs.id} className="mb-6">
-                <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#262626] p-6 flex flex-col pb-14">
+                <div className="flex bg-[--navBlack] text-white overflow-hidden">
+                  <div className="w-64 bg-[#2c2c2c] p-6 flex flex-col pb-14">
                     <h2 className="text-2xl mb-2 font-['The-Last-Shuriken'] opacity-70 text-left">CODEPRO ID</h2>
                     <div className="w-full flex justify-center">
                       <div className="relative w-32 h-32">
@@ -90,7 +90,7 @@ const AccountPage = () => {
                     </div>
                   </div>
                   <div className="flex-1 p-6">
-                    <div className="bg-[#262626] p-4">
+                    <div className="bg-[#2c2c2c] p-4 px-10 pb-12">
                       <div className="flex justify-between">
                         <span>ACCOUNT NAME</span>
                         <span>ACCOUNT ID (CODEPRO11111)</span>
@@ -103,7 +103,7 @@ const AccountPage = () => {
               {/* Wallet Section */}
               <div ref={contentRefs.wallet} className="mb-6">
                 <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#262626] p-6 flex flex-col pb-14">
+                  <div className="w-64 bg-[#2c2c2c] p-6 flex flex-col pb-14">
                     <h2 className="text-2xl mb-6 font-['The-Last-Shuriken'] opacity-70 text-left">MY WALLET</h2>
                     <div className="w-full flex justify-center">
                       <div className="relative w-32 h-32">
@@ -117,18 +117,18 @@ const AccountPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 p-6">
+                  <div className="flex-1 px-10 py-12">
                     <div>
                       <p className="text-gray-400 pl-7">WALLET BALANCE - Codepro coins</p>
-                      <div className="flex justify-between items-center mt-2 bg-[#262626] p-4">
+                      <div className="flex justify-between items-center mt-2 bg-[#2c2c2c] p-4">
                         <p className="text-2xl pl-4">00.00</p>
-                        <button className="bg-[#e70012] hover:bg-red-700 text-white px-6 py-3 flex items-center">
-                          <span className="mr-2">+</span> ADD WALLET BALANCE
+                        <button className="bg-[--primaryColor] text-white px-6 py-4 flex items-center text-lg">
+                          <span className="mr-4 text-4xl">+</span> ADD WALLET BALANCE
                         </button>
                       </div>
                     </div>
-                    <div className="mt-6">
-                      <p className="text-gray-400 pl-7">Wallet Transactions</p>
+                    <div className="mt-2">
+                      <p className="text-gray-400 pl-7 text-lg">Wallet Transactions</p>
                     </div>
                   </div>
                 </div>
@@ -137,11 +137,11 @@ const AccountPage = () => {
               {/* Personal Information Section */}
               <div ref={contentRefs.personal} className="mb-6">
                 <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#262626] p-6">
+                  <div className="w-64 bg-[#2c2c2c] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">PERSONAL INFORMATION</h2>
                   </div>
-                  <div className="flex-1 p-6">
-                    <div className="grid grid-cols-2 gap-6 bg-[#262626] mb-3 pl-4">
+                  <div className="flex-1 px-10 py-12">
+                    <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] mb-3 pl-4">
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">EMAIL</p>
                         <p>user@example.com</p>
@@ -151,7 +151,7 @@ const AccountPage = () => {
                         <p>+91 1234567890</p>
                       </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-6 bg-[#262626] pl-4">
+                  <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] pl-4">
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">COUNTRY</p>
                         <p>India</p>
@@ -168,23 +168,27 @@ const AccountPage = () => {
               {/* Achievements Section */}
               <div ref={contentRefs.achievements} className="mb-6">
                 <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#262626] p-6">
+                  <div className="w-64 bg-[#2c2c2c] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">ACHIEVEMENT</h2>
                   </div>
-                  <div className="flex-1 p-6">
+                  <div className="flex-1 px-10 py-12">
                     <div className="grid grid-cols-2 gap-6">
-                      <div className="bg-[#262626] p-4 rounded">
-                        <p className="text-gray-400 mb-2">INVITES</p>
-                        <p className="text-3xl">12</p>
-                        <div className="w-full bg-gray-700 h-2 rounded mt-3">
-                          <div className="bg-blue-500 h-2 rounded" style={{ width: '40%' }}></div>
+                      <div className="flex flex-col">
+                        <div className="bg-[#2c2c2c] p-6 mb-2">
+                          <p className="text-gray-400 mb-4 font-medium">INVITES</p>
+                          <p className="text-4xl font-semibold">12</p>
+                        </div>
+                        <div className="w-full bg-gray-800 h-[0.7rem] mt-1 border-2 border-white">
+                          <div className="bg-white h-[0.6rem]" style={{ width: '10%' }}></div>
                         </div>
                       </div>
-                      <div className="bg-[#262626] p-4 rounded">
-                        <p className="text-gray-400 mb-2">PURCHASE</p>
-                        <p className="text-3xl">128</p>
-                        <div className="w-full bg-gray-700 h-2 rounded mt-3">
-                          <div className="bg-blue-500 h-2 rounded" style={{ width: '80%' }}></div>
+                      <div className="flex flex-col">
+                        <div className="bg-[#2c2c2c] p-6 mb-2">
+                          <p className="text-gray-400 mb-4 font-medium">PURCHASE</p>
+                          <p className="text-4xl font-semibold">128</p>
+                        </div>
+                        <div className="w-full bg-gray-800 h-[0.7rem] mt-1 border-2 border-white">
+                          <div className="bg-white h-[0.6rem]" style={{ width: '10%' }}></div>
                         </div>
                       </div>
                     </div>
@@ -195,11 +199,11 @@ const AccountPage = () => {
               {/* Transaction History Section */}
               <div ref={contentRefs.history} className="mb-6">
                 <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#262626] p-6">
+                  <div className="w-64 bg-[#2c2c2c] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">TRANSACTION HISTORY</h2>
                   </div>
-                  <div className="flex-1 p-6">
-                    <div className="bg-[#262626] p-4 rounded">
+                  <div className="flex-1 px-10 py-12">
+                    <div className="bg-[#2c2c2c] p-4">
                       <p className="text-gray-400">No transactions found</p>
                     </div>
                   </div>
@@ -209,11 +213,11 @@ const AccountPage = () => {
               {/* Rewards Section */}
               <div ref={contentRefs.rewards} className="mb-6">
                 <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#262626] p-6">
+                  <div className="w-64 bg-[#2c2c2c] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">REWARDS</h2>
                   </div>
-                  <div className="flex-1 p-6">
-                    <div className="bg-[#262626] p-4 rounded">
+                  <div className="flex-1 px-10 py-12">
+                    <div className="bg-[#2c2c2c] p-4">
                       <p className="text-gray-400">No rewards available</p>
                     </div>
                   </div>
@@ -223,11 +227,11 @@ const AccountPage = () => {
               {/* Logout Section */}
               <div ref={contentRefs.logout} className="mb-6">
                 <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#262626] p-6">
+                  <div className="w-64 bg-[#2c2c2c] p-6">
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">LOG OUT</h2>
                   </div>
-                  <div className="flex-1 p-6">
-                    <button className="bg-[#e70012] hover:bg-red-700 text-white px-6 py-3 rounded">
+                  <div className="flex-1 px-10 py-12">
+                    <button className="bg-[--primaryColor] hover:bg-red-700 text-white px-6 py-3">
                       CONFIRM LOGOUT
                     </button>
                   </div>
