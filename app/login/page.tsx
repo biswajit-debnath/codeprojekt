@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 import { useRouter } from 'next/navigation';
+import GoogleSignIn from '../components/GoogleSignIn';
 
 const LoginPage = () => {
   const router = useRouter();
@@ -139,9 +140,7 @@ const LoginPage = () => {
               </div>
 
               <div className="text-left pt-1">
-                <p className="text-md text-gray-600">
-                  or quick log in - google
-                </p>
+                <GoogleSignIn />
               </div>
             </form>
           </div>
