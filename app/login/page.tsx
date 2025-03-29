@@ -1,9 +1,46 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
+import { useRouter } from 'next/navigation';
 
 const LoginPage = () => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      router.push('/');
+    } catch (err: any) {
+      setError(
+        err.code === 'auth/invalid-credential' 
+          ? 'Invalid email or password'
+          : 'An error occurred during login'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-280px)] px-5 md:px-16 py-10">
       {/* Main Content */}
@@ -27,19 +64,27 @@ const LoginPage = () => {
               <p className="text-gray-600 text-md -mt-1 leading-tight">Login to your account</p>
             </div>
 
-            <form className="space-y-5 mt-10 w-full">
+            {error && (
+              <div className="mt-4 text-red-600 text-sm">
+                {error}
+              </div>
+            )}
+
+            <form className="space-y-5 mt-10 w-full" onSubmit={handleSubmit}>
               <div className="space-y-5">
                 <div>
                   <label htmlFor="email" className="block text-md font-medium text-gray-800">
-                    email/phone no
+                    email
                   </label>
                   <input
                     id="email"
                     name="email"
-                    type="text"
+                    type="email"
                     required
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="block w-full bg-gray-300 border-0 py-3 px-4 focus:outline-none focus:ring-0"
-                    placeholder="enter your email/phone no"
+                    placeholder="enter your email"
                   />
                 </div>
 
@@ -52,6 +97,8 @@ const LoginPage = () => {
                     name="password"
                     type="password"
                     required
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className="block w-full bg-gray-300 border-0 py-3 px-4 focus:outline-none focus:ring-0"
                     placeholder="enter your password"
                   />
@@ -67,9 +114,10 @@ const LoginPage = () => {
               <div className="pt-8">
                 <button
                   type="submit"
-                  className="w-[190px] flex justify-start py-3 px-8 border border-transparent rounded-full text-white bg-[var(--foreground)] hover:bg-[var(--foreground)] focus:outline-none shadow-md shadow-gray-500/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gray-500/50"
+                  disabled={loading}
+                  className="w-[190px] flex justify-start py-3 px-8 border border-transparent rounded-full text-white bg-[var(--foreground)] hover:bg-[var(--foreground)] focus:outline-none shadow-md shadow-gray-500/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gray-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  sign in
+                  {loading ? 'Signing in...' : 'sign in'}
                 </button>
               </div>
 

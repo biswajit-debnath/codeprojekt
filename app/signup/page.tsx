@@ -1,8 +1,38 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebaseConfig';
+import { useRouter } from 'next/navigation';
 
 const SignupPage = () => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError('');
+    
+    try {
+      await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      router.push('/');
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-280px)] px-5 md:px-16 py-10">
       {/* Main Content */}
@@ -26,10 +56,16 @@ const SignupPage = () => {
               <p className="text-gray-600 text-md  -mt-1 leading-tight">Register your account</p>
             </div>
 
-            <form className="space-y-5 mt-10  w-full">
+            {error && (
+              <div className="mt-4 text-red-600 text-sm">
+                {error}
+              </div>
+            )}
+
+            <form className="space-y-5 mt-10 w-full" onSubmit={handleSubmit}>
               <div className="space-y-5">
                 <div>
-                  <label htmlFor="username" className="block text-md font-medium text-gray-800 ">
+                  <label htmlFor="username" className="block text-md font-medium text-gray-800">
                     user name
                   </label>
                   <input
@@ -37,6 +73,8 @@ const SignupPage = () => {
                     name="username"
                     type="text"
                     required
+                    value={formData.username}
+                    onChange={handleInputChange}
                     className="block w-full bg-gray-300 border-0 py-3 px-4 focus:outline-none focus:ring-0"
                     placeholder="enter your name"
                   />
@@ -44,15 +82,17 @@ const SignupPage = () => {
 
                 <div>
                   <label htmlFor="email" className="block text-md font-medium text-gray-800">
-                    email/phone no
+                    email
                   </label>
                   <input
                     id="email"
                     name="email"
-                    type="text"
+                    type="email"
                     required
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="block w-full bg-gray-300 border-0 py-3 px-4 focus:outline-none focus:ring-0"
-                    placeholder="enter your email/phone no"
+                    placeholder="enter your email"
                   />
                 </div>
 
@@ -65,6 +105,8 @@ const SignupPage = () => {
                     name="password"
                     type="password"
                     required
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className="block w-full bg-gray-300 border-0 py-3 px-4 focus:outline-none focus:ring-0"
                     placeholder="set your password"
                   />
