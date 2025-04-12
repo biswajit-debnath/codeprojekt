@@ -1,6 +1,7 @@
 'use client';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { auth } from '../../firebaseConfig';
 
 type ContentRefKeys = 'id' | 'wallet' | 'personal' | 'achievements' | 'history' | 'rewards' | 'logout';
 interface NavItemProps {
@@ -11,6 +12,28 @@ interface NavItemProps {
 
 const AccountPage = () => {
   type ContentRefKeys = keyof typeof contentRefs;
+  const [userProfile, setUserProfile] = useState({
+    displayName: '',
+    email: '',
+    photoURL: '/profile-image.png',
+    phoneNumber: '',
+  });
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log('Firebase user:', user); // Debug log
+      if (user) {
+        setUserProfile({
+          displayName: user.displayName || 'Not set',
+          email: user.email || 'Not set',
+          photoURL: user.photoURL || '/profile-image.png',
+          phoneNumber: user.phoneNumber || 'Not set',
+        });
+      }
+    });
+
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
 
   const contentRefs = {
     id: useRef<HTMLDivElement>(null),
@@ -80,8 +103,8 @@ const AccountPage = () => {
                     <div className="w-full flex justify-center">
                       <div className="relative w-32 h-32">
                         <Image
-                          src="/profile-image.png"
-                          alt="Profile"
+                          src={userProfile.photoURL || '/profile-image.png'}
+                          alt=""
                           className="rounded-full"
                           fill
                           objectFit="cover"
@@ -90,11 +113,16 @@ const AccountPage = () => {
                     </div>
                   </div>
                   <div className="flex-1 p-6">
-                    <div className="bg-[#2c2c2c] p-4 px-10 pb-12">
-                      <div className="flex justify-between">
-                        <span>ACCOUNT NAME</span>
-                        <span>ACCOUNT ID (CODEPRO11111)</span>
-                      </div>
+                    <div className="mb-4">
+                    <h3 className="text-gray-400 mb-1">ACCOUNT ID</h3>
+                      <p className="text-xl">CODEPRO11111</p>
+
+                      <h3 className="text-gray-400 mb-1">Display Name</h3>
+                      <p className="text-xl">{userProfile.displayName || 'Not set'}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-gray-400 mb-1">Email</h3>
+                      <p className="text-xl">{userProfile.email || 'Not set'}</p>
                     </div>
                   </div>
                 </div>
@@ -144,11 +172,11 @@ const AccountPage = () => {
                     <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] mb-3 pl-4">
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">EMAIL</p>
-                        <p>user@example.com</p>
+                        <p>{userProfile.email || 'Not set'}</p>
                       </div>
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">PHONE NO</p>
-                        <p>+91 1234567890</p>
+                        <p>{userProfile.phoneNumber || 'Not set'}</p>
                       </div>
                   </div>
                   <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] pl-4">
