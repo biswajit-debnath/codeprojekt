@@ -2,6 +2,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { auth } from '../../firebaseConfig';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+
 
 type ContentRefKeys = 'id' | 'wallet' | 'personal' | 'achievements' | 'history' | 'rewards' | 'logout';
 interface NavItemProps {
@@ -48,17 +51,28 @@ const AccountPage = () => {
   const scrollToSection = (id: ContentRefKeys) => {
     const contentContainer = document.getElementById('content-container');
     const targetElement = contentRefs[id]?.current;
-    
+
     if (contentContainer && targetElement) {
       // Calculate the scroll position relative to the container
       const scrollPosition = targetElement.offsetTop;
-      
+
       // Smooth scroll the container to the target element
       contentContainer.scrollTo({
         top: scrollPosition,
         behavior: 'smooth'
       });
     }
+  };
+  const router = useRouter();
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("User signed out.");
+        router.push("/login"); // or use window.location
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+      });
   };
 
   const NavItem: React.FC<NavItemProps> = ({ id, label, onClick }) => (
@@ -75,7 +89,7 @@ const AccountPage = () => {
       {/* Main container with padding top for header space */}
       <div className="flex-1 flex flex-col mt-20 px-16 pb-16 overflow-hidden max-w-[1550px] mx-auto w-full">
         <h1 className="text-lg  font-['The-Last-Shuriken'] text-black">YOUR ACCOUNT</h1>
-        
+
         {/* Content area with navigation and content sections */}
         <div className="flex flex-1 overflow-hidden">
           {/* Left Navigation - Fixed */}
@@ -114,7 +128,7 @@ const AccountPage = () => {
                   </div>
                   <div className="flex-1 p-6">
                     <div className="mb-4">
-                    <h3 className="text-gray-400 mb-1">ACCOUNT ID</h3>
+                      <h3 className="text-gray-400 mb-1">ACCOUNT ID</h3>
                       <p className="text-xl">CODEPRO11111</p>
 
                       <h3 className="text-gray-400 mb-1">Display Name</h3>
@@ -178,8 +192,8 @@ const AccountPage = () => {
                         <p className="text-gray-400 mb-2">PHONE NO</p>
                         <p>{userProfile.phoneNumber || 'Not set'}</p>
                       </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] pl-4">
+                    </div>
+                    <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] pl-4">
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">COUNTRY</p>
                         <p>India</p>
@@ -259,7 +273,7 @@ const AccountPage = () => {
                     <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">LOG OUT</h2>
                   </div>
                   <div className="flex-1 px-10 py-12">
-                    <button className="bg-[--primaryColor] hover:bg-red-700 text-white px-6 py-3">
+                    <button onClick={handleLogout} className="bg-[--primaryColor] hover:bg-red-700 text-white px-6 py-3">
                       CONFIRM LOGOUT
                     </button>
                   </div>
