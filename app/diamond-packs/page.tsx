@@ -71,29 +71,29 @@ const DiamondPacksPage = () => {
   return (
     <div className="pt-10 pb-16">
       {/* Main Content */}
-      <div className="max-w-[1550px] mx-auto px-5 md:px-20">
+      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 md:px-10 lg:px-20">
         {/* Input and Features Row */}
-        <div className="flex flex-col md:flex-row gap-3 mb-8">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-3 mb-8">
           {/* Left side - Input Game ID */}
-          <div className="md:w-3/6 pr-16">
+          <div className="md:w-3/6 md:pr-8 lg:pr-16">
             {/* Step 1: Input Game ID */}
             <div className="mb-6">
               <div className="flex items-start mb-4">
                 <div className="flex items-center">
                   <div
-                    className="w-7 h-7 rounded-full bg-gray-500 text-white flex items-center justify-center text-lg mr-1"
+                    className="w-6 h-6 md:w-7 md:h-7 rounded-full bg-gray-500 text-white flex items-center justify-center text-base md:text-lg mr-1"
                     style={{ transform: "translateY(-2px)" }}
                   >
                     1
                   </div>
                   <h2
-                    className="text-xl font-['The-Last-Shuriken']"
+                    className="text-lg md:text-xl font-['The-Last-Shuriken']"
                     style={{ lineHeight: "1" }}
                   >
                     INPUT YOUR IN GAME ID
                   </h2>
                 </div>
-                <div className="ml-2 w-5 h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-xs font-bold">
+                <div className="ml-2 w-4 h-4 md:w-5 md:h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-[10px] md:text-xs font-bold">
                   i
                 </div>
               </div>
@@ -102,7 +102,7 @@ const DiamondPacksPage = () => {
                 <div>
                   <label
                     htmlFor="userId"
-                    className="block text-lg font-medium text-gray-800 pl-1"
+                    className="block text-base md:text-lg font-medium text-gray-800 pl-1"
                   >
                     Enter User ID
                   </label>
@@ -112,13 +112,13 @@ const DiamondPacksPage = () => {
                     value={userId}
                     onChange={(e) => setUserId(e.target.value)}
                     placeholder="1234567890"
-                    className="w-full px-5 py-2 bg-gray-300 text-lg"
+                    className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-base md:text-lg"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="zoneId"
-                    className="block text-lg font-medium text-gray-700 pl-1"
+                    className="block text-base md:text-lg font-medium text-gray-700 pl-1"
                   >
                     Enter Zone ID
                   </label>
@@ -128,22 +128,22 @@ const DiamondPacksPage = () => {
                     value={zoneId}
                     onChange={(e) => setZoneId(e.target.value)}
                     placeholder="12345"
-                    className="w-full px-5 py-2 bg-gray-300 text-lg"
+                    className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-base md:text-lg"
                   />
                 </div>
                 <button
                   onClick={verifyUserDetails}
                   disabled={isVerifying}
-                  className="mt-4 px-6 py-2 bg-[--primaryColor] text-white rounded disabled:opacity-50"
+                  className="mt-3 md:mt-4 px-4 py-2 md:px-6 md:py-2 bg-[--primaryColor] text-white rounded disabled:opacity-50 text-sm md:text-base"
                 >
                   {isVerifying ? "Verifying..." : "Verify Details"}
                 </button>
                 {verificationStatus ? (
-                  <div className="text-lg text-gray-500 pl-2">
+                  <div className="text-base md:text-lg text-gray-500 pl-2 pt-1">
                     {verificationStatus}
                   </div>
                 ) : (
-                  <div className="text-lg text-gray-500 pl-2">
+                  <div className="text-base md:text-lg text-gray-500 pl-2 pt-1">
                     IGN : In Game Name
                   </div>
                 )}
@@ -152,12 +152,12 @@ const DiamondPacksPage = () => {
           </div>
 
           {/* Right side - Features */}
-          <div className="md:w-3/5 bg-gray-300 pr-16 pl-14 py-8 h-fit pb-24">
-            <h2 className="text-xl font-bold text-red-600 mb-4">
+          <div className="md:w-3/5 bg-gray-300 px-6 py-6 md:pl-10 md:pr-12 lg:pl-14 lg:pr-16 md:py-8 h-fit md:pb-24">
+            <h2 className="text-lg md:text-xl font-bold text-red-600 mb-3 md:mb-4">
               NEW FEATURES:
             </h2>
 
-            <div className="text-xl space-y-1">
+            <div className="text-base md:text-xl space-y-1">
               <div className="text-gray-800">Wallet System Added</div>
               <div className="text-gray-800">
                 Through Wallet Get Diamonds Instantly
@@ -171,40 +171,39 @@ const DiamondPacksPage = () => {
           <div className="flex items-start mb-6">
             <div className="flex items-center">
               <div
-                className="w-7 h-7 rounded-full bg-gray-500 text-white flex items-center justify-center text-lg mr-1"
+                className="w-6 h-6 md:w-7 md:h-7 rounded-full bg-gray-500 text-white flex items-center justify-center text-base md:text-lg mr-1"
                 style={{ transform: "translateY(-4px)" }}
               >
                 2
               </div>
               <h2
-                className="text-4xl font-['The-Last-Shuriken']"
+                className="text-2xl sm:text-3xl md:text-4xl font-['The-Last-Shuriken']"
                 style={{ lineHeight: "1" }}
               >
                 SELECT YOUR PACKS
               </h2>
             </div>
-            <div className="ml-2 w-5 h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-xs font-bold">
+            <div className="ml-2 w-4 h-4 md:w-5 md:h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-[10px] md:text-xs font-bold">
               i
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 place-items-center md:place-items-start">
             {diamondPacks.map((pack, index) => (
               <button
                 key={index}
                 onClick={() => handleSelectPack(index)}
-                className={`relative overflow-hidden text-white transition-all ${
+                className={`relative overflow-hidden text-white transition-all w-full max-w-[240px] ${
                   selectedPack === index ? "ring-2 ring-red-600" : ""
                 }`}
                 style={{
-                  borderRadius: "0 0 55px 0",
-                  width: "240px",
+                  borderRadius: "0 0 40px 0",
                   backgroundColor: "var(--navBlack)",
                 }}
               >
-                <div className="relative p-4">
-                  <div className="absolute top-0 right-[-5px]">
-                    <div className="w-10 h-12 flex">
+                <div className="relative p-3 md:p-4">
+                  <div className="absolute top-0 right-[-3px] md:right-[-5px]">
+                    <div className="w-8 h-10 md:w-10 md:h-12 flex">
                       <Image
                         src="/logo-imageV4white.png"
                         alt="Code Projekt Logo"
@@ -215,15 +214,16 @@ const DiamondPacksPage = () => {
                     </div>
                   </div>
                   <div className="flex justify-between items-start">
-                    <span className="text-4xl pt-2">{pack.price}</span>
-                    <div className="ml-1 mr-4">
-                      <div className="relative">
+                    <span className="text-2xl sm:text-3xl md:text-4xl pt-1 md:pt-2">{pack.price}</span>
+                    <div className="ml-1 mr-2 md:mr-4">
+                      <div className="relative w-[40px] h-[40px] md:w-[50px] md:h-[50px] lg:w-[60px] lg:h-[60px]">
                         <svg
-                          width="60"
-                          height="60"
+                          width="100%"
+                          height="100%"
                           viewBox="0 0 32 32"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"
+                          preserveAspectRatio="xMidYMid meet"
                         >
                           <path
                             d="M16 2L3 10L16 18L29 10L16 2Z"
@@ -255,7 +255,7 @@ const DiamondPacksPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="text-[1.4rem] mt-1 flex items-start">
+                  <div className="text-base sm:text-lg md:text-[1.4rem] mt-1 flex items-start">
                     {pack.amount}
                   </div>
                 </div>

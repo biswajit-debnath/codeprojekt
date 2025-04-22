@@ -4,7 +4,7 @@ import FirebaseImage from '../common/firebaseImage';
 import FirebaseImageService from '@/services/firebaseStorage';
 
 const GameCard = ({ imagePath, alt, isComingSoon }: { imagePath: string; alt: string; isComingSoon?: boolean }) => (
-  <div className="relative aspect-[9/20] max-w-[150px] md:max-w-[200px] lg:max-w-[280px] w-full sm:w-full md:w-1/2 lg:w-1/4">
+  <div className="relative aspect-[9/15] md:aspect-[9/20] max-w-[110px] md:max-w-[200px] lg:max-w-[280px] w-full sm:w-full md:w-1/2 lg:w-1/4">
     <FirebaseImage
       path={imagePath}
       alt={alt}
@@ -14,7 +14,7 @@ const GameCard = ({ imagePath, alt, isComingSoon }: { imagePath: string; alt: st
     {isComingSoon && (
       <div className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken']">
         <div className="text-center">
-          <h3 className="text-white text-lg md:text-lg font-bold tracking-wider">
+          <h3 className="text-white text-[0.7rem] md:text-lg font-bold tracking-wider">
             COMING<br /> SOON
           </h3>
         </div>
@@ -38,7 +38,7 @@ const GameCards = () => {
   return (
     <div className="px-5 md:px-10 lg:px-20 py-6 md:py-12">
       <div className="max-w-[1550px] mx-auto">
-        <div className="flex flex-wrap lg:flex-nowrap gap-12">
+        <div className="flex flex-wrap lg:flex-nowrap gap-2 md:gap-12">
           <GameCard 
             imagePath="games/menu-image0.jpeg"
             alt="Mobile Legends: Bang Bang"

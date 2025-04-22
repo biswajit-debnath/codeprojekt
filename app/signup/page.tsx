@@ -35,10 +35,9 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-280px)] px-5 md:px-16 py-10">
-      {/* Main Content */}
-      <main className="flex flex-1 max-w-[1550px] mx-auto w-full" style={{ maxHeight: '800px' }}>
-        {/* Left side with Image */}
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-280px)] px-4 sm:px-5 md:px-16 py-10">
+      <main className="flex flex-1 max-w-[1550px] mx-auto w-full">
+        {/* Left side with Image - Visible only on md+ screens */}
         <div className="hidden md:block w-[450px] relative overflow-hidden ">
           <Image 
             src="/hero-image.png" 
@@ -49,12 +48,27 @@ const SignupPage = () => {
           />
         </div>
 
-        {/* Right side with Form and Logo */}
-        <div className="w-full md:w-4/6 pt-0 px-8 md:px-12 flex items-start justify-between relative">
-          <div className="w-full max-w-3xl pr-14">
-            <div className="flex flex-col">
-              <h2 className="text-4xl font-bold tracking-wider uppercase leading-none mb-0 font-['The-Last-Shuriken']">SIGN UP</h2>
-              <p className="text-gray-600 text-md  -mt-1 leading-tight">Register your account</p>
+        {/* Right side with Form and Logo - Takes full width on mobile, 4/6 on md+ */}
+        <div className="w-full md:w-4/6 pt-0 px-4 sm:px-8 md:px-12 flex items-start justify-between relative">
+          <div className="w-full max-w-3xl md:pr-14">
+            <div className="flex flex-col mb-4 md:mb-6">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-wider uppercase leading-none mb-0 font-['The-Last-Shuriken']">SIGN UP</h2>
+              <p className="text-gray-600 text-sm sm:text-md -mt-1 leading-tight">Register your account</p>
+            </div>
+
+            {/* Image for mobile view - hidden on md+ */}
+            <div className="my-4 md:my-6 block md:hidden"> 
+              <div className="relative w-full">
+                <Image 
+                  src="/hero-image.png" 
+                  alt="Game Character" 
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
             </div>
 
             {error && (
@@ -63,8 +77,8 @@ const SignupPage = () => {
               </div>
             )}
 
-            <form className="space-y-5 mt-10 w-full" onSubmit={handleSubmit}>
-              <div className="space-y-5">
+            <form className="space-y-5 mt-6 md:mt-10 w-full" onSubmit={handleSubmit}>
+              <div className="space-y-3 md:space-y-5">
                 <div>
                   <label htmlFor="username" className="block text-md font-medium text-gray-800">
                     user name
@@ -114,7 +128,7 @@ const SignupPage = () => {
                 </div>
               </div>
 
-              <div className="space-y-8 py-6">
+              <div className="space-y-4 py-4 md:space-y-8 md:py-6">
                 <div className="flex items-center">
                   <div className="relative">
                     <input
@@ -150,7 +164,7 @@ const SignupPage = () => {
                 </div>
               </div>
 
-              <div className="pt-8">
+              <div className="pt-6 md:pt-8">
                 <button
                   type="submit"
                   className="w-[190px] flex justify-start py-3 px-8 border border-transparent rounded-full text-white bg-[var(--foreground)] hover:bg-[var(--foreground)] focus:outline-none shadow-md shadow-gray-500/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-gray-500/50"
@@ -182,8 +196,9 @@ const SignupPage = () => {
             </form>
           </div>
 
-          {/* Logo on the right */}
-          <div className="pt-10 z-10 pointer-events-none absolute right-10 top-0">
+          {/* Logo on the right - Hidden on small screens, adjusted positioning */}
+          {/* Consider removing or further adjusting logo if layout conflicts */}
+          <div className="hidden sm:block pt-10 z-10 pointer-events-none absolute right-4 sm:right-10 top-0">
             <div className="relative">
               <div className="transform origin-center">
                 <Image 

@@ -7,9 +7,9 @@ const WhyUs = () => {
   return (
     <div className="px-5 md:px-10 lg:px-20 py-16">
       <div className="max-w-[1550px] mx-auto">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 font-['The-Last-Shuriken']">WHY CODE PROJEKT</h2>
+        <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-2 font-['The-Last-Shuriken']">WHY CODE PROJEKT</h2>
         
-        <p className="mb-12 max-w-6xl text-lg leading-tight">
+        <p className="mb-12 max-w-6xl text-sm md:text-lg leading-tight">
           Hundreds of gamers count on codeprojekt every month for a seamless purchase experience when buying game credits or vouchers. 
           Purchases are added to your game account instantly. mlbb mobile, and more coming soon!
         </p>
@@ -21,8 +21,8 @@ const WhyUs = () => {
               <Image src="/hand.png" alt="Logo" width={40} height={40} />
             </div>
             <div>
-              <h3 className="text-xl ">EASY AND FAST</h3>
-              <p className="-mt-0.5 leading-tight ">
+              <h3 className="text-md md:text-xl ">EASY AND FAST</h3>
+              <p className="-mt-0.5 text-sm md:text-base leading-tight ">
                 It only takes a few seconds to complete a purchase on codepro
               </p>
             </div>
@@ -34,8 +34,8 @@ const WhyUs = () => {
               <Diamond size={36} strokeWidth={1.5} />
             </div>
             <div>
-              <h3 className="text-xl ">INSTANT DELIVERY</h3>
-              <p className="-mt-0.5 leading-tight">
+              <h3 className="text-md md:text-xl ">INSTANT DELIVERY</h3>
+              <p className="-mt-0.5 text-sm md:text-base leading-tight">
                 When you top-up on Codashop, your purchase is delivered directly to your game account as soon as your payment is complete.
               </p>
             </div>
@@ -47,8 +47,8 @@ const WhyUs = () => {
               <Wallet size={36} strokeWidth={1.5} />
             </div>
             <div>
-              <h3 className="text-xl ">CONVENIENT PAYMENT METHODS</h3>
-              <p className="-mt-0.5 leading-tight">
+              <h3 className="text-md md:text-xl ">CONVENIENT PAYMENT METHODS</h3>
+              <p className="-mt-0.5 text-sm md:text-base leading-tight">
                 To ensure your convenience, we have partnered with the most popular providers in India.
               </p>
             </div>
@@ -60,8 +60,8 @@ const WhyUs = () => {
             <Image src="/headphones.png" alt="Logo" width={40} height={40} />
             </div>
             <div>
-              <h3 className="text-xl ">CUSTOMER SUPPORT</h3>
-              <p className="-mt-0.5 leading-tight">
+              <h3 className="text-md md:text-xl ">CUSTOMER SUPPORT</h3>
+              <p className="-mt-0.5 text-sm md:text-base leading-tight">
                 Our friendly customer support team is always available to assist you. contact us
               </p>
             </div>
@@ -73,8 +73,8 @@ const WhyUs = () => {
               <Percent size={36} strokeWidth={1.5} />
             </div>
             <div>
-              <h3 className="text-xl ">EXCITING PROMOTIONS</h3>
-              <p className="-mt-0.5 leading-tight">
+              <h3 className="text-md md:text-xl ">EXCITING PROMOTIONS</h3>
+              <p className="-mt-0.5 text-sm md:text-base leading-tight">
                 Keep a lookout for the best/free diamonds deals for your favorite games at codeprojekt.
               </p>
             </div>
