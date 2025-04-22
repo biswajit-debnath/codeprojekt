@@ -87,13 +87,14 @@ const AccountPage = () => {
   return (
     <div className="flex flex-col h-screen">
       {/* Main container with padding top for header space */}
-      <div className="flex-1 flex flex-col mt-20 px-16 pb-16 overflow-hidden max-w-[1550px] mx-auto w-full">
-        <h1 className="text-lg  font-['The-Last-Shuriken'] text-black">YOUR ACCOUNT</h1>
+      <div className="flex-1 flex flex-col mt-20 px-4 sm:px-8 md:px-16 pb-16 overflow-hidden max-w-[1550px] mx-auto w-full">
+        <h1 className="text-lg font-['The-Last-Shuriken'] text-black">YOUR ACCOUNT</h1>
 
         {/* Content area with navigation and content sections */}
-        <div className="flex flex-1 overflow-hidden">
-          {/* Left Navigation - Fixed */}
-          <div className="w-80 flex-shrink-0">
+        {/* Layout changes: flex-col on mobile, flex-row on md+ */}
+        <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
+          {/* Left Navigation - Hidden on mobile, shown on md+ */}
+          <div className="hidden md:block w-80 flex-shrink-0">
             <div className="flex flex-col py-1">
               <NavItem id="id" label="CODEPROJEKT ID" onClick={scrollToSection} />
               <NavItem id="wallet" label="MY WALLET" onClick={scrollToSection} />
@@ -105,17 +106,19 @@ const AccountPage = () => {
             </div>
           </div>
 
-          {/* Container with margin bottom to create space above footer */}
-          <div className="flex-1 mb-16 relative">
+          {/* Container with margin bottom & conditional left margin */}
+          {/* Takes full width on mobile, adds margin on md+ */}
+          <div className="flex-1 mb-16 relative md:ml-8">
             {/* Right Content Area - Scrollable with internal padding */}
-            <div id="content-container" className="absolute inset-0 overflow-y-auto overflow-x-hidden pr-4">
-              {/* ID Section */}
+            {/* Padding adjusted: No right padding on mobile, added on md+ */}
+            <div id="content-container" className="absolute inset-0 overflow-y-auto overflow-x-hidden pr-0 md:pr-4">
+              {/* ID Section - Stacks on mobile, row on md+ */}
               <div ref={contentRefs.id} className="mb-6">
-                <div className="flex bg-[--navBlack] text-white overflow-hidden">
-                  <div className="w-64 bg-[#2c2c2c] p-6 flex flex-col pb-14">
-                    <h2 className="text-2xl mb-2 font-['The-Last-Shuriken'] opacity-70 text-left">CODEPRO ID</h2>
+                <div className="flex flex-col md:flex-row bg-[--navBlack] text-white overflow-hidden">
+                  <div className="w-full md:w-64 bg-[#2c2c2c] p-6 flex flex-col pb-4 md:pb-14 items-center md:items-start">
+                    <h2 className="text-xl md:text-2xl mb-2 font-['The-Last-Shuriken'] opacity-70 text-center md:text-left">CODEPRO ID</h2>
                     <div className="w-full flex justify-center">
-                      <div className="relative w-32 h-32">
+                      <div className="relative w-24 h-24 md:w-32 md:h-32">
                         <Image
                           src={userProfile.photoURL || '/profile-image.png'}
                           alt=""
@@ -142,13 +145,13 @@ const AccountPage = () => {
                 </div>
               </div>
 
-              {/* Wallet Section */}
+              {/* Wallet Section - Stacks on mobile, row on md+ */}
               <div ref={contentRefs.wallet} className="mb-6">
-                <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#2c2c2c] p-6 flex flex-col pb-14">
-                    <h2 className="text-2xl mb-6 font-['The-Last-Shuriken'] opacity-70 text-left">MY WALLET</h2>
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <div className="w-full md:w-64 bg-[#2c2c2c] p-6 flex flex-col pb-4 md:pb-14 items-center md:items-start">
+                    <h2 className="text-xl md:text-2xl mb-6 font-['The-Last-Shuriken'] opacity-70 text-center md:text-left">MY WALLET</h2>
                     <div className="w-full flex justify-center">
-                      <div className="relative w-32 h-32">
+                      <div className="relative w-24 h-24 md:w-32 md:h-32">
                         <Image
                           src="/profile-image.png"
                           alt="Profile"
@@ -159,31 +162,35 @@ const AccountPage = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 px-10 py-12">
+                  {/* Padding adjusts for mobile */}
+                  <div className="flex-1 px-4 md:px-10 py-12">
                     <div>
-                      <p className="text-gray-400 pl-7">WALLET BALANCE - Codepro coins</p>
-                      <div className="flex justify-between items-center mt-2 bg-[#2c2c2c] p-4">
-                        <p className="text-2xl pl-4">00.00</p>
-                        <button className="bg-[--primaryColor] text-white px-6 py-4 flex items-center text-lg">
-                          <span className="mr-4 text-4xl">+</span> ADD WALLET BALANCE
+                      <p className="text-gray-400 pl-0 md:pl-7 text-center md:text-left">WALLET BALANCE - Codepro coins</p>
+                      {/* Button layout stacks on mobile */}
+                      <div className="flex flex-col md:flex-row justify-between items-center mt-2 bg-[#2c2c2c] p-4">
+                        <p className="text-2xl pl-0 md:pl-4 mb-4 md:mb-0">00.00</p>
+                        <button className="bg-[--primaryColor] text-white px-4 md:px-6 py-3 md:py-4 flex items-center text-md md:text-lg w-full md:w-auto justify-center">
+                          <span className="mr-2 md:mr-4 text-2xl md:text-4xl">+</span> ADD WALLET BALANCE
                         </button>
                       </div>
                     </div>
                     <div className="mt-2">
-                      <p className="text-gray-400 pl-7 text-lg">Wallet Transactions</p>
+                      <p className="text-gray-400 pl-0 md:pl-7 text-lg text-center md:text-left">Wallet Transactions</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Personal Information Section */}
+              {/* Personal Information Section - Stacks on mobile, row/grid on md+ */}
               <div ref={contentRefs.personal} className="mb-6">
-                <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#2c2c2c] p-6">
-                    <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">PERSONAL INFORMATION</h2>
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <div className="w-full md:w-64 bg-[#2c2c2c] p-6">
+                    <h2 className="text-xl md:text-2xl font-['The-Last-Shuriken'] opacity-70 text-center md:text-left">PERSONAL INFORMATION</h2>
                   </div>
-                  <div className="flex-1 px-10 py-12">
-                    <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] mb-3 pl-4">
+                  {/* Padding adjusts for mobile */}
+                  <div className="flex-1 px-4 md:px-10 py-12">
+                    {/* Grid stacks on mobile */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#2c2c2c] mb-3 p-4 md:pl-4">
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">EMAIL</p>
                         <p>{userProfile.email || 'Not set'}</p>
@@ -193,7 +200,8 @@ const AccountPage = () => {
                         <p>{userProfile.phoneNumber || 'Not set'}</p>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-6 bg-[#2c2c2c] pl-4">
+                    {/* Grid stacks on mobile */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#2c2c2c] p-4 md:pl-4">
                       <div className="p-4 rounded">
                         <p className="text-gray-400 mb-2">COUNTRY</p>
                         <p>India</p>
@@ -207,14 +215,16 @@ const AccountPage = () => {
                 </div>
               </div>
 
-              {/* Achievements Section */}
+              {/* Achievements Section - Stacks on mobile, row/grid on md+ */}
               <div ref={contentRefs.achievements} className="mb-6">
-                <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#2c2c2c] p-6">
-                    <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">ACHIEVEMENT</h2>
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <div className="w-full md:w-64 bg-[#2c2c2c] p-6">
+                    <h2 className="text-xl md:text-2xl font-['The-Last-Shuriken'] opacity-70 text-center md:text-left">ACHIEVEMENT</h2>
                   </div>
-                  <div className="flex-1 px-10 py-12">
-                    <div className="grid grid-cols-2 gap-6">
+                  {/* Padding adjusts for mobile */}
+                  <div className="flex-1 px-4 md:px-10 py-12">
+                    {/* Grid stacks on mobile */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="flex flex-col">
                         <div className="bg-[#2c2c2c] p-6 mb-2">
                           <p className="text-gray-400 mb-4 font-medium">INVITES</p>
@@ -238,13 +248,14 @@ const AccountPage = () => {
                 </div>
               </div>
 
-              {/* Transaction History Section */}
+              {/* Transaction History Section - Stacks on mobile, row on md+ */}
               <div ref={contentRefs.history} className="mb-6">
-                <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#2c2c2c] p-6">
-                    <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">TRANSACTION HISTORY</h2>
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <div className="w-full md:w-64 bg-[#2c2c2c] p-6">
+                    <h2 className="text-xl md:text-2xl font-['The-Last-Shuriken'] opacity-70 text-center md:text-left">TRANSACTION HISTORY</h2>
                   </div>
-                  <div className="flex-1 px-10 py-12">
+                  {/* Padding adjusts for mobile */}
+                  <div className="flex-1 px-4 md:px-10 py-12">
                     <div className="bg-[#2c2c2c] p-4">
                       <p className="text-gray-400">No transactions found</p>
                     </div>
@@ -252,13 +263,14 @@ const AccountPage = () => {
                 </div>
               </div>
 
-              {/* Rewards Section */}
+              {/* Rewards Section - Stacks on mobile, row on md+ */}
               <div ref={contentRefs.rewards} className="mb-6">
-                <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#2c2c2c] p-6">
-                    <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">REWARDS</h2>
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <div className="w-full md:w-64 bg-[#2c2c2c] p-6">
+                    <h2 className="text-xl md:text-2xl font-['The-Last-Shuriken'] opacity-70 text-center md:text-left">REWARDS</h2>
                   </div>
-                  <div className="flex-1 px-10 py-12">
+                  {/* Padding adjusts for mobile */}
+                  <div className="flex-1 px-4 md:px-10 py-12">
                     <div className="bg-[#2c2c2c] p-4">
                       <p className="text-gray-400">No rewards available</p>
                     </div>
@@ -266,14 +278,16 @@ const AccountPage = () => {
                 </div>
               </div>
 
-              {/* Logout Section */}
+              {/* Logout Section - Stacks on mobile, row on md+ */}
               <div ref={contentRefs.logout} className="mb-6">
-                <div className="flex bg-[#1c1a1b] text-white overflow-hidden">
-                  <div className="w-64 bg-[#2c2c2c] p-6">
-                    <h2 className="text-2xl font-['The-Last-Shuriken'] opacity-70">LOG OUT</h2>
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <div className="w-full md:w-64 bg-[#2c2c2c] p-6">
+                    <h2 className="text-xl md:text-2xl font-['The-Last-Shuriken'] opacity-70 text-center md:text-left">LOG OUT</h2>
                   </div>
-                  <div className="flex-1 px-10 py-12">
-                    <button onClick={handleLogout} className="bg-[--primaryColor] hover:bg-red-700 text-white px-6 py-3">
+                  {/* Padding adjusts for mobile */}
+                  <div className="flex-1 px-4 md:px-10 py-12">
+                    {/* Button width adjusts for mobile */}
+                    <button onClick={handleLogout} className="bg-[--primaryColor] hover:bg-red-700 text-white px-6 py-3 w-full md:w-auto">
                       CONFIRM LOGOUT
                     </button>
                   </div>

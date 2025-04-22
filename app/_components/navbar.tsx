@@ -173,7 +173,7 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         <div className="lg:hidden flex items-center justify-between">
           <div className="flex items-center">
-            <Image src="/logo-imageV4white.png" alt="Logo" width={100} height={50} />
+            <Image src="/logo-imageV4white.png" alt="Logo" width={80} height={50} />
           </div>
           
           <div className="flex items-center space-x-4">
