@@ -29,8 +29,15 @@ const SignupPage = () => {
     try {
       await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       router.push('/');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      let errorMessage = 'An unknown error occurred during sign up.';
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (typeof err === 'object' && err !== null && 'message' in err && typeof (err as { message: unknown }).message === 'string') {
+        // Attempt to extract message if it's not an Error instance but has a message property
+        errorMessage = (err as { message: string }).message;
+      }
+      setError(errorMessage);
     }
   };
 

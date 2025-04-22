@@ -31,12 +31,16 @@ const LoginPage = () => {
     try {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
       router.push('/');
-    } catch (err: any) {
-      setError(
-        err.code === 'auth/invalid-credential' 
-          ? 'Invalid email or password'
-          : 'An error occurred during login'
-      );
+    } catch (err: unknown) {
+      let errorMessage = 'An error occurred during login';
+      if (typeof err === 'object' && err !== null && 'code' in err && typeof (err as { code: unknown }).code === 'string') {
+        if ((err as { code: string }).code === 'auth/invalid-credential') {
+          errorMessage = 'Invalid email or password';
+        }
+      } else if (err instanceof Error) {
+        errorMessage = err.message; // Use generic error message if code isn't available
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
