@@ -15,7 +15,7 @@ const GameCard = ({ imagePath, alt, isComingSoon, index }: { imagePath: string; 
     animate="show"
   >
     <motion.div 
-      className="w-full h-full relative overflow-hidden rounded-md"
+      className="w-full h-full relative overflow-hidden"
       variants={cardHover}
     >
       <FirebaseImage
