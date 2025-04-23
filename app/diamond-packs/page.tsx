@@ -24,18 +24,16 @@ const DiamondPacksPage = () => {
 
     try {
       console.log("Making API request...");
-
-      const response = await fetch('https://www.smile.one/merchant/mobilelegends/checkrole', {
-        method: 'POST',
+      const response = await fetch("/api/verify-user", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: new URLSearchParams({
-          user_id: userId,
-          zone_id: zoneId
-        }).toString()
-      });     
+        body: JSON.stringify({
+          userId,
+          zoneId,
+        }),
+      });
 
       const data = await response.json();
 
