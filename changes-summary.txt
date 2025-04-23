@@ -1,0 +1,41 @@
+# Animation Integration Changes
+
+## Summary of Changes
+- Added Framer Motion animations to multiple components
+- Integrated animation utilities (fadeIn, slideIn, staggerContainer) across the app
+- Enhanced UI with motion effects for better user experience
+
+## Files Modified
+
+1. app/_components/footer.jsx
+   - Added animation imports from Framer Motion
+   - Converted static components to motion components
+   - Added hover animations to links
+
+2. app/_components/home/gameCards.tsx
+   - Minor animation adjustments
+
+3. app/_components/home/hero.tsx
+   - Minor animation adjustments
+
+4. app/_components/navbar.tsx
+   - Added Framer Motion animations
+   - Enhanced UI with slide and fade effects
+   - Improved navigation transitions
+
+5. app/account/page.tsx
+   - Added animation effects to user interface
+   - Improved navigation interaction with active section highlighting
+   - Enhanced UI with motion animations
+
+6. app/diamond-packs/page.tsx
+   - Added animations to product cards
+   - Improved visual feedback for user interactions
+
+7. app/login/page.tsx
+   - Enhanced form elements with animations
+   - Improved visual transitions
+
+8. app/signup/page.tsx
+   - Added animations to signup flow
+   - Enhanced form interactions 

@@ -18,9 +18,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative px-5 md:px-10 lg:px-20 pt-2 md:pt-5 font-['The-Last-Shuriken']">
+    <div className="relative md:px-10 lg:px-20 md:pt-5 font-['The-Last-Shuriken']">
       <motion.div
-        className="relative h-[180px] md:h-[300px] lg:h-[400px] max-w-[1550px] mx-auto"
+        className="relative h-[160px] md:h-[300px] lg:h-[400px] max-w-[1550px] mx-auto"
         initial="hidden"
         animate="show"
         variants={fadeIn("up", 0.3)}
