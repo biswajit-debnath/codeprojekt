@@ -39,7 +39,7 @@ const GoogleSignIn = () => {
         disabled={loading}
         className="flex items-center gap-2 text-md text-gray-600 hover:text-gray-800 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <Image src="/google-icon.png" alt="Google" width={20} height={20} className="w-5 h-5" />
+        <Image src="/google-icon.svg" alt="Google" width={20} height={20} className="w-5 h-5" />
         {loading ? 'Signing in...' : 'quick log in - google'}
       </button>
       {error && <p className="mt-2 text-sm text-red-600">{error}</p>}

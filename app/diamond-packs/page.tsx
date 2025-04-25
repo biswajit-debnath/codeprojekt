@@ -372,7 +372,7 @@ const DiamondPacksPage = () => {
                   </motion.div>
                   <div className="flex justify-between items-start">
                     <motion.span 
-                      className="text-2xl sm:text-3xl md:text-4xl pt-1 md:pt-2"
+                      className="text-xl md:text-2xl sm:text-3xl md:text-4xl pt-1 md:pt-2"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 + index * 0.02, duration: 0.3 }}
@@ -430,7 +430,7 @@ const DiamondPacksPage = () => {
                     </motion.div>
                   </div>
                   <motion.div 
-                    className="text-2xl mt-1 flex items-start"
+                    className="text-md md:text-2xl mt-1 flex items-start"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 + index * 0.02, duration: 0.3 }}

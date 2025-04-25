@@ -13,25 +13,37 @@ const Navbar = () => {
   const isAccountPage = pathname === '/account';
   const isAuthPage = pathname === '/login' || pathname === '/signup';
 
+  const closeMenuAndResetScroll = () => {
+    setIsMenuOpen(false);
+    document.body.style.overflow = 'unset';
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
+        closeMenuAndResetScroll();
       }
     };
 
     if (isMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'unset';
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.body.style.overflow = 'unset';
+      if (document.body.style.overflow === 'hidden') {
+         document.body.style.overflow = 'unset';
+      }
     };
   }, [isMenuOpen]);
 
-  // Auth pages (login/signup) get a simplified header
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   if (isAuthPage) {
     return (
       <motion.nav 
@@ -113,7 +125,6 @@ const Navbar = () => {
     );
   }
 
-  // Regular navigation for other pages
   return (
     <motion.nav 
       initial="hidden"
@@ -243,34 +254,29 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="lg:hidden flex items-center justify-between">
-          <motion.div 
-            variants={fadeIn('right', 0.1)}
-            className="flex items-center"
-          >
-            <Link href="/">
-              <Image src="/logo-imageV4white.png" alt="Logo" width={80} height={50} />
+        <div className="lg:hidden flex items-center justify-between px-4">
+          <motion.div variants={fadeIn('right', 0.1)} className="flex items-center">
+            <Link href="/" onClick={isMenuOpen ? closeMenuAndResetScroll : undefined}>
+              <Image src="/logo-imageV4white.png" alt="Logo" width={80} height={100} />
             </Link>
           </motion.div>
           
-          <motion.div 
-            variants={fadeIn('left', 0.3)}
-            className="flex items-center space-x-4"
-          >
-            <div className="relative">
-              <Link href="/account">
-                <motion.div 
+          {/* Container for right-side icons */}
+          <div className="flex items-center space-x-3"> 
+            {/* Account Link */}
+            <Link href="/account" onClick={isMenuOpen ? closeMenuAndResetScroll : undefined}>
+              <motion.div 
                   whileHover={{ scale: 1.1 }}
                   className={`rounded-full ${isAccountPage ? 'ring-2 ring-red-600 ring-offset-0' : ''}`}
-                >
-                  <Image src="/profile-image.png" alt="Circle Image" width={30} height={30} className="rounded-full" />
-                </motion.div>
-              </Link>
-            </div>
-            
+              >
+                <Image src="/profile-image.png" alt="Account" width={30} height={30} className="rounded-full" />
+              </motion.div>
+            </Link>
+
+            {/* Menu Toggle Button */}
             <motion.button 
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={toggleMenu}
               className="text-white p-2 z-50"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -281,7 +287,7 @@ const Navbar = () => {
                 )}
               </svg>
             </motion.button>
-          </motion.div>
+          </div>
         </div>
 
         {/* Mobile Menu Overlay */}
@@ -293,13 +299,13 @@ const Navbar = () => {
               exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black bg-opacity-50 z-40" 
             />
-            <motion.div 
+            <motion.div
               ref={menuRef}
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="fixed top-0 right-0 h-screen w-64 bg-gray-900 p-6 z-50"
+              className="fixed top-0 right-0 h-screen w-64 bg-gray-900 p-6 z-50 overflow-y-auto"
             >
               <motion.div 
                 variants={staggerContainer(0.1)}
@@ -308,69 +314,33 @@ const Navbar = () => {
                 className="flex flex-col space-y-6 text-white mt-16"
               >
                 <motion.div variants={fadeIn('right', 0.1)}>
-                  <Link href="/diamond-packs" className="relative inline-block">
+                  <Link href="/diamond-packs" onClick={closeMenuAndResetScroll} className="relative inline-block">
                     <button className="hover:text-gray-300 transition-colors">DIAMOND PACKS</button>
-                    {pathname === '/diamond-packs' && (
-                      <motion.div 
-                        layoutId="mobileNavIndicator"
-                        className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                      ></motion.div>
-                    )}
                   </Link>
                 </motion.div>
                 <motion.div variants={fadeIn('right', 0.2)}>
-                  <Link href="/event-pre-order" className="relative inline-block">
+                  <Link href="/event-pre-order" onClick={closeMenuAndResetScroll} className="relative inline-block">
                     <button className="hover:text-gray-300 transition-colors">EVENT PRE-ORDER</button>
-                    {pathname === '/event-pre-order' && (
-                      <motion.div 
-                        layoutId="mobileNavIndicator"
-                        className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                      ></motion.div>
-                    )}
                   </Link>
                 </motion.div>
                 <motion.div variants={fadeIn('right', 0.3)}>
-                  <Link href="/redeem-code" className="relative inline-block">
+                  <Link href="/redeem-code" onClick={closeMenuAndResetScroll} className="relative inline-block">
                     <button className="hover:text-gray-300 transition-colors">REDEEM CODE</button>
-                    {pathname === '/redeem-code' && (
-                      <motion.div 
-                        layoutId="mobileNavIndicator"
-                        className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                      ></motion.div>
-                    )}
                   </Link>
                 </motion.div>
                 <motion.div variants={fadeIn('right', 0.4)}>
-                  <Link href="/esports" className="relative inline-block">
+                  <Link href="/esports" onClick={closeMenuAndResetScroll} className="relative inline-block">
                     <button className="hover:text-gray-300 transition-colors">ESPORTS</button>
-                    {pathname === '/esports' && (
-                      <motion.div 
-                        layoutId="mobileNavIndicator"
-                        className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                      ></motion.div>
-                    )}
                   </Link>
                 </motion.div>
                 <motion.div variants={fadeIn('right', 0.5)}>
-                  <Link href="/merch" className="relative inline-block">
+                  <Link href="/merch" onClick={closeMenuAndResetScroll} className="relative inline-block">
                     <button className="hover:text-gray-300 transition-colors">MERCH</button>
-                    {pathname === '/merch' && (
-                      <motion.div 
-                        layoutId="mobileNavIndicator"
-                        className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                      ></motion.div>
-                    )}
                   </Link>
                 </motion.div>
                 <motion.div variants={fadeIn('right', 0.6)}>
-                  <Link href="/more" className="relative inline-block">
+                  <Link href="/more" onClick={closeMenuAndResetScroll} className="relative inline-block">
                     <button className="hover:text-gray-300 transition-colors">MORE</button>
-                    {pathname === '/more' && (
-                      <motion.div 
-                        layoutId="mobileNavIndicator"
-                        className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                      ></motion.div>
-                    )}
                   </Link>
                 </motion.div>
               </motion.div>
@@ -390,8 +360,16 @@ const Navbar = () => {
                   whileHover={{ scale: 1.03 }}
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
                 >
-                  <Link href="/signup">
-                    sign in/name
+                  <Link href="/login" onClick={closeMenuAndResetScroll}>
+                    Login
+                  </Link>
+                </motion.button>
+                <motion.button 
+                  whileHover={{ scale: 1.03 }}
+                  className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
+                >
+                  <Link href="/signup" onClick={closeMenuAndResetScroll}>
+                    Sign Up
                   </Link>
                 </motion.button>
               </motion.div>
