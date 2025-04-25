@@ -24,15 +24,15 @@ const DiamondPacksPage = () => {
 
     try {
       console.log("Making API request...");
-      const response = await fetch("/api/verify-user", {
+      const response = await fetch("https://codeprojekt-proxy.onrender.com/api/checkrole", { 
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: JSON.stringify({
-          userId,
-          zoneId,
-        }),
+        body: new URLSearchParams({
+          user_id: userId,
+          zone_id: zoneId,
+        }).toString(),
       });
 
       const data = await response.json();
