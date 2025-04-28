@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Codeprojekt",
   description: "Marktplace for buying and selling diamonds in the game",
+  icons: {
+    icon: '/favicon.png'
+  }
 };
 
 export default function RootLayout({
