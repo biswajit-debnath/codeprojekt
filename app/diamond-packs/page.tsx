@@ -404,7 +404,7 @@ const DiamondPacksPage = () => {
                           duration: 0.3,
                         }}
                       >
-                        {pack.price_inr}
+                        ₹ {pack.price_inr} 
                       </motion.span>
                       <motion.div
                         className="ml-1 mr-2 md:mr-4"
@@ -468,7 +468,7 @@ const DiamondPacksPage = () => {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 + index * 0.02, duration: 0.3 }}
                     >
-                      {pack.spu} INR
+                      {pack.spu}
                     </motion.div>
                   </div>
                 </motion.button>
