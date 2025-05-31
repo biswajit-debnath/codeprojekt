@@ -1,8 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from 'framer-motion';
-import { fadeIn, slideIn, staggerContainer } from '../_styles/animations';
+import { motion } from "framer-motion";
+import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
+import {
+  BackendApiClient,
+  ProductSPU,
+} from "../_lib/services/backendApiClient";
 
 const DiamondPacksPage = () => {
   const [userId, setUserId] = useState("");
@@ -10,6 +14,28 @@ const DiamondPacksPage = () => {
   const [selectedPack, setSelectedPack] = useState<number | null>(null);
   const [verificationStatus, setVerificationStatus] = useState<string>("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [diamondPacks, setDiamondPacks] = useState<ProductSPU[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDiamondPacks = async () => {
+      try {
+        const data = await BackendApiClient.getInstance().getProductSPUs(
+          "mobilelegends" // this will be from the clicked product
+        );
+        setDiamondPacks(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch diamond packs"
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDiamondPacks();
+  }, []);
 
   const verifyUserDetails = async () => {
     console.log("Verification started", { userId, zoneId });
@@ -24,16 +50,19 @@ const DiamondPacksPage = () => {
 
     try {
       console.log("Making API request...");
-      const response = await fetch("https://codeprojekt-proxy.onrender.com/api/checkrole", { 
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          user_id: userId,
-          zone_id: zoneId,
-        }).toString(),
-      });
+      const response = await fetch(
+        "https://codeprojekt-proxy.onrender.com/api/checkrole",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            user_id: userId,
+            zone_id: zoneId,
+          }).toString(),
+        }
+      );
 
       const data = await response.json();
 
@@ -54,16 +83,10 @@ const DiamondPacksPage = () => {
     }
   };
 
-  // Array of diamond packs
-  const diamondPacks = Array(20).fill({
-    price: "₹160",
-    amount: "102+10 diamonds",
-  });
-
   const handleSelectPack = (index: number) => {
     setSelectedPack(index);
     console.log(`Selected pack ${index}:`, diamondPacks[index]);
-    
+
     if (!verificationStatus) {
       alert("Please verify your User ID and Zone ID first");
       return;
@@ -73,7 +96,7 @@ const DiamondPacksPage = () => {
   return (
     <div className="pt-10 pb-16">
       {/* Main Content */}
-      <motion.div 
+      <motion.div
         className="max-w-[1550px] mx-auto px-4 sm:px-6 md:px-10 lg:px-20"
         variants={staggerContainer(0.1, 0.1)}
         initial="hidden"
@@ -82,13 +105,13 @@ const DiamondPacksPage = () => {
         {/* Input and Features Row */}
         <div className="flex flex-col md:flex-row gap-6 md:gap-3 mb-8">
           {/* Left side - Input Game ID */}
-          <motion.div 
+          <motion.div
             className="md:w-3/6 md:pr-8 lg:pr-16"
             variants={fadeIn("right", 0.3)}
           >
             {/* Step 1: Input Game ID */}
             <div className="mb-6">
-              <motion.div 
+              <motion.div
                 className="flex items-start mb-4"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -104,7 +127,7 @@ const DiamondPacksPage = () => {
                       type: "spring",
                       stiffness: 260,
                       damping: 20,
-                      delay: 0.1
+                      delay: 0.1,
                     }}
                   >
                     1
@@ -119,7 +142,7 @@ const DiamondPacksPage = () => {
                     INPUT YOUR IN GAME ID
                   </motion.h2>
                 </div>
-                <motion.div 
+                <motion.div
                   className="ml-2 w-4 h-4 md:w-5 md:h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-[10px] md:text-xs font-bold"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -127,22 +150,19 @@ const DiamondPacksPage = () => {
                     type: "spring",
                     stiffness: 260,
                     damping: 20,
-                    delay: 0.3
+                    delay: 0.3,
                   }}
                   whileHover={{
                     rotate: 360,
                     scale: 1.2,
-                    transition: { duration: 0.5 }
+                    transition: { duration: 0.5 },
                   }}
                 >
                   i
                 </motion.div>
               </motion.div>
 
-              <motion.div 
-                className="space-y-2"
-                variants={fadeIn("up", 0.4)}
-              >
+              <motion.div className="space-y-2" variants={fadeIn("up", 0.4)}>
                 <div>
                   <label
                     htmlFor="userId"
@@ -198,7 +218,7 @@ const DiamondPacksPage = () => {
                   {isVerifying ? "Verifying..." : "Verify Details"}
                 </motion.button>
                 {verificationStatus ? (
-                  <motion.div 
+                  <motion.div
                     className="text-base md:text-lg text-gray-500 pl-2 pt-1"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -207,7 +227,7 @@ const DiamondPacksPage = () => {
                     {verificationStatus}
                   </motion.div>
                 ) : (
-                  <motion.div 
+                  <motion.div
                     className="text-base md:text-lg text-gray-500 pl-2 pt-1"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -221,16 +241,17 @@ const DiamondPacksPage = () => {
           </motion.div>
 
           {/* Right side - Features */}
-          <motion.div 
+          <motion.div
             className="md:w-3/5 bg-gray-300 px-6 py-6 md:pl-10 md:pr-12 lg:pl-14 lg:pr-16 md:py-8 h-fit md:pb-24"
             variants={slideIn("left", 0.7)}
             whileHover={{
               scale: 1.02,
-              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-              transition: { duration: 0.2 }
+              boxShadow:
+                "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+              transition: { duration: 0.2 },
             }}
           >
-            <motion.h2 
+            <motion.h2
               className="text-lg md:text-xl font-bold text-red-600 mb-3 md:mb-4"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -239,20 +260,20 @@ const DiamondPacksPage = () => {
               NEW FEATURES:
             </motion.h2>
 
-            <motion.div 
+            <motion.div
               className="text-base md:text-xl space-y-1"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.5 }}
             >
-              <motion.div 
+              <motion.div
                 className="text-gray-800"
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
               >
                 Wallet System Added
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="text-gray-800"
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
@@ -265,7 +286,7 @@ const DiamondPacksPage = () => {
 
         {/* Step 2: Select Packs - Full Width */}
         <div>
-          <motion.div 
+          <motion.div
             className="flex items-start mb-6"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -281,7 +302,7 @@ const DiamondPacksPage = () => {
                   type: "spring",
                   stiffness: 260,
                   damping: 20,
-                  delay: 0.9
+                  delay: 0.9,
                 }}
               >
                 2
@@ -296,7 +317,7 @@ const DiamondPacksPage = () => {
                 SELECT YOUR PACKS
               </motion.h2>
             </div>
-            <motion.div 
+            <motion.div
               className="ml-2 w-4 h-4 md:w-5 md:h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-[10px] md:text-xs font-bold"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -304,143 +325,171 @@ const DiamondPacksPage = () => {
                 type: "spring",
                 stiffness: 260,
                 damping: 20,
-                delay: 1.1
+                delay: 1.1,
               }}
               whileHover={{
                 rotate: 360,
                 scale: 1.2,
-                transition: { duration: 0.5 }
+                transition: { duration: 0.5 },
               }}
             >
               i
             </motion.div>
           </motion.div>
 
-          <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 place-items-center md:place-items-start"
-            variants={staggerContainer(0.05)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.25 }}
-          >
-            {diamondPacks.map((pack, index) => (
-              <motion.button
-                key={index}
-                onClick={() => handleSelectPack(index)}
-                className={`relative overflow-hidden text-white transition-all w-full max-w-[240px] ${
-                  selectedPack === index ? "ring-2 ring-red-600" : ""
-                }`}
-                style={{
-                  borderRadius: "0 0 40px 0",
-                  backgroundColor: "var(--navBlack)",
-                }}
-                variants={{
-                  hidden: { opacity: 0, scale: 0.8 },
-                  show: {
-                    opacity: 1,
-                    scale: 1,
-                    transition: {
-                      type: "spring",
-                      duration: 0.5,
-                      delay: index * 0.03,
-                    }
-                  }
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                  transition: { duration: 0.2 }
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="relative p-3 md:p-4">
-                  <motion.div 
-                    className="absolute top-0 right-[-3px] md:right-[-5px]"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.2 + index * 0.02, duration: 0.3 }}
-                  >
-                    <div className="w-8 h-10 md:w-10 md:h-12 flex">
-                      <Image
-                        src="/logo-imageV4white.png"
-                        alt="Code Projekt Logo"
-                        width={130}
-                        height={40}
-                        className="object-contain rotate-90"
-                      />
-                    </div>
-                  </motion.div>
-                  <div className="flex justify-between items-start">
-                    <motion.span 
-                      className="text-xl md:text-2xl sm:text-3xl md:text-4xl pt-1 md:pt-2"
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 + index * 0.02, duration: 0.3 }}
+          {isLoading ? (
+            <motion.div
+              className="text-center py-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              Loading diamond packs...
+            </motion.div>
+          ) : error ? (
+            <motion.div
+              className="text-center py-8 text-red-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {error}
+            </motion.div>
+          ) : (
+            <motion.div
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 place-items-center md:place-items-start"
+              variants={staggerContainer(0.05)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.25 }}
+            >
+              {diamondPacks.map((pack, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => handleSelectPack(index)}
+                  className={`relative overflow-hidden text-white transition-all w-full max-w-[240px] ${
+                    selectedPack === index ? "ring-2 ring-red-600" : ""
+                  }`}
+                  style={{
+                    borderRadius: "0 0 40px 0",
+                    backgroundColor: "var(--navBlack)",
+                  }}
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.8 },
+                    show: {
+                      opacity: 1,
+                      scale: 1,
+                      transition: {
+                        type: "spring",
+                        duration: 0.5,
+                        delay: index * 0.03,
+                      },
+                    },
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow:
+                      "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                    transition: { duration: 0.2 },
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <div className="relative p-3 md:p-4">
+                    <motion.div
+                      className="absolute top-0 right-[-3px] md:right-[-5px]"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2 + index * 0.02, duration: 0.3 }}
                     >
-                      {pack.price}
-                    </motion.span>
-                    <motion.div 
-                      className="ml-1 mr-2 md:mr-4"
-                      animate={{
-                        y: [0, -5, 0],
-                      }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 1.5 + (index % 3) * 0.2,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <div className="relative w-[40px] h-[40px] md:w-[50px] md:h-[50px] lg:w-[60px] lg:h-[60px]">
-                        <svg
-                          width="100%"
-                          height="100%"
-                          viewBox="0 0 32 32"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          preserveAspectRatio="xMidYMid meet"
-                        >
-                          <path
-                            d="M16 2L3 10L16 18L29 10L16 2Z"
-                            fill="#4FC3F7"
-                          />
-                          <path
-                            d="M16 18L3 10L16 30L29 10L16 18Z"
-                            fill="#2196F3"
-                          />
-                          <path d="M16 2L8 7L16 12L24 7L16 2Z" fill="#4FC3F7" />
-                          <path
-                            d="M16 12L8 7L16 20L24 7L16 12Z"
-                            fill="#2196F3"
-                          />
-                          <path
-                            d="M16 2L10 6L16 10L22 6L16 2Z"
-                            fill="#E1F5FE"
-                          />
-                          <path d="M16 2L13 4L16 6L19 4L16 2Z" fill="#FFFFFF" />
-                          <path
-                            d="M8 18L3 10L8 25L13 10L8 18Z"
-                            fill="#1565C0"
-                          />
-                          <path
-                            d="M24 18L29 10L24 25L19 10L24 18Z"
-                            fill="#1565C0"
-                          />
-                        </svg>
+                      <div className="w-8 h-10 md:w-10 md:h-12 flex">
+                        <Image
+                          src="/logo-imageV4white.png"
+                          alt="Code Projekt Logo"
+                          width={130}
+                          height={40}
+                          className="object-contain rotate-90"
+                        />
                       </div>
                     </motion.div>
+                    <div className="flex justify-between items-start">
+                      <motion.span
+                        className="text-xl md:text-2xl sm:text-3xl md:text-4xl pt-1 md:pt-2"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          delay: 0.3 + index * 0.02,
+                          duration: 0.3,
+                        }}
+                      >
+                        {pack.spu}
+                      </motion.span>
+                      <motion.div
+                        className="ml-1 mr-2 md:mr-4"
+                        animate={{
+                          y: [0, -5, 0],
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 1.5 + (index % 3) * 0.2,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        <div className="relative w-[40px] h-[40px] md:w-[50px] md:h-[50px] lg:w-[60px] lg:h-[60px]">
+                          <svg
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 32 32"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            preserveAspectRatio="xMidYMid meet"
+                          >
+                            <path
+                              d="M16 2L3 10L16 18L29 10L16 2Z"
+                              fill="#4FC3F7"
+                            />
+                            <path
+                              d="M16 18L3 10L16 30L29 10L16 18Z"
+                              fill="#2196F3"
+                            />
+                            <path
+                              d="M16 2L8 7L16 12L24 7L16 2Z"
+                              fill="#4FC3F7"
+                            />
+                            <path
+                              d="M16 12L8 7L16 20L24 7L16 12Z"
+                              fill="#2196F3"
+                            />
+                            <path
+                              d="M16 2L10 6L16 10L22 6L16 2Z"
+                              fill="#E1F5FE"
+                            />
+                            <path
+                              d="M16 2L13 4L16 6L19 4L16 2Z"
+                              fill="#FFFFFF"
+                            />
+                            <path
+                              d="M8 18L3 10L8 25L13 10L8 18Z"
+                              fill="#1565C0"
+                            />
+                            <path
+                              d="M24 18L29 10L24 25L19 10L24 18Z"
+                              fill="#1565C0"
+                            />
+                          </svg>
+                        </div>
+                      </motion.div>
+                    </div>
+                    <motion.div
+                      className="text-md md:text-2xl mt-1 flex items-start"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 + index * 0.02, duration: 0.3 }}
+                    >
+                      {pack.price_inr} INR
+                    </motion.div>
                   </div>
-                  <motion.div 
-                    className="text-md md:text-2xl mt-1 flex items-start"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 + index * 0.02, duration: 0.3 }}
-                  >
-                    {pack.amount}
-                  </motion.div>
-                </div>
-              </motion.button>
-            ))}
-          </motion.div>
+                </motion.button>
+              ))}
+            </motion.div>
+          )}
         </div>
       </motion.div>
     </div>

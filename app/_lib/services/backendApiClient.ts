@@ -1,6 +1,7 @@
 import { axiosAdapter } from "../utils/axiosAdapter";
 import { API_BASE_URLS, API_REQUESTS } from "../constants/apiConstants";
 import { createUrl } from "../utils/helpers";
+import { get } from "lodash";
 
 export interface ProductSPU {
   id: string;
@@ -33,7 +34,8 @@ export class BackendApiClient {
         product,
       })}`,
     };
-    return axiosAdapter.request<ProductSPU[]>(config);
+    const response = await axiosAdapter.request<ProductSPU[]>(config);
+    return get(response, "data", []);
   }
 }
 
