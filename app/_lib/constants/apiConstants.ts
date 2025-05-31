@@ -1,5 +1,7 @@
 export const API_BASE_URLS = {
-  CODEPROJEKT_BACKEND: process.env.CODEPROJEKT_BACKEND_BASE_URL,
+  CODEPROJEKT_BACKEND:
+    (process.env.CODEPROJEKT_BACKEND_BASE_URL as string) ||
+    "https://codeprojekt-backend.onrender.com",
 } as const;
 
 export const API_ENDPOINTS = {
