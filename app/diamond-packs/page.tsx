@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
 import {
   BackendApiClient,
+  PlayerIGN,
   ProductSPU,
 } from "../_lib/services/backendApiClient";
 
@@ -12,7 +13,9 @@ const DiamondPacksPage = () => {
   const [userId, setUserId] = useState("");
   const [zoneId, setZoneId] = useState("");
   const [selectedPack, setSelectedPack] = useState<number | null>(null);
-  const [verificationStatus, setVerificationStatus] = useState<string>("");
+  const [verificationStatus, setVerificationStatus] = useState<
+    string | PlayerIGN
+  >("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [diamondPacks, setDiamondPacks] = useState<ProductSPU[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -49,30 +52,12 @@ const DiamondPacksPage = () => {
     setVerificationStatus("");
 
     try {
-      console.log("Making API request...");
-      const response = await fetch(
-        "https://codeprojekt-proxy.onrender.com/api/checkrole",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: new URLSearchParams({
-            user_id: userId,
-            zone_id: zoneId,
-          }).toString(),
-        }
+      const data = await BackendApiClient.getInstance().getplayerIGN(
+        userId,
+        zoneId
       );
 
-      const data = await response.json();
-
-      /* if (!response.ok) {
-        throw new Error(data.error || 'Verification failed');
-      } */
-
-      setVerificationStatus(
-        data.username || data.info || "Verification completed"
-      );
+      setVerificationStatus(data.username || "Verification completed");
     } catch (error) {
       console.error("Verification error:", error);
       setVerificationStatus(
@@ -419,7 +404,7 @@ const DiamondPacksPage = () => {
                           duration: 0.3,
                         }}
                       >
-                        {pack.spu}
+                        {pack.price_inr}
                       </motion.span>
                       <motion.div
                         className="ml-1 mr-2 md:mr-4"
@@ -483,7 +468,7 @@ const DiamondPacksPage = () => {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.4 + index * 0.02, duration: 0.3 }}
                     >
-                      {pack.price_inr} INR
+                      {pack.spu} INR
                     </motion.div>
                   </div>
                 </motion.button>

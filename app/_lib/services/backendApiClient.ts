@@ -12,6 +12,15 @@ export interface ProductSPU {
   category: string;
 }
 
+export interface PlayerIGN {
+  code: string;
+  username: string;
+  zone: 1;
+  change_price: string;
+  use: string;
+  type: string;
+}
+
 export class BackendApiClient {
   private static instance: BackendApiClient;
   private baseUrl: string;
@@ -36,6 +45,25 @@ export class BackendApiClient {
     };
     const response = await axiosAdapter.request<ProductSPU[]>(config);
     return get(response, "data", []);
+  }
+
+  public async getplayerIGN(
+    userid: string,
+    zoneid: string
+  ): Promise<PlayerIGN> {
+    const config = {
+      ...API_REQUESTS.GET_PRODUCT_SPUS,
+      url: `${this.baseUrl}${API_REQUESTS.GET_PLAYER_IGN.url}?userid=${userid}&zoneid=${zoneid}`,
+    };
+    const response = await axiosAdapter.request<PlayerIGN>(config);
+    return get(response, "data", {
+      code: "",
+      username: "",
+      zone: 1,
+      change_price: "",
+      use: "",
+      type: "",
+    });
   }
 }
 
