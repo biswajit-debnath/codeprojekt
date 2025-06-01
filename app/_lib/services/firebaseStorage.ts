@@ -1,5 +1,5 @@
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebaseConfig';
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../firebaseConfig";
 
 interface ImageCache {
   [key: string]: string;
@@ -21,7 +21,7 @@ class FirebaseImageService {
       this.cache[path] = url;
       return url;
     } catch (error) {
-      console.error('Error fetching image:', error);
+      console.error("Error fetching image:", error);
       throw error;
     }
   }
