@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth } from "../../../firebaseConfig";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { BackendApiClient } from "../_lib/services/backendApiClient";
+import { BackendApiClient } from "../../_lib/services/backendApiClient";
 
 const GoogleSignIn = () => {
   const router = useRouter();

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 import { useRouter } from 'next/navigation';
-import GoogleSignIn from '../components/GoogleSignIn';
+import GoogleSignIn from '../_components/login/GoogleSignIn';
 import { motion } from 'framer-motion';
 import { fadeIn, slideIn, staggerContainer } from '../_styles/animations';
 

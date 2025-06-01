@@ -3,11 +3,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
-import {
-  BackendApiClient,
-  PlayerIGN,
-  ProductSPU,
-} from "../_lib/services/backendApiClient";
+import { BackendApiClient } from "../_lib/services/backendApiClient";
+import { PlayerIGN, ProductSPU } from "../_lib/constants/apiInterfaces";
 
 const DiamondPacksPage = () => {
   const [userId, setUserId] = useState("");
@@ -404,7 +401,7 @@ const DiamondPacksPage = () => {
                           duration: 0.3,
                         }}
                       >
-                        ₹ {pack.price_inr} 
+                        ₹ {pack.price_inr}
                       </motion.span>
                       <motion.div
                         className="ml-1 mr-2 md:mr-4"
