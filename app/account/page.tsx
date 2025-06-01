@@ -601,14 +601,62 @@ const AccountPage = () => {
                       whileHover={{ scale: 1.01 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <motion.p
-                        className="text-gray-400"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                      >
-                        No transactions found
-                      </motion.p>
+                      {profileData?.transactions &&
+                      profileData.transactions.length > 0 ? (
+                        <div className="space-y-4">
+                          {profileData.transactions.map(
+                            (tx: any, idx: number) => (
+                              <div
+                                key={idx}
+                                className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-gray-700 pb-2"
+                              >
+                                <div>
+                                  <p className="font-semibold">
+                                    SPUID:{" "}
+                                    <span className="text-white">
+                                      {tx.spuId || "-"}
+                                    </span>
+                                  </p>
+                                  <p className="text-gray-400 text-sm">
+                                    UserID:{" "}
+                                    <span className="text-white">
+                                      {tx.playerDetails?.userid || "-"}
+                                    </span>
+                                    {" | "}
+                                    ZoneID:{" "}
+                                    <span className="text-white">
+                                      {tx.playerDetails?.zoneid || "-"}
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="text-right">
+                                  <p className="text-lg text-white">
+                                    Price:{" "}
+                                    <span className="font-semibold">
+                                      {tx.orderDetails?.price || "-"}
+                                    </span>
+                                  </p>
+                                  <p className="text-gray-400 text-sm">
+                                    Status:{" "}
+                                    <span className="text-white">
+                                      {tx.orderDetails?.message || "-"}
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+                            )
+                          )}
+                        </div>
+                      ) : (
+                        <motion.p
+                          className="text-gray-400"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.4 }}
+                        >
+                          No transactions found
+                        </motion.p>
+                      )}
                     </motion.div>
                   </motion.div>
                 </div>
