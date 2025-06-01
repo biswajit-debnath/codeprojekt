@@ -9,7 +9,7 @@ export const API_ENDPOINTS = {
   PLAYER_IGN: "/api/user/playerIGN",
   PURCHASE_SPU: "/api/payment/:spuId",
   USER_LOGIN: "/api/user/login/google",
-  USER_PROFILE: "/api/profile/:uid",
+  USER_PROFILE: "/api/user/profile",
 } as const;
 
 export const API_HEADERS = {
