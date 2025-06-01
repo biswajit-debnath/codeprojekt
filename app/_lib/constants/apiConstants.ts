@@ -8,6 +8,8 @@ export const API_ENDPOINTS = {
   PRODUCT_SPUS: "/api/product/:product/spus",
   PLAYER_IGN: "/api/user/playerIGN",
   PURCHASE_SPU: "/api/payment/:spuId",
+  USER_LOGIN: "/api/user/login/google",
+  USER_PROFILE: "/api/profile/:uid",
 } as const;
 
 export const API_HEADERS = {
@@ -35,6 +37,16 @@ export const API_REQUESTS = {
   PURCHASE_SPU: {
     method: "POST",
     url: API_ENDPOINTS.PURCHASE_SPU,
+    headers: API_HEADERS.JSON,
+  },
+  USER_LOGIN: {
+    method: "POST",
+    url: API_ENDPOINTS.USER_LOGIN,
+    headers: API_HEADERS.JSON,
+  },
+  USER_PROFILE: {
+    method: "GET",
+    url: API_ENDPOINTS.USER_PROFILE,
     headers: API_HEADERS.JSON,
   },
 } as const;

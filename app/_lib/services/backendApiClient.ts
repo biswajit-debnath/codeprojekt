@@ -2,25 +2,12 @@ import { axiosAdapter } from "../utils/axiosAdapter";
 import { API_BASE_URLS, API_REQUESTS } from "../constants/apiConstants";
 import { createUrl } from "../utils/helpers";
 import { get } from "lodash";
-
-export interface ProductSPU {
-  id: string;
-  spu: string;
-  cost_price: number;
-  discount: string;
-  price_inr: string;
-  category: string;
-}
-
-export interface PlayerIGN {
-  code: string;
-  username: string;
-  zone: 1;
-  change_price: string;
-  use: string;
-  type: string;
-}
-
+import {
+  ProductSPU,
+  PlayerIGN,
+  UserLogin,
+  UserProfile,
+} from "../constants/apiInterfaces";
 export class BackendApiClient {
   private static instance: BackendApiClient;
   private baseUrl: string;
@@ -63,6 +50,34 @@ export class BackendApiClient {
       change_price: "",
       use: "",
       type: "",
+    });
+  }
+
+  public async loginUser(googleUserInfo: object): Promise<UserLogin> {
+    const config = {
+      ...API_REQUESTS.USER_LOGIN,
+      url: `${this.baseUrl}${API_REQUESTS.USER_LOGIN.url}`,
+      data: { googleUserInfo },
+    };
+    const response = await axiosAdapter.request<UserLogin>(config);
+    return get(response, "data", {
+      uid: "",
+      profile: {},
+      wallet: {},
+    });
+  }
+
+  public async getUserProfile(uid: string): Promise<UserProfile> {
+    const config = {
+      ...API_REQUESTS.USER_PROFILE,
+      url: `${this.baseUrl}${API_REQUESTS.USER_PROFILE.url}/${uid}`,
+    };
+    const response = await axiosAdapter.request<UserProfile>(config);
+    return get(response, "data", {
+      uid: "",
+      profile: {},
+      transactions: [],
+      wallet: {},
     });
   }
 }
