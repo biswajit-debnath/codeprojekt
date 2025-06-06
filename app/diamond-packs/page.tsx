@@ -4,15 +4,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
-import { PlayerIGN, ProductSPU } from "../_lib/constants/apiInterfaces";
+import { ProductSPU } from "../_lib/constants/apiInterfaces";
 
 const DiamondPacksPage = () => {
   const [userId, setUserId] = useState("");
   const [zoneId, setZoneId] = useState("");
   const [selectedPack, setSelectedPack] = useState<number | null>(null);
-  const [verificationStatus, setVerificationStatus] = useState<
-    string | PlayerIGN
-  >("");
+  const [verificationStatus, setVerificationStatus] = useState<string>("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [diamondPacks, setDiamondPacks] = useState<ProductSPU[]>([]);
   const [isLoading, setIsLoading] = useState(true);
