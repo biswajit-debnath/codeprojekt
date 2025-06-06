@@ -2,7 +2,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import FirebaseImageService from '@/services/firebaseStorage';
+import FirebaseImageService from '@/app/_lib/services/firebaseStorage';
 
 interface FirebaseImageProps {
   path: string;

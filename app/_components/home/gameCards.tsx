@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import FirebaseImage from '../common/firebaseImage';
-import FirebaseImageService from '@/services/firebaseStorage';
+import FirebaseImageService from '@/app/_lib/services/firebaseStorage';
 import { motion } from 'framer-motion';
 import { fadeIn, cardHover, staggerContainer } from '../../_styles/animations';
 
