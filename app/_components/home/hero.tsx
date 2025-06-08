@@ -62,7 +62,7 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Link href="/diamond-packs">
+            <Link href="/gift-packs">
               <button className={`text-white transition-colors px-6 lg:px-20 py-1 md:py-3 lg:pt-5 lg:pb-4 text-[0.7rem] md:text-xl lg:text-3xl ${styles['custom-button']}`}>
                 BUY DIAMONDS
               </button>

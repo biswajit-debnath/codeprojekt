@@ -26,7 +26,7 @@ const DiamondPacksPage = () => {
         setDiamondPackCategories(data);
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Failed to fetch diamond packs"
+          err instanceof Error ? err.message : "Failed to fetch gift packs"
         );
       } finally {
         setIsLoading(false);
@@ -324,7 +324,7 @@ const DiamondPacksPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              Loading diamond packs...
+              Loading gift packs...
             </motion.div>
           ) : error ? (
             <motion.div
