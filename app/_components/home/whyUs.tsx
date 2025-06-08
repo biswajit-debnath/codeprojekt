@@ -143,7 +143,7 @@ const WhyUs = () => {
             <div>
               <h3 className="text-md md:text-xl ">EXCITING PROMOTIONS</h3>
               <p className="-mt-0.5 text-sm md:text-base leading-tight">
-                Keep a lookout for the best/free diamonds deals for your favorite games at codeprojekt.
+                Keep a lookout for the best/free gifts deals for your favorite games at codeprojekt.
               </p>
             </div>
           </motion.div>

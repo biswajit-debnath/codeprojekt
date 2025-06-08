@@ -5,25 +5,25 @@ import { motion } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
 
-const DiamondPacksPage = () => {
+const GiftPacksPage = () => {
   const [userId, setUserId] = useState("");
   const [zoneId, setZoneId] = useState("");
   const [selectedPack, setSelectedPack] = useState<number | null>(null);
   const [verificationStatus, setVerificationStatus] = useState<string>("");
   const [isVerifying, setIsVerifying] = useState(false);
-  const [diamondPackCategories, setDiamondPackCategories] = useState<{
+  const [giftPackCategories, setGiftPackCategories] = useState<{
     [category: string]: any;
   }>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchDiamondPacks = async () => {
+    const fetchGiftPacks = async () => {
       try {
         const data = await BackendApiClient.getInstance().getProductSPUs(
           "mobilelegends"
         );
-        setDiamondPackCategories(data);
+        setGiftPackCategories(data);
       } catch (err) {
         setError(
           err instanceof Error ? err.message : "Failed to fetch gift packs"
@@ -33,7 +33,7 @@ const DiamondPacksPage = () => {
       }
     };
 
-    fetchDiamondPacks();
+    fetchGiftPacks();
   }, []);
 
   const verifyUserDetails = async () => {
@@ -66,7 +66,7 @@ const DiamondPacksPage = () => {
 
   const handleSelectPack = (index: number) => {
     setSelectedPack(index);
-    console.log(`Selected pack ${index}:`, diamondPackCategories[index]);
+    console.log(`Selected pack ${index}:`, giftPackCategories[index]);
 
     if (!verificationStatus) {
       alert("Please verify your User ID and Zone ID first");
@@ -259,7 +259,7 @@ const DiamondPacksPage = () => {
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
               >
-                Through Wallet Get Diamonds Instantly
+                Through Wallet Get Gifts Instantly
               </motion.div>
             </motion.div>
           </motion.div>
@@ -335,7 +335,7 @@ const DiamondPacksPage = () => {
               {error}
             </motion.div>
           ) : (
-            Object.keys(diamondPackCategories).map((category) => (
+            Object.keys(giftPackCategories).map((category) => (
               <div key={category} className="mb-10 w-full">
                 <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 mt-6">
                   {category}
@@ -347,7 +347,7 @@ const DiamondPacksPage = () => {
                   whileInView="show"
                   viewport={{ once: true, amount: 0.25 }}
                 >
-                  {diamondPackCategories[category].map(
+                  {giftPackCategories[category].map(
                     (pack: any, index: number) => (
                       <motion.button
                         key={pack.id}
@@ -476,7 +476,9 @@ const DiamondPacksPage = () => {
                               duration: 0.3,
                             }}
                           >
-                            {pack.spu}
+                            {typeof pack.spu === "string"
+                              ? pack.spu.replace(/diamond/gi, "gift pack")
+                              : pack.spu}
                           </motion.div>
                         </div>
                       </motion.button>
@@ -492,4 +494,4 @@ const DiamondPacksPage = () => {
   );
 };
 
-export default DiamondPacksPage;
+export default GiftPacksPage;
