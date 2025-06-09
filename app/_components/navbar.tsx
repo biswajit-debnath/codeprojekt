@@ -11,7 +11,7 @@ const Navbar = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const isAccountPage = pathname === "/account";
-  const isAuthPage = pathname === "/login" || pathname === "/signup";
+  const isAuthPage = pathname === "/signin" || pathname === "/signup";
 
   const closeMenuAndResetScroll = () => {
     setIsMenuOpen(false);
@@ -73,14 +73,14 @@ const Navbar = () => {
               {pathname === "/signup" && (
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-300">Already have an account</span>
-                  <Link href="/login">
+                  <Link href="/signin">
                     <button className="bg-[#303030] hover:bg-gray-600 text-gray-400 py-1 rounded-full w-36 text-left pl-4">
                       sign in
                     </button>
                   </Link>
                 </div>
               )}
-              {pathname === "/login" && (
+              {pathname === "/signin" && (
                 <div className="flex items-center space-x-4">
                   <span className="text-gray-300">
                     Don&apos;t have an account?
@@ -111,13 +111,13 @@ const Navbar = () => {
               className="flex items-center"
             >
               {pathname === "/signup" && (
-                <Link href="/login">
+                <Link href="/signin">
                   <button className="bg-[#303030] hover:bg-gray-600 text-gray-300 px-4 py-1.5 rounded-full w-28 text-sm text-left pl-5">
                     sign in
                   </button>
                 </Link>
               )}
-              {pathname === "/login" && (
+              {pathname === "/signin" && (
                 <Link href="/signup">
                   <button className="bg-[#303030] hover:bg-gray-600 text-white px-4 py-1.5 rounded-full w-28 text-sm text-left pl-5">
                     sign up
@@ -464,7 +464,7 @@ const Navbar = () => {
                   whileHover={{ scale: 1.03 }}
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
                 >
-                  <Link href="/login" onClick={closeMenuAndResetScroll}>
+                  <Link href="/signin" onClick={closeMenuAndResetScroll}>
                     Login
                   </Link>
                 </motion.button>
