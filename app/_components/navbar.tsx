@@ -153,9 +153,9 @@ const Navbar = () => {
               className="flex space-x-10 text-white text-lg pl-6"
             >
               <motion.div variants={fadeIn('up', 0.1)}>
-                <Link href="/diamond-packs" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">DIAMOND PACKS</button>
-                  {pathname === '/diamond-packs' && (
+                <Link href="/gift-packs" className="relative">
+                  <button className="hover:text-gray-300 transition-colors">GIFT PACKS</button>
+                  {pathname === '/gift-packs' && (
                     <motion.div 
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -314,8 +314,8 @@ const Navbar = () => {
                 className="flex flex-col space-y-6 text-white mt-16"
               >
                 <motion.div variants={fadeIn('right', 0.1)}>
-                  <Link href="/diamond-packs" onClick={closeMenuAndResetScroll} className="relative inline-block">
-                    <button className="hover:text-gray-300 transition-colors">DIAMOND PACKS</button>
+                  <Link href="/gift-packs" onClick={closeMenuAndResetScroll} className="relative inline-block">
+                    <button className="hover:text-gray-300 transition-colors">GIFT PACKS</button>
                   </Link>
                 </motion.div>
                 <motion.div variants={fadeIn('right', 0.2)}>

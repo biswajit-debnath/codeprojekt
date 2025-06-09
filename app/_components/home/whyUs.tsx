@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { Diamond, Wallet, Percent } from 'lucide-react';
+import { Gift, Wallet, Percent } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '../../_styles/animations';
@@ -68,7 +68,7 @@ const WhyUs = () => {
               <motion.div
                 whileHover={{ scale: 1.2, transition: { duration: 0.3, type: "spring" } }}
               >
-                <Diamond size={36} strokeWidth={1.5} />
+                <Gift size={36} strokeWidth={1.5} />
               </motion.div>
             </div>
             <div>
@@ -143,7 +143,7 @@ const WhyUs = () => {
             <div>
               <h3 className="text-md md:text-xl ">EXCITING PROMOTIONS</h3>
               <p className="-mt-0.5 text-sm md:text-base leading-tight">
-                Keep a lookout for the best/free diamonds deals for your favorite games at codeprojekt.
+                Keep a lookout for the best/free gifts deals for your favorite games at codeprojekt.
               </p>
             </div>
           </motion.div>

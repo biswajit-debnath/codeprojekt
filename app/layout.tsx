@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Codeprojekt",
-  description: "Marktplace for buying and selling diamonds in the game",
+  description: "Marktplace for buying and selling gifts in the game",
   icons: {
     icon: '/favicon.png'
   }
