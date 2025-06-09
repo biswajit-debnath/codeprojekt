@@ -33,15 +33,15 @@ const RefundPolicyPage = () => {
             </h2>
             <ul className="list-disc list-inside text-gray-700">
               <li>
-                Non-Delivery of Service: If the in-game top-up cannot be
-                completed due to technical issues on our end.
+                Non-Delivery of Service: If the package cannot be completed due
+                to technical issues on our end.
               </li>
               <li>
                 Incorrect Payment: If the customer mistakenly overpays, and the
                 overpaid amount is verified.
               </li>
               <li>
-                Failed Delivery: If the top-up fails due to system errors and
+                Failed Delivery: If the package fails due to system errors and
                 cannot be reprocessed.
               </li>
             </ul>
@@ -56,7 +56,7 @@ const RefundPolicyPage = () => {
                 provided by the customer.
               </li>
               <li>
-                Successful delivery of the top-up as per order specifications.
+                Successful delivery of the package as per order specifications.
               </li>
               <li>
                 Orders cancelled by the customer after processing has started.
@@ -84,7 +84,7 @@ const RefundPolicyPage = () => {
               </li>
               <li>
                 <span className="font-semibold">Delivery Proof:</span>{" "}
-                Screenshots or logs of successful top-up delivery are retained
+                Screenshots or logs of successful package delivery are retained
                 for dispute resolution.
               </li>
               <li>
