@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import styles from "../_styles/Home.module.css";
+import Image from "next/image";
 
 const tshirts = [
   { id: 1, name: "Classic Logo Tee", price: 25, image: "/tshirt.png" },
@@ -90,22 +92,45 @@ export default function ShopPage() {
   const total = cart.reduce((sum, item) => sum + item.price * 83 * item.qty, 0);
 
   return (
-    <main className="flex flex-col items-center min-h-screen bg-gradient-to-b from-white to-gray-100 py-16 px-4">
-      <h1 className="text-5xl font-extrabold mb-12 text-center tracking-tight text-gray-900 drop-shadow-lg">
+    <main
+      className="flex flex-col items-center min-h-screen py-16 px-4"
+      style={{
+        background: "var(--background)",
+        color: "var(--foreground)",
+        fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
+      }}
+    >
+      <h1
+        className="text-5xl font-extrabold mb-12 text-center tracking-tight drop-shadow-lg"
+        style={{
+          color: "var(--primaryColor)",
+          fontFamily: "'The-Last-Shuriken', cursive",
+        }}
+      >
         Shop
       </h1>
       <div className="flex flex-col lg:flex-row gap-12 w-full max-w-7xl">
         <section className="flex-1 flex flex-col gap-16">
           {/* T-Shirts */}
           <div>
-            <h2 className="text-3xl font-bold mb-8 text-gray-800 tracking-tight">
+            <h2
+              className="text-3xl font-bold mb-8 tracking-tight"
+              style={{
+                color: "var(--primaryColor)",
+                fontFamily: "'The-Last-Shuriken', cursive",
+              }}
+            >
               T-Shirts
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {tshirts.map((shirt, i) => (
                 <div
                   key={shirt.id}
-                  className="relative bg-white border border-gray-100 rounded-2xl shadow-lg flex flex-col items-center py-10 px-8 hover:shadow-2xl transition-all group"
+                  className="relative border border-gray-200 rounded-2xl shadow-lg flex flex-col items-center py-10 px-8 hover:shadow-2xl transition-all group"
+                  style={{
+                    background: "#fff",
+                    fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
+                  }}
                 >
                   <span className="absolute left-6 top-4 text-xs text-gray-400 font-semibold tracking-wide uppercase">
                     MLBB
@@ -120,25 +145,35 @@ export default function ShopPage() {
                       NEW
                     </span>
                   )}
-                  <img
+                  <Image
                     src={shirt.image}
                     alt={shirt.name}
+                    width={144}
+                    height={144}
                     className="w-36 h-36 object-contain mb-5 drop-shadow-md"
                   />
-                  <div className="font-semibold text-lg text-center mb-1 text-gray-900">
+                  <div
+                    className="font-semibold text-lg text-center mb-1"
+                    style={{ color: "var(--foreground)" }}
+                  >
                     {shirt.name}
                   </div>
-                  <div className="text-gray-700 font-bold text-xl mb-4">
+                  <div
+                    className="font-bold text-xl mb-4"
+                    style={{ color: "var(--primaryColor)" }}
+                  >
                     ₹{shirt.price * 83}.00
                   </div>
                   <button
-                    className="border-2 border-gray-900 rounded-lg p-2 transition flex items-center justify-center w-10 h-10 hover:bg-gray-900 group/cart"
+                    className={`border-2 border-[var(--primaryColor)] rounded-lg p-2 transition flex items-center justify-center w-10 h-10 hover:bg-[var(--primaryColor)] group/cart ${styles["custom-button"]}`}
                     onClick={() => addToCart(shirt, "tshirt")}
                     title="Add to Cart"
                   >
-                    <img
+                    <Image
                       src="/cart.png"
                       alt="Add to Cart"
+                      width={20}
+                      height={20}
                       className="w-5 h-5 group-hover/cart:filter group-hover/cart:invert"
                     />
                   </button>
@@ -148,14 +183,24 @@ export default function ShopPage() {
           </div>
           {/* Figurines */}
           <div>
-            <h2 className="text-3xl font-bold mb-8 text-gray-800 tracking-tight">
+            <h2
+              className="text-3xl font-bold mb-8 tracking-tight"
+              style={{
+                color: "var(--primaryColor)",
+                fontFamily: "'The-Last-Shuriken', cursive",
+              }}
+            >
               Figurines
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {figurines.map((fig, i) => (
                 <div
                   key={fig.id}
-                  className="relative bg-white border border-gray-100 rounded-2xl shadow-lg flex flex-col items-center py-10 px-8 hover:shadow-2xl transition-all group"
+                  className="relative border border-gray-200 rounded-2xl shadow-lg flex flex-col items-center py-10 px-8 hover:shadow-2xl transition-all group"
+                  style={{
+                    background: "#fff",
+                    fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
+                  }}
                 >
                   <span className="absolute left-6 top-4 text-xs text-gray-400 font-semibold tracking-wide uppercase">
                     {i === 0 ? "ANIME" : "BGMI"}
@@ -170,25 +215,35 @@ export default function ShopPage() {
                       NEW
                     </span>
                   )}
-                  <img
+                  <Image
                     src={fig.image}
                     alt={fig.name}
+                    width={144}
+                    height={144}
                     className="w-36 h-36 object-contain mb-5 drop-shadow-md"
                   />
-                  <div className="font-semibold text-lg text-center mb-1 text-gray-900">
+                  <div
+                    className="font-semibold text-lg text-center mb-1"
+                    style={{ color: "var(--foreground)" }}
+                  >
                     {fig.name}
                   </div>
-                  <div className="text-gray-700 font-bold text-xl mb-4">
+                  <div
+                    className="font-bold text-xl mb-4"
+                    style={{ color: "var(--primaryColor)" }}
+                  >
                     ₹{fig.price * 83}.00
                   </div>
                   <button
-                    className="border-2 border-gray-900 rounded-lg p-2 transition flex items-center justify-center w-10 h-10 hover:bg-gray-900 group/cart"
+                    className={`border-2 border-[var(--primaryColor)] rounded-lg p-2 transition flex items-center justify-center w-10 h-10 hover:bg-[var(--primaryColor)] group/cart ${styles["custom-button"]}`}
                     onClick={() => addToCart(fig, "figurine")}
                     title="Add to Cart"
                   >
-                    <img
+                    <Image
                       src="/cart.png"
                       alt="Add to Cart"
+                      width={20}
+                      height={20}
                       className="w-5 h-5 group-hover/cart:filter group-hover/cart:invert"
                     />
                   </button>
@@ -199,8 +254,20 @@ export default function ShopPage() {
         </section>
         {/* Cart */}
         <aside className="w-full lg:w-80 flex-shrink-0">
-          <div className="sticky top-24 bg-white border border-gray-200 rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800 tracking-tight">
+          <div
+            className="sticky top-24 border border-gray-200 rounded-2xl shadow-lg p-8"
+            style={{
+              background: "#fff",
+              fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
+            }}
+          >
+            <h2
+              className="text-2xl font-bold mb-6 tracking-tight"
+              style={{
+                color: "var(--primaryColor)",
+                fontFamily: "'The-Last-Shuriken', cursive",
+              }}
+            >
               Cart
             </h2>
             {cart.length === 0 ? (
@@ -213,7 +280,8 @@ export default function ShopPage() {
                   {cart.map((item: any, idx: number) => (
                     <li
                       key={idx}
-                      className="flex justify-between items-center border-b border-gray-100 pb-3 text-base font-medium text-gray-700"
+                      className="flex justify-between items-center border-b border-gray-100 pb-3 text-base font-medium"
+                      style={{ color: "var(--foreground)" }}
                     >
                       <div className="flex flex-col">
                         <span>
@@ -286,7 +354,10 @@ export default function ShopPage() {
                     </li>
                   ))}
                 </ul>
-                <div className="flex justify-between items-center text-lg font-bold text-gray-900 border-t pt-4">
+                <div
+                  className="flex justify-between items-center text-lg font-bold border-t pt-4"
+                  style={{ color: "var(--primaryColor)" }}
+                >
                   <span>Total:</span>
                   <span>₹{total}.00</span>
                 </div>
