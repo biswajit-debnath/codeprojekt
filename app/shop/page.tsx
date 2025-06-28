@@ -91,6 +91,58 @@ export default function ShopPage() {
   // Calculate total
   const total = cart.reduce((sum, item) => sum + item.price * 83 * item.qty, 0);
 
+  // Modal state
+  const [showModal, setShowModal] = useState(false);
+  const [recipient, setRecipient] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+    pincode: "",
+    city: "",
+    state: "",
+  });
+  const [formError, setFormError] = useState("");
+
+  const handleProceed = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setRecipient({
+      name: "",
+      phone: "",
+      email: "",
+      address: "",
+      pincode: "",
+      city: "",
+      state: "",
+    });
+    setFormError("");
+  };
+
+  const handlePay = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Basic validation
+    if (
+      !recipient.name.trim() ||
+      !recipient.phone.trim() ||
+      !recipient.address.trim() ||
+      !recipient.pincode.trim() ||
+      !recipient.city.trim() ||
+      !recipient.state.trim()
+    ) {
+      setFormError("Please fill in all required fields.");
+      return;
+    }
+    // Optionally, add more validation (e.g., phone/email format)
+    alert(
+      `Order placed for Cash on Delivery!\n\nName: ${recipient.name}\nPhone: ${recipient.phone}\nEmail: ${recipient.email}\nAddress: ${recipient.address}\nPincode: ${recipient.pincode}\nCity: ${recipient.city}\nState: ${recipient.state}`
+    );
+    handleCloseModal();
+  };
+
   return (
     <main
       className="flex flex-col items-center min-h-screen py-16 px-4"
@@ -355,17 +407,141 @@ export default function ShopPage() {
                   ))}
                 </ul>
                 <div
-                  className="flex justify-between items-center text-lg font-bold border-t pt-4"
+                  className="flex flex-col gap-4 border-t pt-4"
                   style={{ color: "var(--primaryColor)" }}
                 >
-                  <span>Total:</span>
-                  <span>₹{total}.00</span>
+                  <div className="flex justify-between items-center text-lg font-bold">
+                    <span>Total:</span>
+                    <span>₹{total}.00</span>
+                  </div>
+                  <button
+                    className={`mt-2 px-6 py-2 rounded-lg text-white font-bold text-lg transition-colors ${styles["custom-button"]}`}
+                    style={{ background: "var(--primaryColor)" }}
+                    onClick={handleProceed}
+                    disabled={cart.length === 0}
+                  >
+                    Proceed for Payment
+                  </button>
                 </div>
               </>
             )}
           </div>
         </aside>
       </div>
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div
+            className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative"
+            style={{ fontFamily: "'Rentukka-Regular', Helvetica, sans-serif" }}
+          >
+            <button
+              className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold"
+              onClick={handleCloseModal}
+              aria-label="Close"
+              type="button"
+            >
+              ×
+            </button>
+            <h3
+              className="text-2xl font-bold mb-4 text-center"
+              style={{
+                color: "var(--primaryColor)",
+                fontFamily: "'The-Last-Shuriken', cursive",
+              }}
+            >
+              Delivery Details
+            </h3>
+            <form onSubmit={handlePay} className="flex flex-col gap-3">
+              <input
+                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--primaryColor)]"
+                placeholder="Full Name*"
+                value={recipient.name}
+                onChange={(e) => {
+                  setRecipient((r) => ({ ...r, name: e.target.value }));
+                  setFormError("");
+                }}
+                required
+              />
+              <input
+                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--primaryColor)]"
+                placeholder="Phone Number*"
+                value={recipient.phone}
+                onChange={(e) => {
+                  setRecipient((r) => ({ ...r, phone: e.target.value }));
+                  setFormError("");
+                }}
+                required
+                type="tel"
+                pattern="[0-9]{10,}"
+              />
+              <input
+                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--primaryColor)]"
+                placeholder="Email (optional)"
+                value={recipient.email}
+                onChange={(e) =>
+                  setRecipient((r) => ({ ...r, email: e.target.value }))
+                }
+                type="email"
+              />
+              <textarea
+                className="border border-gray-300 rounded-lg p-3 min-h-[60px] focus:outline-none focus:ring-2 focus:ring-[var(--primaryColor)]"
+                placeholder="Full Address*"
+                value={recipient.address}
+                onChange={(e) => {
+                  setRecipient((r) => ({ ...r, address: e.target.value }));
+                  setFormError("");
+                }}
+                required
+              />
+              <div className="flex gap-2">
+                <input
+                  className="border border-gray-300 rounded-lg p-3 w-1/2 focus:outline-none focus:ring-2 focus:ring-[var(--primaryColor)]"
+                  placeholder="Pincode*"
+                  value={recipient.pincode}
+                  onChange={(e) => {
+                    setRecipient((r) => ({ ...r, pincode: e.target.value }));
+                    setFormError("");
+                  }}
+                  required
+                  type="text"
+                  pattern="[0-9]{5,}"
+                />
+                <input
+                  className="border border-gray-300 rounded-lg p-3 w-1/2 focus:outline-none focus:ring-2 focus:ring-[var(--primaryColor)]"
+                  placeholder="City*"
+                  value={recipient.city}
+                  onChange={(e) => {
+                    setRecipient((r) => ({ ...r, city: e.target.value }));
+                    setFormError("");
+                  }}
+                  required
+                />
+              </div>
+              <input
+                className="border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-[var(--primaryColor)]"
+                placeholder="State*"
+                value={recipient.state}
+                onChange={(e) => {
+                  setRecipient((r) => ({ ...r, state: e.target.value }));
+                  setFormError("");
+                }}
+                required
+              />
+              {formError && (
+                <span className="text-red-500 text-sm">{formError}</span>
+              )}
+              <button
+                type="submit"
+                className={`mt-2 px-6 py-2 rounded-lg text-white font-bold text-lg transition-colors ${styles["custom-button"]}`}
+                style={{ background: "var(--primaryColor)" }}
+              >
+                Pay Cash on Delivery
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
