@@ -1,21 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../_styles/Home.module.css";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { fadeIn, slideIn } from "../_styles/animations";
 
 const tshirts = [
-  { id: 1, name: "Classic Logo Tee", price: 25, image: "/tshirt.png" },
-  { id: 2, name: "Retro Style Tee", price: 30, image: "/tshirt.png" },
-  { id: 3, name: "Retro Style Tee", price: 30, image: "/tshirt.png" },
-  { id: 4, name: "Retro Style Tee", price: 30, image: "/tshirt.png" },
+  { id: 1, name: "Classic Gaming Legend Tee", price: 250, image: "/tshirt.png" },
+  { id: 2, name: "Mobile Legends Battle Arena Jersey", price: 300, image: "/tshirt.png" },
+  { id: 3, name: "Esports Championship Pro Shirt", price: 300, image: "/tshirt.png" },
+  { id: 4, name: "Ultimate Gaming Collection Tee", price: 300, image: "/tshirt.png" },
 ];
 
 const figurines = [
-  { id: 1, name: "Hero Figurine", price: 40, image: "/figurine.webp" },
-  { id: 2, name: "Villain Figurine", price: 45, image: "/figurine.webp" },
-  { id: 3, name: "Villain Figurine", price: 45, image: "/figurine.webp" },
-  { id: 4, name: "Villain Figurine", price: 45, image: "/figurine.webp" },
+  { id: 1, name: "Epic Gaming Hero Figurine", price: 400, image: "/figurine.webp" },
+  { id: 2, name: "Legendary Battle Commander Statue", price: 450, image: "/figurine.webp" },
+  { id: 3, name: "Fantasy Warrior Collection Figure", price: 450, image: "/figurine.webp" },
+  { id: 4, name: "Anime Gaming Character Model", price: 450, image: "/figurine.webp" },
 ];
 
 type CartItem = {
@@ -30,6 +32,15 @@ type CartItem = {
 
 export default function ShopPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Simulate loading delay for animation
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Add item to cart (increase quantity if already exists)
   const addToCart = (
@@ -144,170 +155,269 @@ export default function ShopPage() {
   };
 
   return (
-    <main
-      className="flex flex-col items-center min-h-screen py-16 px-4"
-      style={{
-        background: "var(--background)",
-        color: "var(--foreground)",
-        fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
-      }}
-    >
-      <h1
-        className="text-5xl font-extrabold mb-12 text-center tracking-tight drop-shadow-lg"
+    <>
+      {/* Hero Section */}
+      <div className="relative md:px-10 lg:px-20 md:pt-5 font-['The-Last-Shuriken']">
+        <motion.div
+          className="relative h-[160px] md:h-[300px] lg:h-[400px] max-w-[1550px] mx-auto"
+          initial="hidden"
+          animate="show"
+          variants={fadeIn("up", 0.3)}
+        >
+          <div className="relative w-full h-full overflow-hidden">
+            <div
+              className={`transition-opacity duration-300 ${
+                isLoaded ? "opacity-0" : "opacity-100"
+              } absolute top-0 left-0 right-0 bottom-0 bg-gray-500 animate-pulse`}
+            ></div>
+            <motion.div
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="w-full h-full"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+              <Image
+                src="/hero-imageMain.jpg"
+                alt="Shop Hero"
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            </motion.div>
+          </div>
+          <motion.div
+            className="absolute bottom-8 lg:bottom-20 inset-x-0 flex flex-col items-center z-20"
+            variants={slideIn("up", 0.5)}
+            initial="hidden"
+            animate="show"
+          >
+            <motion.h1
+              className="text-2xl md:text-5xl lg:text-6xl font-bold text-white md:mb-8 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
+              SHOP
+            </motion.h1>
+            <motion.p
+              className="text-white text-sm md:text-lg lg:text-xl text-center max-w-2xl px-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.9 }}
+            >
+              Discover exclusive gaming merchandise and collectibles
+            </motion.p>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      <main
+        className="flex flex-col items-center min-h-screen py-16 px-4 md:px-10 lg:px-20"
         style={{
-          color: "var(--primaryColor)",
-          fontFamily: "'The-Last-Shuriken', cursive",
-        }}
+          background: "var(--background)",
+          color: "var(--foreground)",
+          fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",        }}
       >
-        Shop
-      </h1>
-      <div className="flex flex-col lg:flex-row gap-12 w-full max-w-7xl">
+        <div className="flex flex-col lg:flex-row gap-12 w-full max-w-[1550px]">
         <section className="flex-1 flex flex-col gap-16">
           {/* T-Shirts */}
           <div>
-            <h2
-              className="text-3xl font-bold mb-8 tracking-tight"
-              style={{
-                color: "var(--primaryColor)",
-                fontFamily: "'The-Last-Shuriken', cursive",
-              }}
-            >
-              T-Shirts
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {tshirts.map((shirt, i) => (
+            <div className="flex items-center gap-4 mb-12">
+              <h2
+                className="text-2xl md:text-4xl font-bold tracking-tight"
+                style={{
+                  color: "var(--foreground)",
+                  fontFamily: "'The-Last-Shuriken', cursive",
+                }}
+              >
+                T-SHIRTS
+              </h2>
+              <div className="flex-1 h-[2px] bg-gradient-to-r from-gray-300 to-transparent"></div>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-2 lg:gap-4">
+              {tshirts.map((shirt, i) => {
+                const cartItem = cart.find(item => item.id === shirt.id && item.type === "tshirt");
+                return (
                 <div
                   key={shirt.id}
-                  className="relative border border-gray-200 rounded-2xl shadow-lg flex flex-col items-center py-10 px-8 hover:shadow-2xl transition-all group"
+                  className="relative bg-white rounded-sm overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group w-full"
                   style={{
-                    background: "#fff",
                     fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
                   }}
                 >
-                  <span className="absolute left-6 top-4 text-xs text-gray-400 font-semibold tracking-wide uppercase">
-                    MLBB
-                  </span>
-                  {i === 0 && (
-                    <span className="absolute right-6 top-4 bg-lime-400 text-black text-xs font-bold px-3 py-1 rounded shadow">
-                      BEST SELLER
+                  {/* Tags */}
+                  <div className="absolute top-2 left-2 lg:top-6 lg:left-6 z-10">
+                    <span className="text-xs lg:text-sm text-gray-500 font-medium tracking-wide uppercase">
+                      MLBB
                     </span>
-                  )}
-                  {i === 1 && (
-                    <span className="absolute right-6 top-4 bg-blue-400 text-white text-xs font-bold px-3 py-1 rounded shadow">
-                      NEW
-                    </span>
-                  )}
-                  <Image
-                    src={shirt.image}
-                    alt={shirt.name}
-                    width={144}
-                    height={144}
-                    className="w-36 h-36 object-contain mb-5 drop-shadow-md"
-                  />
-                  <div
-                    className="font-semibold text-lg text-center mb-1"
-                    style={{ color: "var(--foreground)" }}
-                  >
-                    {shirt.name}
                   </div>
-                  <div
-                    className="font-bold text-xl mb-4"
-                    style={{ color: "var(--primaryColor)" }}
-                  >
-                    ₹{shirt.price * 83}.00
+                  <div className="absolute top-2 right-2 lg:top-6 lg:right-6 z-10">
+                    {i === 0 && (
+                      <span className="bg-lime-400 text-black text-xs lg:text-sm font-bold px-2 py-1 lg:px-4 lg:py-2 rounded">
+                        BEST SELLER
+                      </span>
+                    )}
+                    {i === 1 && (
+                      <span className="bg-blue-500 text-white text-xs lg:text-sm font-bold px-2 py-1 lg:px-4 lg:py-2 rounded">
+                        NEW
+                      </span>
+                    )}
                   </div>
-                  <button
-                    className={`border-2 border-[var(--primaryColor)] rounded-lg p-2 transition flex items-center justify-center w-10 h-10 hover:bg-[var(--primaryColor)] group/cart ${styles["custom-button"]}`}
-                    onClick={() => addToCart(shirt, "tshirt")}
-                    title="Add to Cart"
-                  >
+                  
+                  {/* Image */}
+                  <div className="px-4 py-6 lg:px-12 lg:py-16 lg:pb-1 flex items-center justify-center bg-gray-50">
                     <Image
-                      src="/cart.png"
-                      alt="Add to Cart"
-                      width={20}
-                      height={20}
-                      className="w-5 h-5 group-hover/cart:filter group-hover/cart:invert"
+                      src={shirt.image}
+                      alt={shirt.name}
+                      width={220}
+                      height={220}
+                      className="w-24 h-24 lg:w-56 lg:h-56 object-contain drop-shadow-lg"
                     />
-                  </button>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-2 lg:p-6 lg:pt-2">
+                    <h3 className="font-bold text-sm lg:text-xl mb-2 lg:mb-4 text-gray-800 truncate">
+                      {shirt.name.toUpperCase()}
+                    </h3>
+                    
+                    {/* Price and Cart Button Row */}
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm lg:text-2xl font-bold text-gray-900">
+                        ₹{(shirt.price).toLocaleString()}.00
+                      </div>
+                      <div className="relative">
+                        <button
+                          className={`border-2 rounded-lg p-1.5 lg:p-3 transition-all duration-200 flex items-center justify-center hover:shadow-md group/cart ${
+                            cartItem 
+                              ? "bg-red-50 border-red-500 hover:border-red-600" 
+                              : "bg-white border-gray-300 hover:border-gray-400"
+                          }`}
+                          onClick={() => addToCart(shirt, "tshirt")}
+                        >
+                          <Image
+                            src="/cart.png"
+                            alt="Add to Cart"
+                            width={28}
+                            height={28}
+                            className="w-4 h-4 lg:w-7 lg:h-7"
+                          />
+                        </button>
+                        {cartItem && (
+                          <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 w-4 h-4 lg:w-5 lg:h-5 bg-red-500 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">{cartItem.qty}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
           {/* Figurines */}
           <div>
-            <h2
-              className="text-3xl font-bold mb-8 tracking-tight"
-              style={{
-                color: "var(--primaryColor)",
-                fontFamily: "'The-Last-Shuriken', cursive",
-              }}
-            >
-              Figurines
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {figurines.map((fig, i) => (
+            <div className="flex items-center gap-4 mb-12">
+              <h2
+                className="text-2xl md:text-4xl font-bold tracking-tight"
+                style={{
+                  color: "var(--foreground)",
+                  fontFamily: "'The-Last-Shuriken', cursive",
+                }}
+              >
+                FIGURINES
+              </h2>
+              <div className="flex-1 h-[2px] bg-gradient-to-r from-gray-300 to-transparent"></div>
+            </div>
+            <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-2 lg:gap-4">
+              {figurines.map((fig, i) => {
+                const cartItem = cart.find(item => item.id === fig.id && item.type === "figurine");
+                return (
                 <div
                   key={fig.id}
-                  className="relative border border-gray-200 rounded-2xl shadow-lg flex flex-col items-center py-10 px-8 hover:shadow-2xl transition-all group"
+                  className="relative bg-white rounded-sm overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 group w-full"
                   style={{
-                    background: "#fff",
                     fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
                   }}
                 >
-                  <span className="absolute left-6 top-4 text-xs text-gray-400 font-semibold tracking-wide uppercase">
-                    {i === 0 ? "ANIME" : "BGMI"}
-                  </span>
-                  {i === 0 && (
-                    <span className="absolute right-6 top-4 bg-lime-400 text-black text-xs font-bold px-3 py-1 rounded shadow">
-                      LIMITED EDITION
+                  {/* Tags */}
+                  <div className="absolute top-2 left-2 lg:top-6 lg:left-6 z-10">
+                    <span className="text-xs lg:text-sm text-gray-500 font-medium tracking-wide uppercase">
+                      {i === 0 ? "ANIME" : "BGMI"}
                     </span>
-                  )}
-                  {i === 1 && (
-                    <span className="absolute right-6 top-4 bg-blue-400 text-white text-xs font-bold px-3 py-1 rounded shadow">
-                      NEW
-                    </span>
-                  )}
-                  <Image
-                    src={fig.image}
-                    alt={fig.name}
-                    width={144}
-                    height={144}
-                    className="w-36 h-36 object-contain mb-5 drop-shadow-md"
-                  />
-                  <div
-                    className="font-semibold text-lg text-center mb-1"
-                    style={{ color: "var(--foreground)" }}
-                  >
-                    {fig.name}
                   </div>
-                  <div
-                    className="font-bold text-xl mb-4"
-                    style={{ color: "var(--primaryColor)" }}
-                  >
-                    ₹{fig.price * 83}.00
+                  <div className="absolute top-2 right-2 lg:top-6 lg:right-6 z-10">
+                    {i === 0 && (
+                      <span className="bg-lime-400 text-black text-xs lg:text-sm font-bold px-2 py-1 lg:px-4 lg:py-2 rounded">
+                        LIMITED EDITION
+                      </span>
+                    )}
+                    {i === 1 && (
+                      <span className="bg-blue-500 text-white text-xs lg:text-sm font-bold px-2 py-1 lg:px-4 lg:py-2 rounded">
+                        NEW
+                      </span>
+                    )}
                   </div>
-                  <button
-                    className={`border-2 border-[var(--primaryColor)] rounded-lg p-2 transition flex items-center justify-center w-10 h-10 hover:bg-[var(--primaryColor)] group/cart ${styles["custom-button"]}`}
-                    onClick={() => addToCart(fig, "figurine")}
-                    title="Add to Cart"
-                  >
+                  
+                  {/* Image */}
+                  <div className="px-4 py-6 lg:px-12 lg:py-16 lg:pb-1 flex items-center justify-center bg-gray-50">
                     <Image
-                      src="/cart.png"
-                      alt="Add to Cart"
-                      width={20}
-                      height={20}
-                      className="w-5 h-5 group-hover/cart:filter group-hover/cart:invert"
+                      src={fig.image}
+                      alt={fig.name}
+                      width={220}
+                      height={220}
+                      className="w-24 h-24 lg:w-56 lg:h-56 object-contain drop-shadow-lg"
                     />
-                  </button>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="p-2 lg:p-6 lg:pt-2">
+                    <h3 className="font-bold text-sm lg:text-xl mb-2 lg:mb-4 text-gray-800 truncate">
+                      {fig.name.toUpperCase()}
+                    </h3>
+                    
+                    {/* Price and Cart Button Row */}
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm lg:text-2xl font-bold text-gray-900">
+                        ₹{(fig.price).toLocaleString()}.00
+                      </div>
+                      <div className="relative">
+                        <button
+                          className={`border-2 rounded-lg p-1.5 lg:p-3 transition-all duration-200 flex items-center justify-center hover:shadow-md group/cart ${
+                            cartItem 
+                              ? "bg-red-50 border-red-500 hover:border-red-600" 
+                              : "bg-white border-gray-300 hover:border-gray-400"
+                          }`}
+                          onClick={() => addToCart(fig, "figurine")}
+                        >
+                          <Image
+                            src="/cart.png"
+                            alt="Add to Cart"
+                            width={28}
+                            height={28}
+                            className="w-4 h-4 lg:w-7 lg:h-7"
+                          />
+                        </button>
+                        {cartItem && (
+                          <div className="absolute -top-1 -right-1 lg:-top-2 lg:-right-2 w-4 h-4 lg:w-5 lg:h-5 bg-red-500 rounded-full flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">{cartItem.qty}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
         {/* Cart */}
-        <aside className="w-full lg:w-80 flex-shrink-0">
+        <aside className="w-full lg:w-[400px] flex-shrink-0">
           <div
-            className="sticky top-24 border border-gray-200 rounded-2xl shadow-lg p-8"
+            className="sticky top-24 border border-gray-200 rounded-sm shadow-lg p-8"
             style={{
               background: "#fff",
               fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
@@ -542,6 +652,7 @@ export default function ShopPage() {
           </div>
         </div>
       )}
-    </main>
+      </main>
+    </>
   );
 }
