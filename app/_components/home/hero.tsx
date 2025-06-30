@@ -1,10 +1,10 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import FirebaseImage from '../../_components/common/firebaseImage';
-import styles from '../../_styles/Home.module.css';
-import { motion } from 'framer-motion';
-import { fadeIn, slideIn } from '../../_styles/animations';
-import Link from 'next/link';
+"use client";
+import React, { useState, useEffect } from "react";
+import FirebaseImage from "../../_components/common/firebaseImage";
+import styles from "../../_styles/Home.module.css";
+import { motion } from "framer-motion";
+import { fadeIn, slideIn } from "../../_styles/animations";
+import Link from "next/link";
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -26,7 +26,11 @@ const Hero = () => {
         variants={fadeIn("up", 0.3)}
       >
         <div className="relative w-full h-full overflow-hidden">
-          <div className={`transition-opacity duration-300 ${isLoaded ? 'opacity-0' : 'opacity-100'} absolute top-0 left-0 right-0 bottom-0 bg-gray-500 animate-pulse`}></div>
+          <div
+            className={`transition-opacity duration-300 ${
+              isLoaded ? "opacity-0" : "opacity-100"
+            } absolute top-0 left-0 right-0 bottom-0 bg-gray-500 animate-pulse`}
+          ></div>
           <motion.div
             initial={{ scale: 1.1, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -62,9 +66,11 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Link href="/gift-packs">
-              <button className={`text-white transition-colors px-6 lg:px-20 py-1 md:py-3 lg:pt-5 lg:pb-4 text-[0.7rem] md:text-xl lg:text-3xl ${styles['custom-button']}`}>
-                BUY DIAMONDS
+            <Link href="/packs">
+              <button
+                className={`text-white transition-colors px-6 lg:px-20 py-1 md:py-3 lg:pt-5 lg:pb-4 text-[0.7rem] md:text-xl lg:text-3xl ${styles["custom-button"]}`}
+              >
+                BUY GIFT PACKS
               </button>
             </Link>
           </motion.div>

@@ -16,7 +16,7 @@ const RefundPolicyPage = () => {
             <p className="text-gray-700">
               At <span className="font-semibold">codeprojekt</span>{" "}
               <a
-                href="codeprojekt.shop"
+                href="https://www.codeprojekt.shop"
                 className="text-red-600 hover:underline"
               >
                 codeprojekt.shop

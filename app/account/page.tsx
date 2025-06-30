@@ -95,7 +95,7 @@ const AccountPage = () => {
     signOut(auth)
       .then(() => {
         console.log("User signed out.");
-        router.push("/login"); // or use window.location
+        router.push("/signin"); // or use window.location
       })
       .catch((error) => {
         console.error("Logout error:", error);

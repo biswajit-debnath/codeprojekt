@@ -53,7 +53,7 @@ export class BackendApiClient {
     });
   }
 
-  public async loginUser(googleUserInfo: object): Promise<UserLogin> {
+  public async signinUser(googleUserInfo: object): Promise<UserLogin> {
     const config = {
       ...API_REQUESTS.USER_LOGIN,
       url: `${this.baseUrl}${API_REQUESTS.USER_LOGIN.url}`,
