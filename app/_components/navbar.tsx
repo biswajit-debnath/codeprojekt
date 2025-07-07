@@ -163,7 +163,20 @@ const Navbar = () => {
               variants={staggerContainer(0.05)}
               className="flex space-x-10 text-white text-lg pl-6"
             >
-              <motion.div variants={fadeIn("up", 0.1)}>
+              <motion.div variants={fadeIn("up", 0.3)}>
+                <Link href="/merch" className="relative">
+                  <button className="hover:text-gray-300 transition-colors">
+                    MERCH
+                  </button>
+                  {pathname === "/merch" && (
+                    <motion.div
+                      layoutId="navIndicator"
+                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
+                    ></motion.div>
+                  )}
+                </Link>
+              </motion.div>
+              {/*               <motion.div variants={fadeIn("up", 0.1)}>
                 <Link href="/packs" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
                     GIFT PACKS
@@ -175,7 +188,7 @@ const Navbar = () => {
                     ></motion.div>
                   )}
                 </Link>
-              </motion.div>
+              </motion.div> */}
               <motion.div variants={fadeIn("up", 0.15)}>
                 <Link href="/event-pre-order" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
@@ -215,19 +228,7 @@ const Navbar = () => {
                   )}
                 </Link>
               </motion.div>
-              <motion.div variants={fadeIn("up", 0.3)}>
-                <Link href="/merch" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    MERCH
-                  </button>
-                  {pathname === "/merch" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div>
+
               <motion.div variants={fadeIn("up", 0.35)}>
                 <Link href="/more" className="relative">
                   <button className="hover:text-gray-300 transition-colors">

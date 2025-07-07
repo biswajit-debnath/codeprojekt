@@ -59,18 +59,18 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            PRESENT EVENT NAME
+            T-SHIRTS | FIGURINES | STICKERS
           </motion.h1>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Link href="/packs">
+            <Link href="/merch">
               <button
                 className={`text-white transition-colors px-6 lg:px-20 py-1 md:py-3 lg:pt-5 lg:pb-4 text-[0.7rem] md:text-xl lg:text-3xl ${styles["custom-button"]}`}
               >
-                BUY GIFT PACKS
+                BUY MERCHANDISE
               </button>
             </Link>
           </motion.div>
