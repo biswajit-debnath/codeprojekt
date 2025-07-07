@@ -26,16 +26,16 @@ const Footer = () => {
           <motion.div
             className="flex flex-col items-center md:items-end space-y-1 text-center md:text-right mt-2 order-2 md:order-1"
             variants={fadeIn("right", 0.2)}
-          >
-            <motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
-              <a href="/support" className="hover:text-gray-300 transition-colors">Support</a>
+          ><motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
+              <a href="/about" className="hover:text-gray-300 transition-colors">About Us</a>
             </motion.div>
+            {/* {<motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
+              <a href="/support" className="hover:text-gray-300 transition-colors">Support</a>
+            </motion.div>} */}
             <motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
               <a href="/contact" className="hover:text-gray-300 transition-colors">Contact Us</a>
             </motion.div>
-            <motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
-              <a href="/about" className="hover:text-gray-300 transition-colors">About Codeprojekt</a>
-            </motion.div>
+            
             <motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
               <a href="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</a>
             </motion.div>
