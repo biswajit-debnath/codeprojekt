@@ -10,19 +10,40 @@ const ContactPage = () => {
         <div className="space-y-6">
           <section>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-400 mb-4">
-              <li><strong>Contact Email:</strong> codeprojekt2025@gmail.com</li>
-              <li><strong>Website:</strong> <a href="https://codeprojekt.shop" className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">https://codeprojekt.shop</a></li>
-              <li><strong>Country of Operation:</strong> India</li>
+              <li>
+                <strong>Contact Email:</strong> codeprojekt2025@gmail.com
+              </li>
+              <li>
+                <strong>Website:</strong>{" "}
+                <a
+                  href="https://codeprojekt.shop"
+                  className="text-blue-600 underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  https://www.codeprojekt.shop
+                </a>
+              </li>
+              <li>
+                <strong>Country of Operation:</strong> India
+              </li>
             </ul>
           </section>
           <section>
-            <h2 className="text-xl font-semibold mb-2">2. Contact Us</h2>
-            <p className="mb-2 text-gray-700 dark:text-gray-400">You can reach us for support or business inquiries at:</p>
+            <p className="mb-2 text-gray-700 dark:text-gray-400">
+              You can reach us for support or business inquiries at:
+            </p>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-400 mb-2">
-              <li><strong>Email:</strong> codeprojekt2025@gmail.com</li>
-              <li><strong>Location:</strong> India</li>
+              <li>
+                <strong>Email:</strong> codeprojekt2025@gmail.com
+              </li>
+              <li>
+                <strong>Location:</strong> India
+              </li>
             </ul>
-            <p className="text-sm text-gray-600 dark:text-gray-500">Please allow up to 24 hours for a response on working days.</p>
+            <p className="text-sm text-gray-600 dark:text-gray-500">
+              Please allow up to 24 hours for a response on working days.
+            </p>
           </section>
         </div>
       </div>
