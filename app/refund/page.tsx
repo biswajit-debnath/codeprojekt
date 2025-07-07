@@ -91,10 +91,10 @@ const RefundPolicyPage = () => {
                 <span className="font-semibold">Customer Communication:</span>{" "}
                 In case of issues, customers are required to contact us at{" "}
                 <a
-                  href="mailto:codeprojekt.dev@gmail.com"
+                  href="mailto:codeprojekt2025@gmail.com"
                   className="text-red-600 hover:underline"
                 >
-                  codeprojekt.dev@gmail.com
+                  codeprojekt2025@gmail.com
                 </a>{" "}
                 to resolve disputes before initiating a chargeback.
               </li>
@@ -134,10 +134,10 @@ const RefundPolicyPage = () => {
               <li>
                 Customers are encouraged to contact us directly via email at{" "}
                 <a
-                  href="mailto:codeprojekt.dev@gmail.com"
+                  href="mailto:codeprojekt2025@gmail.com"
                   className="text-red-600 hover:underline"
                 >
-                  codeprojekt.dev@gmail.com
+                  codeprojekt2025@gmail.com
                 </a>
                 .
               </li>
@@ -168,10 +168,10 @@ const RefundPolicyPage = () => {
               If you have any questions or need assistance with a refund, please
               contact us at{" "}
               <a
-                href="mailto:codeprojekt.dev@gmail.com"
+                href="mailto:codeprojekt2025@gmail.com"
                 className="text-red-600 hover:underline"
               >
-                codeprojekt.dev@gmail.com
+                codeprojekt2025@gmail.com
               </a>
               .
             </p>
