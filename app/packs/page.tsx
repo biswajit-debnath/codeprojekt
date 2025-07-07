@@ -147,7 +147,7 @@ const GiftPacksPage = () => {
                 <div>
                   <label
                     htmlFor="userId"
-                    className="block text-base md:text-lg font-medium text-gray-800 pl-1"
+                    className="block text-base md:text-lg font-medium text-gray-800 pl-1 dark:text-gray-400"
                   >
                     Enter User ID
                   </label>
@@ -169,7 +169,7 @@ const GiftPacksPage = () => {
                 <div>
                   <label
                     htmlFor="zoneId"
-                    className="block text-base md:text-lg font-medium text-gray-700 pl-1"
+                    className="block text-base md:text-lg font-medium text-gray-700 pl-1 dark:text-gray-400"
                   >
                     Enter Zone ID
                   </label>
@@ -337,7 +337,7 @@ const GiftPacksPage = () => {
           ) : (
             Object.keys(giftPackCategories).map((category) => (
               <div key={category} className="mb-10 w-full">
-                <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 mt-6">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 mt-6 dark:text-gray-400">
                   {category}
                 </h3>
                 <motion.div

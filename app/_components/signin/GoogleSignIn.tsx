@@ -115,7 +115,7 @@ const GoogleSignIn = () => {
                   QUICK LOG IN
                 </motion.h2>
                 <motion.p
-                  className="text-gray-600 text-sm sm:text-md -mt-1 leading-tight"
+                  className="text-gray-600 text-sm sm:text-md -mt-1 leading-tight dark:text-gray-500"
                   variants={fadeIn("down", 0.2)}
                 >
                   Use your Google account to sign in instantly
@@ -161,7 +161,14 @@ const GoogleSignIn = () => {
                     alt="CODE PROJEKT"
                     width={150}
                     height={70}
-                    className="p-3 rounded rotate-90"
+                    className="p-3 rounded rotate-90 dark:hidden"
+                  />
+                  <Image
+                    src="/logo-imageV4white.png"
+                    alt="CODE PROJEKT"
+                    width={150}
+                    height={70}
+                    className="p-3 rounded rotate-90 hidden dark:block"
                   />
                 </motion.div>
               </div>

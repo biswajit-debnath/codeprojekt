@@ -140,7 +140,7 @@ const Navbar = () => {
     >
       <div className="">
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center justify-between px-4">
+        <div className="hidden desktop:flex items-center justify-between px-4">
           <motion.div
             variants={staggerContainer(0.1)}
             className="flex items-center space-x-8"
@@ -285,7 +285,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="lg:hidden flex items-center justify-between px-4">
+        <div className="desktop:hidden flex items-center justify-between px-4">
           <motion.div
             variants={fadeIn("right", 0.1)}
             className="flex items-center"
@@ -297,7 +297,7 @@ const Navbar = () => {
               <Image
                 src="/logo-imageV4white.png"
                 alt="Logo"
-                width={80}
+                width={90}
                 height={100}
               />
             </Link>

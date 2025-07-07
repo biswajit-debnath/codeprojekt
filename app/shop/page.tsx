@@ -445,7 +445,7 @@ export default function ShopPage() {
                       className="flex justify-between items-center border-b border-gray-100 pb-3 text-base font-medium"
                       style={{ color: "var(--foreground)" }}
                     >
-                      <div className="flex flex-col">
+                      <div className="flex flex-col dark:text-gray-600">
                         <span>
                           {item.name}{" "}
                           <span className="text-xs text-gray-400">
@@ -509,7 +509,7 @@ export default function ShopPage() {
                         >
                           Remove
                         </button>
-                        <span className="ml-4">
+                        <span className="ml-4 dark:text-gray-600">
                           ₹{item.price * 83 * item.qty}.00
                         </span>
                       </div>

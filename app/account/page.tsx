@@ -111,7 +111,7 @@ const AccountPage = () => {
     <motion.button
       onClick={() => onClick(id)}
       className={`block w-full text-left py-3 px-6 text-md transition-colors hover:opacity-80 ${
-        isActive ? "font-bold bg-gray-100" : "opacity-70"
+        isActive ? "font-bold bg-gray-100 dark:text-gray-600" : "opacity-70"
       } hover:opacity-100`}
       whileHover={{ x: 5, transition: { duration: 0.2 } }}
       whileTap={{ scale: 0.98 }}
@@ -149,7 +149,7 @@ const AccountPage = () => {
         <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
           {/* Left Navigation - Hidden on mobile, shown on md+ */}
           <motion.div
-            className="hidden md:block w-80 flex-shrink-0"
+            className="hidden md:block w-40 desktop:w-80 flex-shrink-0 tablet:w-56"
             variants={slideIn("right", 0.2)}
           >
             <motion.div

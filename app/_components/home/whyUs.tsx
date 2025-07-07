@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
-import { Gift, Wallet, Percent } from 'lucide-react';
-import Image from 'next/image';
+import { Gift, Wallet, Percent, HandHeart, Headset } from 'lucide-react';
+// import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '../../_styles/animations';
 
@@ -47,7 +47,8 @@ const WhyUs = () => {
                 initial={{ rotate: 0 }}
                 whileHover={{ rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } }}
               >
-                <Image src="/hand.png" alt="Logo" width={40} height={40} />
+                {/* <Image src="/hand.png" alt="Logo" width={40} height={40} /> */}
+                <HandHeart size={42} strokeWidth={1.5} />
               </motion.div>
             </div>
             <div>
@@ -113,7 +114,8 @@ const WhyUs = () => {
                   transition: { duration: 0.5, repeat: Infinity, repeatType: "reverse" } 
                 }}
               >
-                <Image src="/headphones.png" alt="Logo" width={40} height={40} />
+                {/* <Image src="/headphones.png" alt="Logo" width={40} height={40} /> */}
+                <Headset size={36} strokeWidth={1.5} />
               </motion.div>
             </div>
             <div>

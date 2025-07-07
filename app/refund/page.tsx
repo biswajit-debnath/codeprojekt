@@ -4,16 +4,16 @@ import React from "react";
 
 const RefundPolicyPage = () => {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen px-4 sm:px-6 md:px-10 lg:px-20">
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 md:p-10">
+    <div className="flex flex-col justify-center items-center min-h-screen px-4 sm:px-6 md:px-10 lg:px-20 py-10">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 md:p-10 dark:bg-[--navBlack]">
         <h1 className="text-4xl font-bold mb-6 text-center">Refund Policy</h1>
-        <p className="text-sm text-gray-600 mb-4 text-center">
+        <p className="text-sm text-gray-600 mb-4 text-center dark:text-gray-500">
           Last updated: June 8, 2025
         </p>
         <div className="space-y-6">
           <section>
             <h2 className="text-xl font-semibold mb-2">1. Introduction</h2>
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-400">
               At <span className="font-semibold">codeprojekt</span>{" "}
               <a
                 href="https://www.codeprojekt.shop"
@@ -31,7 +31,7 @@ const RefundPolicyPage = () => {
             <h2 className="text-xl font-semibold mb-2">
               2. Refund Eligibility
             </h2>
-            <ul className="list-disc list-inside text-gray-700">
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-400">
               <li>
                 Non-Delivery of Service: If the package cannot be completed due
                 to technical issues on our end.
@@ -50,7 +50,7 @@ const RefundPolicyPage = () => {
             <h2 className="text-xl font-semibold mb-2">
               3. Non-Refundable Situations
             </h2>
-            <ul className="list-disc list-inside text-gray-700">
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-400">
               <li>
                 Incorrect account details (e.g., user ID, server, or region)
                 provided by the customer.
@@ -71,7 +71,7 @@ const RefundPolicyPage = () => {
             <h2 className="text-xl font-semibold mb-2">
               4. Chargeback Prevention Measures
             </h2>
-            <ul className="list-disc list-inside text-gray-700">
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-400">
               <li>
                 <span className="font-semibold">Order Confirmation:</span>{" "}
                 Customers must verify all account details before placing an
@@ -102,7 +102,7 @@ const RefundPolicyPage = () => {
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2">5. Refund Process</h2>
-            <ul className="list-disc list-inside text-gray-700 mb-2">
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-400 mb-2">
               <li>
                 Refund requests must be submitted within 48 hours of the
                 transaction.
@@ -126,11 +126,11 @@ const RefundPolicyPage = () => {
             <h2 className="text-xl font-semibold mb-2">
               6. Dispute Resolution
             </h2>
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-400">
               We are committed to resolving any disputes amicably. In case of a
               disagreement:
             </p>
-            <ul className="list-disc list-inside text-gray-700 mb-2">
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-400 mb-2">
               <li>
                 Customers are encouraged to contact us directly via email at{" "}
                 <a
@@ -151,7 +151,7 @@ const RefundPolicyPage = () => {
             <h2 className="text-xl font-semibold mb-2">
               7. Abuse of Refund Policy
             </h2>
-            <ul className="list-disc list-inside text-gray-700">
+            <ul className="list-disc list-inside text-gray-700 dark:text-gray-400">
               <li>Immediate termination of services.</li>
               <li>
                 Blacklisting of the customer account from future purchases.
@@ -164,7 +164,7 @@ const RefundPolicyPage = () => {
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2">Contact Us</h2>
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-400">
               If you have any questions or need assistance with a refund, please
               contact us at{" "}
               <a
