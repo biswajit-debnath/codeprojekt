@@ -88,14 +88,15 @@ export default function ShopPage() {
     type: string
   ) => {
     setCart((prevCart) => {
+      // Prevent double increment by ensuring only one update per click
       const idx = prevCart.findIndex(
         (cartItem) => cartItem.id === item.id && cartItem.type === type
       );
       if (idx !== -1) {
-        // Item exists, increment quantity
-        const updated = [...prevCart];
-        updated[idx].qty += 1;
-        return updated;
+        // Item exists, increment quantity by 1 only
+        return prevCart.map((cartItem, i) =>
+          i === idx ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
+        );
       } else {
         // New item
         return [...prevCart, { ...item, type, qty: 1 }];
@@ -140,7 +141,7 @@ export default function ShopPage() {
   };
 
   // Calculate total
-  const total = cart.reduce((sum, item) => sum + item.price * 83 * item.qty, 0);
+  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   // Modal state
   const [showModal, setShowModal] = useState(false);
@@ -501,9 +502,6 @@ export default function ShopPage() {
                               ({item.type})
                             </span>
                           </span>
-                          <span className="text-xs text-gray-400">
-                            Qty: {item.qty}
-                          </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <button
@@ -559,7 +557,7 @@ export default function ShopPage() {
                             Remove
                           </button>
                           <span className="ml-4 dark:text-gray-600">
-                            ₹{item.price * 83 * item.qty}.00
+                            ₹{item.price * item.qty}.00
                           </span>
                         </div>
                       </li>
