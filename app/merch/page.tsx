@@ -10,26 +10,52 @@ const tshirts = [
   {
     id: 1,
     name: "Classic Gaming Legend Tee",
-    price: 250,
-    image: "/tshirt.png",
+    price: 350,
+    image: "/merch/tshirt1.png",
+    description: [
+      "Celebrate your love for gaming with this timeless classic tee.",
+      "Soft, comfortable, and perfect for everyday wear.",
+    ],
   },
   {
     id: 2,
     name: "Mobile Legends Battle Arena Jersey",
     price: 300,
-    image: "/tshirt.png",
+    image: "/merch/tshirt2.png",
+    description: [
+      "Inspired by the iconic Mobile Legends Battle Arena.",
+      "Lightweight and breathable for intense gaming sessions.",
+    ],
   },
   {
     id: 3,
     name: "Esports Championship Pro Shirt",
-    price: 300,
-    image: "/tshirt.png",
+    price: 250,
+    image: "/merch/tshirt3.png",
+    description: [
+      "Show off your esports pride with this pro-level shirt.",
+      "Designed for fans and players alike.",
+    ],
   },
   {
     id: 4,
-    name: "Ultimate Gaming Collection Tee",
-    price: 300,
-    image: "/tshirt.png",
+    name: "Ultimate Gaming Collection Tee I",
+    price: 200,
+    image: "/merch/tshirt4.png",
+    description: [
+      "Part of the exclusive Ultimate Gaming Collection series.",
+      "A must-have for every gaming enthusiast.",
+    ],
+  },
+  {
+    id: 5,
+    name: "Ultimate Gaming Collection Tee II",
+    price: 200,
+    image: "/merch/tshirt5.png",
+    description: [
+      "Complete your collection with this stylish tee.",
+      "Premium quality and unique design.",
+    ],
   },
 ];
 
@@ -37,26 +63,52 @@ const figurines = [
   {
     id: 1,
     name: "Epic Gaming Hero Figurine",
-    price: 400,
-    image: "/figurine.webp",
+    price: 450,
+    image: "/merch/figurine1.webp",
+    description: [
+      "Bring home the epic hero from your favorite game.",
+      "Highly detailed and perfect for display.",
+    ],
   },
   {
     id: 2,
     name: "Legendary Battle Commander Statue",
-    price: 450,
-    image: "/figurine.webp",
+    price: 400,
+    image: "/merch/figurine2.webp",
+    description: [
+      "Command your collection with this legendary statue.",
+      "A centerpiece for any gaming shelf.",
+    ],
   },
   {
     id: 3,
     name: "Fantasy Warrior Collection Figure",
-    price: 450,
-    image: "/figurine.webp",
+    price: 350,
+    image: "/merch/figurine3.png",
+    description: [
+      "Step into fantasy worlds with this warrior figure.",
+      "A collector’s dream for RPG fans.",
+    ],
   },
   {
     id: 4,
-    name: "Anime Gaming Character Model",
-    price: 450,
-    image: "/figurine.webp",
+    name: "Anime Gaming Character Model I",
+    price: 300,
+    image: "/merch/figurine4.png",
+    description: [
+      "Anime-inspired model for true gaming fans.",
+      "Vibrant colors and dynamic pose.",
+    ],
+  },
+  {
+    id: 5,
+    name: "Anime Gaming Character Model II",
+    price: 300,
+    image: "/merch/figurine5.png",
+    description: [
+      "Complete your anime gaming set with this figure.",
+      "Perfect for display or gifting.",
+    ],
   },
 ];
 
@@ -67,12 +119,17 @@ type CartItem = {
   image: string;
   type: string;
   qty: number;
+  size?: string; // For tshirts
   fromCartButton?: boolean;
 };
 
 export default function ShopPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  // Track selected size for each tshirt by id
+  const [selectedSizes, setSelectedSizes] = useState<{ [id: number]: string }>(
+    {}
+  );
 
   useEffect(() => {
     // Simulate loading delay for animation
@@ -85,12 +142,16 @@ export default function ShopPage() {
   // Add item to cart (increase quantity if already exists)
   const addToCart = (
     item: { id: number; name: string; price: number; image: string },
-    type: string
+    type: string,
+    size?: string
   ) => {
     setCart((prevCart) => {
-      // Prevent double increment by ensuring only one update per click
+      // For tshirts, size is required and part of uniqueness
       const idx = prevCart.findIndex(
-        (cartItem) => cartItem.id === item.id && cartItem.type === type
+        (cartItem) =>
+          cartItem.id === item.id &&
+          cartItem.type === type &&
+          (type === "tshirt" ? cartItem.size === size : true)
       );
       if (idx !== -1) {
         // Item exists, increment quantity by 1 only
@@ -99,7 +160,15 @@ export default function ShopPage() {
         );
       } else {
         // New item
-        return [...prevCart, { ...item, type, qty: 1 }];
+        return [
+          ...prevCart,
+          {
+            ...item,
+            type,
+            qty: 1,
+            ...(type === "tshirt" && size ? { size } : {}),
+          },
+        ];
       }
     });
   };
@@ -279,8 +348,13 @@ export default function ShopPage() {
               </div>
               <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 gap-2 lg:gap-4">
                 {tshirts.map((shirt, i) => {
+                  // Find cart item for this shirt and selected size
+                  const selectedSize = selectedSizes[shirt.id] || "";
                   const cartItem = cart.find(
-                    (item) => item.id === shirt.id && item.type === "tshirt"
+                    (item) =>
+                      item.id === shirt.id &&
+                      item.type === "tshirt" &&
+                      item.size === selectedSize
                   );
                   return (
                     <div
@@ -325,7 +399,45 @@ export default function ShopPage() {
                         <h3 className="font-bold text-sm lg:text-xl mb-2 lg:mb-4 text-gray-800 truncate">
                           {shirt.name.toUpperCase()}
                         </h3>
-
+                        {/* Description */}
+                        <div className="mb-2 lg:mb-4">
+                          {shirt.description &&
+                            shirt.description.map((line, idx) => (
+                              <p
+                                key={idx}
+                                className="text-xs lg:text-base text-gray-500 leading-tight"
+                              >
+                                {line}
+                              </p>
+                            ))}
+                        </div>
+                        {/* Size Selector */}
+                        <div className="mb-2">
+                          <label className="block text-xs lg:text-sm font-semibold mb-1 text-gray-700">
+                            Size:
+                          </label>
+                          <div className="flex gap-2">
+                            {["S", "M", "L", "XL"].map((size) => (
+                              <button
+                                key={size}
+                                type="button"
+                                className={`px-2 py-1 border rounded text-xs lg:text-sm font-bold transition-colors ${
+                                  selectedSize === size
+                                    ? "bg-blue-600 text-white border-blue-600"
+                                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                                }`}
+                                onClick={() =>
+                                  setSelectedSizes((prev) => ({
+                                    ...prev,
+                                    [shirt.id]: size,
+                                  }))
+                                }
+                              >
+                                {size}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
                         {/* Price and Cart Button Row */}
                         <div className="flex items-center justify-between">
                           <div className="text-sm lg:text-2xl font-bold text-gray-900">
@@ -338,7 +450,16 @@ export default function ShopPage() {
                                   ? "bg-red-50 border-red-500 hover:border-red-600"
                                   : "bg-white border-gray-300 hover:border-gray-400"
                               }`}
-                              onClick={() => addToCart(shirt, "tshirt")}
+                              onClick={() =>
+                                selectedSize &&
+                                addToCart(shirt, "tshirt", selectedSize)
+                              }
+                              disabled={!selectedSize}
+                              title={
+                                !selectedSize
+                                  ? "Select a size first"
+                                  : "Add to Cart"
+                              }
                             >
                               <Image
                                 src="/cart.png"
@@ -425,7 +546,18 @@ export default function ShopPage() {
                         <h3 className="font-bold text-sm lg:text-xl mb-2 lg:mb-4 text-gray-800 truncate">
                           {fig.name.toUpperCase()}
                         </h3>
-
+                        {/* Description */}
+                        <div className="mb-2 lg:mb-4">
+                          {fig.description &&
+                            fig.description.map((line, idx) => (
+                              <p
+                                key={idx}
+                                className="text-xs lg:text-base text-gray-500 leading-tight"
+                              >
+                                {line}
+                              </p>
+                            ))}
+                        </div>
                         {/* Price and Cart Button Row */}
                         <div className="flex items-center justify-between">
                           <div className="text-sm lg:text-2xl font-bold text-gray-900">
@@ -499,7 +631,11 @@ export default function ShopPage() {
                           <span>
                             {item.name}{" "}
                             <span className="text-xs text-gray-400">
-                              ({item.type})
+                              ({item.type}
+                              {item.type === "tshirt" && item.size
+                                ? `, ${item.size}`
+                                : ""}
+                              )
                             </span>
                           </span>
                         </div>
@@ -532,7 +668,8 @@ export default function ShopPage() {
                                   price: item.price,
                                   image: item.image,
                                 },
-                                item.type
+                                item.type,
+                                item.size // pass size for tshirt
                               )
                             }
                             title="Add one"
