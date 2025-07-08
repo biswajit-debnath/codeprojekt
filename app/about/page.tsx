@@ -10,22 +10,20 @@ const AboutPage = () => {
         <div className="space-y-6">
           <section>
             <p className="mb-2 text-gray-700 dark:text-gray-400">
-              <strong>CodeProjekt Ventures</strong> is a legally registered sole
-              proprietorship based in India. We specialize in selling digital
-              goods such as in-game currency and virtual items for various
-              popular games. All items are delivered electronically through
-              email or in-game user IDs. We are committed to fast service, fair
-              pricing, and transparent policies.
+              <span className="text-red-600 hover:underline">
+                CodeProjekt Ventures
+              </span>{" "}
+              is a legally registered sole proprietorship based in India. We specialize in selling game merchandise and collectibles, including T-shirts, action figures, stickers, and posters inspired by popular gaming franchises. All products are delivered either physically via shipping or digitally via email (where applicable). We are committed to fast service, fair pricing, and transparent policies to ensure a smooth and enjoyable shopping experience.
             </p>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-400 mb-4">
               <li>
-                <strong>Contact Email:</strong> codeprojekt2025@gmail.com
+                <strong>Contact Email:</strong> <span>codeprojekt2025@gmail.com</span>
               </li>
               <li>
                 <strong>Website:</strong>{" "}
                 <a
                   href="https://codeprojekt.shop"
-                  className="text-blue-600 underline"
+                  className="text-blue-600 underline text-red-600 hover:underline"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -44,7 +42,8 @@ const AboutPage = () => {
             </p>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-400 mb-2">
               <li>
-                <strong>Email:</strong> codeprojekt2025@gmail.com
+                <strong>Email:</strong>{" "}
+                <span className="text-red-600 hover:underline">codeprojekt2025@gmail.com</span>
               </li>
               <li>
                 <strong>Location:</strong> India
@@ -57,54 +56,36 @@ const AboutPage = () => {
           <section>
             <h2 className="text-xl font-semibold mb-2">Disclaimer</h2>
             <p className="mb-2 text-gray-700 dark:text-gray-400">
-              CodeProjekt Ventures provides digital goods on an
-              &quot;as-is&quot; basis. We are not affiliated with or endorsed by
-              any game publishers, developers, or studios. All third-party
-              trademarks and intellectual property rights remain the property of
-              their respective owners.
+              <span className="text-red-600 hover:underline">CodeProjekt Ventures</span> provides merchandise on an &quot;as-is&quot; basis. We are not affiliated with or endorsed by any game publishers, developers, or studios. All third-party trademarks, logos, and intellectual property rights remain the property of their respective owners.
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-500">
-              We are not responsible for any game account bans or restrictions
-              resulting from misuse of digital goods or violations of game
-              publisher policies.
+              We are not responsible for any customer dissatisfaction arising from misuse, unauthorized customization, or misrepresentation of products post-delivery.
             </p>
           </section>
           <section>
-            <h2 className="text-xl font-semibold mb-2">
-              Frequently Asked Questions (FAQs)
-            </h2>
+            <h2 className="text-xl font-semibold mb-2">Frequently Asked Questions (FAQs)</h2>
             <div className="mb-2">
               <p className="font-semibold">Q. How do I receive my purchase?</p>
               <p className="mb-2 text-gray-700 dark:text-gray-400">
-                A. Orders are delivered through your provided in-game ID or
-                email address.
+                A. Physical merchandise is shipped to your provided delivery address. Digital items (such as posters or stickers in digital form) may be sent via email.
               </p>
             </div>
             <div className="mb-2">
-              <p className="font-semibold">
-                Q. What if I gave the wrong game ID?
-              </p>
+              <p className="font-semibold">Q. What if I gave the wrong shipping or email address?</p>
               <p className="mb-2 text-gray-700 dark:text-gray-400">
-                A. Orders delivered to an incorrect ID are non-refundable.
-                Always double-check your details before payment.
+                A. Orders delivered to an incorrect address are non-refundable. Please double-check your details before placing an order.
               </p>
             </div>
             <div className="mb-2">
-              <p className="font-semibold">
-                Q. What payment methods are available?
-              </p>
+              <p className="font-semibold">Q. What payment methods are available?</p>
               <p className="mb-2 text-gray-700 dark:text-gray-400">
-                A. UPI, debit/credit cards, and net banking are supported
-                through our selected payment gateway.
+                A. We accept UPI, debit/credit cards, and net banking through our secure payment gateway.
               </p>
             </div>
             <div className="mb-2">
-              <p className="font-semibold">
-                Q. Can I get a refund after the item is delivered?
-              </p>
+              <p className="font-semibold">Q. Can I get a refund after the item is shipped or delivered?</p>
               <p className="mb-2 text-gray-700 dark:text-gray-400">
-                A. No. Refunds are not issued for successfully delivered and
-                redeemed digital items.
+                A. No. Refunds are not issued for successfully shipped or delivered merchandise unless the item is damaged or incorrect as per our return policy.
               </p>
             </div>
           </section>
