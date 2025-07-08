@@ -120,6 +120,7 @@ const Footer = () => {
           transition={{ delay: 0.8, duration: 0.5 }}
         >
           <p>© {new Date().getFullYear()} CodeProjekt. All rights reserved.</p>
+          <p className="mt-1 text-xs text-gray-500">Made with <span className="text-red-500">♥</span> by <a href="https://backendandbeyond.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-400">Backend and Beyond</a></p>
         </motion.div>
       </motion.div>
     </motion.footer>
