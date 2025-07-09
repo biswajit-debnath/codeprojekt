@@ -66,7 +66,7 @@ const Navbar = () => {
               </div>
             </motion.div>
 
-{/*             <motion.div
+            {/*             <motion.div
               variants={fadeIn("left", 0.3)}
               className="flex items-center space-x-3 ml-auto"
             >
@@ -189,7 +189,7 @@ const Navbar = () => {
                   )}
                 </Link>
               </motion.div> */}
-              <motion.div variants={fadeIn("up", 0.15)}>
+              {/*               <motion.div variants={fadeIn("up", 0.15)}>
                 <Link href="/event-pre-order" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
                     EVENT PRE-ORDER
@@ -241,7 +241,7 @@ const Navbar = () => {
                     ></motion.div>
                   )}
                 </Link>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
           </motion.div>
 
@@ -404,7 +404,7 @@ const Navbar = () => {
                     </button>
                   </Link>
                 </motion.div> */}
-                <motion.div variants={fadeIn("right", 0.2)}>
+                {/*                 <motion.div variants={fadeIn("right", 0.2)}>
                   <Link
                     href="/event-pre-order"
                     onClick={closeMenuAndResetScroll}
@@ -447,7 +447,7 @@ const Navbar = () => {
                       MORE
                     </button>
                   </Link>
-                </motion.div>
+                </motion.div> */}
               </motion.div>
               <motion.div
                 variants={fadeIn("up", 0.7)}

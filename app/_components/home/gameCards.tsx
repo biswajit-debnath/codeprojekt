@@ -153,7 +153,7 @@ const GameCards = () => {
             index={1}
           />
 
-          {[2, 3].map((index) => (
+          {/*           {[2, 3].map((index) => (
             <GameCard
               key={index}
               imagePath={`games/menu-image${index}.png`}
@@ -161,7 +161,7 @@ const GameCards = () => {
               isComingSoon
               index={index}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     </motion.div>
