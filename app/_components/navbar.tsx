@@ -106,7 +106,7 @@ const Navbar = () => {
               </h1>
             </motion.div>
 
-            <motion.div
+            {/* <motion.div
               variants={fadeIn("left", 0.3)}
               className="flex items-center"
             >
@@ -124,7 +124,7 @@ const Navbar = () => {
                   </button>
                 </Link>
               )}
-            </motion.div>
+            </motion.div> */}
           </div>
         </div>
       </motion.nav>
@@ -466,17 +466,17 @@ const Navbar = () => {
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
                 >
                   <Link href="/signin" onClick={closeMenuAndResetScroll}>
-                    Login
+                    Sign In
                   </Link>
                 </motion.button>
-                <motion.button
+                {/* <motion.button
                   whileHover={{ scale: 1.03 }}
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
                 >
                   <Link href="/signup" onClick={closeMenuAndResetScroll}>
                     Sign Up
                   </Link>
-                </motion.button>
+                </motion.button> */}
               </motion.div>
             </motion.div>
           </>
