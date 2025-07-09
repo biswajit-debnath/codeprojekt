@@ -27,7 +27,7 @@ const AboutPage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  https://www.codeprojekt.shop
+                  https://codeprojekt.shop
                 </a>
               </li>
               <li>
