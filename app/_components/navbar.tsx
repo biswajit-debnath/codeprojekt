@@ -66,7 +66,7 @@ const Navbar = () => {
               </div>
             </motion.div>
 
-            <motion.div
+{/*             <motion.div
               variants={fadeIn("left", 0.3)}
               className="flex items-center space-x-3 ml-auto"
             >
@@ -92,7 +92,7 @@ const Navbar = () => {
                   </Link>
                 </div>
               )}
-            </motion.div>
+            </motion.div> */}
           </div>
 
           {/* Mobile Auth Navigation */}
@@ -274,7 +274,7 @@ const Navbar = () => {
                 </motion.div>
               </Link>
             </div>
-            <Link href="/signup">
+            <Link href="/signin">
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 className="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-1 text-gray-300 pr-20"
