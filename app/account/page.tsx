@@ -26,6 +26,7 @@ interface NavItemProps {
 const AccountPage = () => {
   type ContentRefKeys = keyof typeof contentRefs;
   const [userProfile, setUserProfile] = useState({
+    uid: "",
     displayName: "",
     email: "",
     photoURL: "/profile-image.png",
@@ -38,19 +39,19 @@ const AccountPage = () => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       console.log("Firebase user:", user); // Debug log
       if (user) {
-        setUserProfile({
-          displayName: user.displayName || "Not set",
-          email: user.email || "Not set",
-          photoURL: user.photoURL || "/profile-image.png",
-          phoneNumber: user.phoneNumber || "Not set",
-        });
-
         // Call backend API to get user profile
         try {
-          const userProfile =
+          const userProfile: any =
             await BackendApiClient.getInstance().getUserProfile(
               "TIu48HSiYFW52nSPnKOkF8Obk9e2" //replace with uid from firebase
             );
+          setUserProfile({
+            uid: userProfile.uid || "Not set",
+            displayName: userProfile.profile.name || "Not set",
+            email: userProfile.profile.email || "Not set",
+            photoURL: userProfile.profile.photoURL || "/profile-image.png",
+            phoneNumber: userProfile.profile.phoneNumber || "Not set",
+          });
 
           console.log("Fetched backend profile:", userProfile);
           setProfileData(userProfile);
@@ -270,7 +271,11 @@ const AccountPage = () => {
                       transition={{ duration: 0.4, delay: 0.4 }}
                     >
                       <h3 className="text-gray-400 mb-1">ACCOUNT ID</h3>
-                      <p className="text-xl">CODEPRO11111</p>
+                      <p className="text-xl">
+                        {userProfile.uid
+                          ? `CODEPRO${userProfile.uid}`
+                          : "Not set"}
+                      </p>
 
                       <h3 className="text-gray-400 mb-1">Display Name</h3>
                       <p className="text-xl">
