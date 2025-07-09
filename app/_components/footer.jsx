@@ -1,9 +1,9 @@
-'use client';
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { fadeIn, staggerContainer } from '../_styles/animations';
+"use client";
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "../_styles/animations";
 
 const Footer = () => {
   return (
@@ -26,21 +26,65 @@ const Footer = () => {
           <motion.div
             className="flex flex-col items-center md:items-end space-y-1 text-center md:text-right mt-2 order-2 md:order-1"
             variants={fadeIn("right", 0.2)}
-          ><motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
-              <a href="/about" className="hover:text-gray-300 transition-colors">About Us</a>
+          >
+            <motion.div
+              whileHover={{ x: -5, color: "#d51722" }}
+              transition={{ duration: 0.2 }}
+            >
+              <a
+                href="/about"
+                className="hover:text-gray-300 transition-colors"
+              >
+                About Us
+              </a>
             </motion.div>
             {/* {<motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
               <a href="/support" className="hover:text-gray-300 transition-colors">Support</a>
             </motion.div>} */}
-            <motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
-              <a href="/contact" className="hover:text-gray-300 transition-colors">Contact Us</a>
+            <motion.div
+              whileHover={{ x: -5, color: "#d51722" }}
+              transition={{ duration: 0.2 }}
+            >
+              <a
+                href="/contact"
+                className="hover:text-gray-300 transition-colors"
+              >
+                Contact Us
+              </a>
             </motion.div>
-            
-            <motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
-              <a href="/privacy" className="hover:text-gray-300 transition-colors">Privacy Policy</a>
+            <motion.div
+              whileHover={{ x: -5, color: "#d51722" }}
+              transition={{ duration: 0.2 }}
+            >
+              <a
+                href="/refund"
+                className="hover:text-gray-300 transition-colors"
+              >
+                Refund Policy
+              </a>
             </motion.div>
-            <motion.div whileHover={{ x: -5, color: "#d51722" }} transition={{ duration: 0.2 }}>
-              <a href="/refund" className="hover:text-gray-300 transition-colors">Refund And Cancel</a>
+
+            <motion.div
+              whileHover={{ x: -5, color: "#d51722" }}
+              transition={{ duration: 0.2 }}
+            >
+              <a
+                href="/privacy"
+                className="hover:text-gray-300 transition-colors"
+              >
+                Privacy Policy
+              </a>
+            </motion.div>
+            <motion.div
+              whileHover={{ x: -5, color: "#d51722" }}
+              transition={{ duration: 0.2 }}
+            >
+              <a
+                href="/terms"
+                className="hover:text-gray-300 transition-colors"
+              >
+                Terms of Service
+              </a>
             </motion.div>
           </motion.div>
 
@@ -120,7 +164,17 @@ const Footer = () => {
           transition={{ delay: 0.8, duration: 0.5 }}
         >
           <p>© {new Date().getFullYear()} CodeProjekt. All rights reserved.</p>
-          <p className="mt-1 text-xs text-gray-500">Made with <span className="text-red-500">♥</span> by <a href="https://backendandbeyond.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-400">Backend and Beyond</a></p>
+          <p className="mt-1 text-xs text-gray-500">
+            Made with <span className="text-red-500">♥</span> by{" "}
+            <a
+              href="https://backendandbeyond.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-red-400"
+            >
+              Backend and Beyond
+            </a>
+          </p>
         </motion.div>
       </motion.div>
     </motion.footer>

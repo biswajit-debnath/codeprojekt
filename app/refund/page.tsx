@@ -14,12 +14,13 @@ const RefundPolicyPage = () => {
         <div className="space-y-6">
           <section>
             <h2 className="text-xl font-semibold mb-2">At CodeProjekt Ventures, customer satisfaction is important to us. Please read our return and refund policy carefully before placing an order.</h2>
+            <p className="text-gray-700 dark:text-gray-400 mt-2">We have a <span className="font-semibold">7 day return policy</span> from the date of delivery.</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2">Returns</h2>
             <ul className="list-disc list-inside text-gray-700 dark:text-gray-400">
               <li>We accept returns only for items that are damaged, defective, or incorrect.</li>
-              <li>To be eligible for a return, you must contact us within 48 hours of receiving the item.</li>
+              <li>To be eligible for a return, you must contact us within 7 days of receiving the item.</li>
               <li>Items must be unused, in their original packaging, and accompanied by clear photo or video evidence of the issue.</li>
               <li>Return shipping costs are the responsibility of the customer unless the error was on our side.</li>
             </ul>
@@ -42,7 +43,7 @@ const RefundPolicyPage = () => {
               <li>Orders that are canceled before shipment</li>
               <li>Out-of-stock items (if we’re unable to fulfill your order)</li>
             </ul>
-            <p className="text-gray-700 dark:text-gray-400 mt-2">Once approved, refunds will be processed to your original payment method within 5–7 business days.</p>
+            <p className="text-gray-700 dark:text-gray-400 mt-2">Once approved, refunds will be credited back to the original payment method within <span className="font-semibold">7 business days</span>.</p>
             <p className="text-gray-700 dark:text-gray-400 mt-2">No refunds will be issued for:</p>
             <ul className="list-disc list-inside ml-6 text-gray-700 dark:text-gray-400">
               <li>Buyer’s remorse or change of mind</li>
@@ -51,8 +52,8 @@ const RefundPolicyPage = () => {
             </ul>
           </section>
           <section>
-            <h2 className="text-xl font-semibold mb-2">Exchanges</h2>
-            <p className="text-gray-700 dark:text-gray-400">We do not offer exchanges at this time. If you received the wrong item or a defective product, please follow the return process above and place a new order once your return is approved.</p>
+            <h2 className="text-xl font-semibold mb-2">Exchanges & Replacements</h2>
+            <p className="text-gray-700 dark:text-gray-400">All approved exchanges and replacements of damaged products will be delivered within <span className="font-semibold">7 business days</span> after approval. If you received the wrong item or a defective product, please follow the return process above and place a new order once your return is approved.</p>
           </section>
           <section>
             <h2 className="text-xl font-semibold mb-2">Contact Us</h2>
