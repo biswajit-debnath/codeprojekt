@@ -66,7 +66,7 @@ const Navbar = () => {
               </div>
             </motion.div>
 
-{/*             <motion.div
+            {/*             <motion.div
               variants={fadeIn("left", 0.3)}
               className="flex items-center space-x-3 ml-auto"
             >
@@ -176,7 +176,7 @@ const Navbar = () => {
                   )}
                 </Link>
               </motion.div>
-              {/*               <motion.div variants={fadeIn("up", 0.1)}>
+              <motion.div variants={fadeIn("up", 0.1)}>
                 <Link href="/packs" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
                     GIFT PACKS
@@ -188,7 +188,7 @@ const Navbar = () => {
                     ></motion.div>
                   )}
                 </Link>
-              </motion.div> */}
+              </motion.div>
               <motion.div variants={fadeIn("up", 0.15)}>
                 <Link href="/event-pre-order" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
