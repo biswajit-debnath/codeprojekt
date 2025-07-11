@@ -382,18 +382,7 @@ const Navbar = () => {
                 animate="show"
                 className="flex flex-col space-y-6 text-white mt-16"
               >
-                <motion.div variants={fadeIn("right", 0.5)}>
-                  <Link
-                    href="/merch"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      MERCH
-                    </button>
-                  </Link>
-                </motion.div>
-                {/* <motion.div variants={fadeIn("right", 0.1)}>
+                <motion.div variants={fadeIn("right", 0.1)}>
                   <Link
                     href="/packs"
                     onClick={closeMenuAndResetScroll}
@@ -403,7 +392,7 @@ const Navbar = () => {
                       GIFT PACKS
                     </button>
                   </Link>
-                </motion.div> */}
+                </motion.div>
                 <motion.div variants={fadeIn("right", 0.2)}>
                   <Link
                     href="/event-pre-order"
@@ -434,6 +423,17 @@ const Navbar = () => {
                   >
                     <button className="hover:text-gray-300 transition-colors">
                       ESPORTS
+                    </button>
+                  </Link>
+                </motion.div>
+                <motion.div variants={fadeIn("right", 0.5)}>
+                  <Link
+                    href="/merch"
+                    onClick={closeMenuAndResetScroll}
+                    className="relative inline-block"
+                  >
+                    <button className="hover:text-gray-300 transition-colors">
+                      MERCH
                     </button>
                   </Link>
                 </motion.div>
