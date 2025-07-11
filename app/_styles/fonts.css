@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'The-Last-Shuriken';
+    src: url('/fonts/The-Last-Shuriken.otf') format('opentype'),
+            url('/fonts/The-Last-Shuriken.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Rentukka-Regular';
+    src: url('/fonts/Rentukka-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}

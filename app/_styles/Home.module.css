@@ -1,0 +1,96 @@
+
+/* Hero section styling  only cutom-button class is used*/
+
+.custom-button {
+    position: relative;
+    display: inline-block;
+    background-color: var(--primaryColor);
+
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+    clip-path: polygon(5% 0%, 100% 0%, 100% 70%, 95% 100%, 0% 100%, 0% 30%);
+  }
+  
+  
+  .custom-button:hover {
+    transform: translateY(-2px);
+  }
+  
+
+
+
+
+
+
+  /* Nav bar stying -- not used */
+  .navbar {
+    font-family: 'Rentukka-Regular', cursive;
+    font-size: 1.1rem;
+    letter-spacing: -0.02rem;
+    background-color: var(--navBlack); 
+  }
+
+  .navbar_search {
+    padding-left: 1.5rem;
+    width: 40%;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    background-color: #474646; /* Light grey background */
+    color: #b7b6b6;
+    border-radius: 20px;
+    outline: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .navbar_search:focus {
+    background-color: #3d3d3d; /* Slightly darker grey on focus */
+    color: #808080; /* Slightly darker grey text on focus */
+  }
+
+  .navbar button {
+    padding-right: 5rem;;
+    padding-left: 1.5rem;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    background-color: #474646; /* Light grey background */
+    color: #b7b6b6;
+    border-radius: 20px;
+    outline: none;
+  }
+
+  .navbar a {
+    margin-top: 0.5rem;
+  }
+
+
+
+
+  /* Menu styling -- not used */ 
+  .menu-card {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .menu-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Light black overlay */
+    z-index: 1;
+  }
+  
+  .menu-card-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .menu-card h2 {
+    z-index: 3;
+    text-align: center;
+    font-size: 1.3rem;
+  }

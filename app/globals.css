@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ecece2;
+  --foreground: #171717;
+
+  --primaryColor: #e70012;
+  --navBlack: #1c1a1b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Rentukka-Regular', Helvetica, sans-serif;
+}
+
+nav {
+  background-color: var(--navBlack);
+}
