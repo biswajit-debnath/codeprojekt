@@ -1,7 +1,7 @@
 export const API_BASE_URLS = {
   CODEPROJEKT_BACKEND:
     (process.env.CODEPROJEKT_BACKEND_BASE_URL as string) ||
-    "http://localhost:8000/v1",
+    "http://143.244.135.13:8000/v1",
 } as const;
 
 export const API_ENDPOINTS = {
