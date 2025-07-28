@@ -147,6 +147,10 @@ export default function ShopPage() {
   ) => {
     setCart((prevCart) => {
       // For tshirts, size is required and part of uniqueness
+      if(type === "tshirt" && !size) {
+        alert("Please select a size first");
+        return prevCart;
+      }
       const idx = prevCart.findIndex(
         (cartItem) =>
           cartItem.id === item.id &&
@@ -451,10 +455,10 @@ export default function ShopPage() {
                                   : "bg-white border-gray-300 hover:border-gray-400"
                               }`}
                               onClick={() =>
-                                selectedSize &&
+                                // selectedSize &&
                                 addToCart(shirt, "tshirt", selectedSize)
                               }
-                              disabled={!selectedSize}
+                              // disabled={!selectedSize}
                               title={
                                 !selectedSize
                                   ? "Select a size first"

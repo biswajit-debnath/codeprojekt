@@ -14,6 +14,7 @@ export class BackendApiClient {
 
   private constructor() {
     this.baseUrl = API_BASE_URLS.CODEPROJEKT_BACKEND;
+    console.log(`Backend API Base URL11: ${this.baseUrl}`);
   }
 
   public static getInstance(): BackendApiClient {

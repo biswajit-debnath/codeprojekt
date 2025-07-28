@@ -1,15 +1,15 @@
 export const API_BASE_URLS = {
   CODEPROJEKT_BACKEND:
     (process.env.CODEPROJEKT_BACKEND_BASE_URL as string) ||
-    "https://codeprojekt-backend.onrender.com",
+    "http://localhost:8000/v1",
 } as const;
 
 export const API_ENDPOINTS = {
-  PRODUCT_SPUS: "/api/product/:product/spus",
-  PLAYER_IGN: "/api/user/playerIGN",
-  PURCHASE_SPU: "/api/payment/:spuId",
-  USER_LOGIN: "/api/user/login/google",
-  USER_PROFILE: "/api/user/profile",
+  PRODUCT_SPUS: "/product/:product/spus",
+  PLAYER_IGN: "/user/playerIGN",
+  PURCHASE_SPU: "/payment/:spuId",
+  USER_LOGIN: "/user/login/google",
+  USER_PROFILE: "/user/profile",
 } as const;
 
 export const API_HEADERS = {

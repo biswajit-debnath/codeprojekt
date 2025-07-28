@@ -163,6 +163,19 @@ const Navbar = () => {
               variants={staggerContainer(0.05)}
               className="flex space-x-10 text-white text-lg pl-6"
             >
+              <motion.div variants={fadeIn("up", 0.1)}>
+                <Link href="/packs" className="relative">
+                  <button className="hover:text-gray-300 transition-colors">
+                    GIFT PACKS
+                  </button>
+                  {pathname === "/packs" && (
+                    <motion.div
+                      layoutId="navIndicator"
+                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
+                    ></motion.div>
+                  )}
+                </Link>
+              </motion.div>
               <motion.div variants={fadeIn("up", 0.3)}>
                 <Link href="/merch" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
@@ -176,25 +189,12 @@ const Navbar = () => {
                   )}
                 </Link>
               </motion.div>
-              {/*               <motion.div variants={fadeIn("up", 0.1)}>
-                <Link href="/packs" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    GIFT PACKS
-                  </button>
-                  {pathname === "/packs" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div> */}
               <motion.div variants={fadeIn("up", 0.15)}>
-                <Link href="/event-pre-order" className="relative">
+                <Link href="/about" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    EVENT PRE-ORDER
+                    ABOUT US
                   </button>
-                  {pathname === "/event-pre-order" && (
+                  {pathname === "/about" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -203,11 +203,11 @@ const Navbar = () => {
                 </Link>
               </motion.div>
               <motion.div variants={fadeIn("up", 0.2)}>
-                <Link href="/redeem-code" className="relative">
+                <Link href="/contact" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    REDEEM CODE
+                    CONTACT US
                   </button>
-                  {pathname === "/redeem-code" && (
+                  {pathname === "/contact" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -216,11 +216,11 @@ const Navbar = () => {
                 </Link>
               </motion.div>
               <motion.div variants={fadeIn("up", 0.25)}>
-                <Link href="/esports" className="relative">
+                <Link href="/refund" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    ESPORTS
+                    REFUND POLICY
                   </button>
-                  {pathname === "/esports" && (
+                  {pathname === "/refund" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -230,11 +230,11 @@ const Navbar = () => {
               </motion.div>
 
               <motion.div variants={fadeIn("up", 0.35)}>
-                <Link href="/more" className="relative">
+                <Link href="/privacy" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    MORE
+                    PRIVACY POLICY
                   </button>
-                  {pathname === "/more" && (
+                  {pathname === "/privacy" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -395,39 +395,6 @@ const Navbar = () => {
                 </motion.div>
                 <motion.div variants={fadeIn("right", 0.2)}>
                   <Link
-                    href="/event-pre-order"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      EVENT PRE-ORDER
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.3)}>
-                  <Link
-                    href="/redeem-code"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      REDEEM CODE
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.4)}>
-                  <Link
-                    href="/esports"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      ESPORTS
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.5)}>
-                  <Link
                     href="/merch"
                     onClick={closeMenuAndResetScroll}
                     className="relative inline-block"
@@ -437,14 +404,47 @@ const Navbar = () => {
                     </button>
                   </Link>
                 </motion.div>
-                <motion.div variants={fadeIn("right", 0.6)}>
+                <motion.div variants={fadeIn("right", 0.3)}>
                   <Link
-                    href="/more"
+                    href="/about"
                     onClick={closeMenuAndResetScroll}
                     className="relative inline-block"
                   >
                     <button className="hover:text-gray-300 transition-colors">
-                      MORE
+                      ABOUT US
+                    </button>
+                  </Link>
+                </motion.div>
+                <motion.div variants={fadeIn("right", 0.4)}>
+                  <Link
+                    href="/contact"
+                    onClick={closeMenuAndResetScroll}
+                    className="relative inline-block"
+                  >
+                    <button className="hover:text-gray-300 transition-colors">
+                      CONTACT US
+                    </button>
+                  </Link>
+                </motion.div>
+                <motion.div variants={fadeIn("right", 0.5)}>
+                  <Link
+                    href="/refund"
+                    onClick={closeMenuAndResetScroll}
+                    className="relative inline-block"
+                  >
+                    <button className="hover:text-gray-300 transition-colors">
+                      REFUND POLICY
+                    </button>
+                  </Link>
+                </motion.div>
+                <motion.div variants={fadeIn("right", 0.6)}>
+                  <Link
+                    href="/privacy"
+                    onClick={closeMenuAndResetScroll}
+                    className="relative inline-block"
+                  >
+                    <button className="hover:text-gray-300 transition-colors">
+                      PRIVACY POLICY
                     </button>
                   </Link>
                 </motion.div>
