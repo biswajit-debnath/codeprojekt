@@ -21,6 +21,7 @@ const GameCard = ({
   // Determine if this card should show the BUY MERCH overlay
   const isBuyTshirt = alt === "Buy Tshirt";
   const isBuyFigurines = alt === "Buy Figurines";
+  const isBuyPacks = alt === "Buy Packs";
   const card = (
     <motion.div
       className="relative aspect-[9/15] md:aspect-[9/20] max-w-[110px] md:max-w-[200px] lg:max-w-[280px] w-full sm:w-full md:w-1/2 lg:w-1/4"
@@ -112,6 +113,34 @@ const GameCard = ({
             </motion.div>
           </Link>
         )}
+        {isBuyPacks && (
+          <Link
+            href="/packs"
+            className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken'] z-10"
+            tabIndex={0}
+            aria-label="Buy Packs"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
+              className="w-full h-full flex items-center justify-center"
+            >
+              <div className="text-center w-full">
+                <motion.h3
+                  className="text-white text-[0.7rem] md:text-lg font-bold tracking-wider"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.7, duration: 0.4 }}
+                >
+                  BUY
+                  <br />
+                  PACKS
+                </motion.h3>
+              </div>
+            </motion.div>
+          </Link>
+        )}
       </motion.div>
     </motion.div>
   );
@@ -140,17 +169,24 @@ const GameCards = () => {
     >
       <div className="max-w-[1550px] mx-auto">
         <div className="flex flex-wrap lg:flex-nowrap gap-2 md:gap-12">
+          
+          <GameCard
+            imagePath="games/menu-image_ml.jpeg"
+            alt="Buy Packs"
+            isComingSoon={false}
+            index={0}
+          />
           <GameCard
             imagePath="games/menu-image0.png"
             alt="Buy Tshirt"
             isComingSoon={false}
-            index={0}
+            index={1}
           />
           <GameCard
             imagePath="games/menu-image1.png"
             alt="Buy Figurines"
             isComingSoon={false}
-            index={1}
+            index={2}
           />
 
           {/*           {[2, 3].map((index) => (

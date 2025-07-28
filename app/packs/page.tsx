@@ -64,9 +64,9 @@ const GiftPacksPage = () => {
     }
   };
 
-  const handleSelectPack = (index: number) => {
-    setSelectedPack(index);
-    console.log(`Selected pack ${index}:`, giftPackCategories[index]);
+  const handleSelectPack = (id: number) => {
+    setSelectedPack(id);
+    console.log(`Selected pack ${id}:`, giftPackCategories[id]);
 
     if (!verificationStatus) {
       alert("Please verify your User ID and Zone ID first");
@@ -162,7 +162,7 @@ const GiftPacksPage = () => {
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
                       placeholder="1234567890"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-base md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
                     />
                   </motion.div>
                 </div>
@@ -184,7 +184,7 @@ const GiftPacksPage = () => {
                       value={zoneId}
                       onChange={(e) => setZoneId(e.target.value)}
                       placeholder="12345"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-base md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
                     />
                   </motion.div>
                 </div>
@@ -351,9 +351,9 @@ const GiftPacksPage = () => {
                     (pack: any, index: number) => (
                       <motion.button
                         key={pack.id}
-                        onClick={() => handleSelectPack(index)}
+                        onClick={() => handleSelectPack(pack.id)}
                         className={`relative overflow-hidden text-white transition-all w-full max-w-[240px] ${
-                          selectedPack === index ? "ring-2 ring-red-600" : ""
+                          selectedPack === pack.id ? "ring-2 ring-red-600" : ""
                         }`}
                         style={{
                           borderRadius: "0 0 40px 0",
@@ -401,7 +401,7 @@ const GiftPacksPage = () => {
                           </motion.div>
                           <div className="flex justify-between items-start">
                             <motion.span
-                              className="text-xl md:text-2xl sm:text-3xl md:text-4xl pt-1 md:pt-2"
+                              className="text-xl md:text-3xl sm:text-3xl pt-1 md:pt-2"
                               initial={{ opacity: 0, y: -10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{
@@ -409,7 +409,7 @@ const GiftPacksPage = () => {
                                 duration: 0.3,
                               }}
                             >
-                              ₹ {pack.price_inr}
+                              ₹{pack.price_inr}
                             </motion.span>
                             <motion.div
                               className="ml-1 mr-2 md:mr-4"
@@ -468,7 +468,7 @@ const GiftPacksPage = () => {
                             </motion.div>
                           </div>
                           <motion.div
-                            className="text-md md:text-2xl mt-1 flex items-start"
+                            className="text-md md:text-xl mt-1 flex items-start text-left"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{
@@ -477,7 +477,7 @@ const GiftPacksPage = () => {
                             }}
                           >
                             {typeof pack.spu === "string"
-                              ? pack.spu.replace(/diamond/gi, "gift pack")
+                              ? pack.spu.replace(/diamond/gi, "gift pack").replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
                               : pack.spu}
                           </motion.div>
                         </div>
