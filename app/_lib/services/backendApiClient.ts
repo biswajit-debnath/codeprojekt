@@ -7,6 +7,7 @@ import {
   PlayerIGN,
   UserLogin,
   UserProfile,
+  TransactionStatus,
 } from "../constants/apiInterfaces";
 export class BackendApiClient {
   private static instance: BackendApiClient;
@@ -79,6 +80,24 @@ export class BackendApiClient {
       profile: {},
       transactions: [],
       wallet: {},
+    });
+  }
+
+  public async getTransactionStatus(transactionId: string): Promise<TransactionStatus> {
+    const config = {
+      ...API_REQUESTS.GET_TRANSACTION_STATUS,
+      url: `${this.baseUrl}${createUrl(API_REQUESTS.GET_TRANSACTION_STATUS.url, {
+        transactionId,
+      })}`,
+    };
+    const response = await axiosAdapter.request<TransactionStatus>(config);
+    return get(response, "data", {
+      transactionId: "",
+      stage: 1,
+      status: "pending",
+      amount: 0,
+      currency: "INR",
+      productInfo: {},
     });
   }
 }
