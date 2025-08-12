@@ -10,6 +10,7 @@ export const API_ENDPOINTS = {
   PURCHASE_SPU: "/payment/:spuId",
   USER_LOGIN: "/user/login/google",
   USER_PROFILE: "/user/profile",
+  TRANSACTION_STATUS: "/payment/transaction/:transactionId/status",
 } as const;
 
 export const API_HEADERS = {
@@ -47,6 +48,11 @@ export const API_REQUESTS = {
   USER_PROFILE: {
     method: "GET",
     url: API_ENDPOINTS.USER_PROFILE,
+    headers: API_HEADERS.JSON,
+  },
+  GET_TRANSACTION_STATUS: {
+    method: "GET",
+    url: API_ENDPOINTS.TRANSACTION_STATUS,
     headers: API_HEADERS.JSON,
   },
 } as const;

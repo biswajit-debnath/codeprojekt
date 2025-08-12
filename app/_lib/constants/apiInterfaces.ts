@@ -28,3 +28,12 @@ export interface UserLogin {
   profile: object;
   wallet: object;
 }
+
+export interface TransactionStatus {
+  transactionId: string;
+  stage: number;
+  status: string;
+  amount?: number;
+  currency?: string;
+  productInfo?: object;
+}
