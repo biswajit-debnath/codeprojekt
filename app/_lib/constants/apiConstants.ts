@@ -7,7 +7,7 @@ export const API_BASE_URLS = {
 export const API_ENDPOINTS = {
   PRODUCT_SPUS: "/product/:product/spus",
   PLAYER_IGN: "/user/playerIGN",
-  PURCHASE_SPU: "/payment/:spuId",
+  PURCHASE_SPU: "/payment/purchase/:spuId",
   USER_LOGIN: "/user/login/google",
   USER_PROFILE: "/user/profile",
   TRANSACTION_STATUS: "/payment/transaction/:transactionId/status",
