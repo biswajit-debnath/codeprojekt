@@ -8,6 +8,8 @@ import {
   UserLogin,
   UserProfile,
   TransactionStatus,
+  PurchaseRequest,
+  PurchaseResponse,
 } from "../constants/apiInterfaces";
 export class BackendApiClient {
   private static instance: BackendApiClient;
@@ -98,6 +100,21 @@ export class BackendApiClient {
       amount: 0,
       currency: "INR",
       productInfo: {},
+    });
+  }
+
+  public async purchaseSPU(spuId: string, purchaseData: PurchaseRequest): Promise<PurchaseResponse> {
+    const config = {
+      ...API_REQUESTS.PURCHASE_SPU,
+      url: `${this.baseUrl}${createUrl(API_REQUESTS.PURCHASE_SPU.url, {
+        spuId,
+      })}`,
+      data: purchaseData,
+    };
+    const response = await axiosAdapter.request<PurchaseResponse>(config);
+    return get(response, "data", {
+      transactionId: "",
+      phonePayRedirectUrl: ""
     });
   }
 }

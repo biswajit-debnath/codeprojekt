@@ -37,3 +37,25 @@ export interface TransactionStatus {
   currency?: string;
   productInfo?: object;
 }
+
+export interface PurchaseRequest {
+  spuDetails: {
+    product: string;
+    price: number;
+  };
+  spuType: string;
+  userDetails: {
+    username: string;
+    uid: string;
+  };
+  playerDetails: {
+    userid: string;
+    zoneid: string;
+  };
+  statusPageRedirectUrl: string;
+}
+
+export interface PurchaseResponse {
+  transactionId: string;
+  phonePayRedirectUrl: string;
+}
