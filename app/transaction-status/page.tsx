@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { subscribeToTransaction, unsubscribeFromTransaction } from "../_lib/utils/socketClient";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
 import { motion } from "framer-motion";
@@ -7,21 +8,36 @@ import { fadeIn, staggerContainer } from "../_styles/animations";
 
 const TransactionStatusPage = () => {
   const [currentStage, setCurrentStage] = useState(1); // Start at stage 1
-
-  // **Test Code** For demo, use a static transactionId
-  const transactionId = "59aaa89c-e25e-4c4c-b0b8-d373f1dda277";
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const searchParams = useSearchParams();
+  
+  // Get transaction ID from URL parameters
+  const transactionId = searchParams.get('transactionId') || searchParams.get('id') || "";
 
   // API integration: fetch transaction status and update stage
   useEffect(() => {
+    // Only proceed if we have a transaction ID
+    if (!transactionId) {
+      setError("No transaction ID found in URL");
+      setIsLoading(false);
+      return;
+    }
+
     // API polling using backendApiClient
     const fetchStatus = async () => {
       try {
+        setIsLoading(true);
         const data = await BackendApiClient.getInstance().getTransactionStatus(transactionId);
         if (typeof data.stage === "number" && data.stage >= 1 && data.stage <= 4) {
           setCurrentStage(data.stage);
         }
+        setError(null);
       } catch (err) {
         console.error("Failed to fetch transaction status:", err);
+        setError(err instanceof Error ? err.message : "Failed to fetch transaction status");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchStatus();
@@ -124,6 +140,43 @@ const TransactionStatusPage = () => {
         animate="show"
         className="container mx-auto px-4 py-8 max-w-4xl"
       >
+        {/* Error State */}
+        {error && (
+          <motion.div
+            variants={fadeIn("up", 0.1)}
+            className="bg-red-50 border border-red-200 rounded-xl p-6 mb-8"
+          >
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-red-800 font-medium">Error</h3>
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Loading State */}
+        {isLoading && !error && (
+          <motion.div
+            variants={fadeIn("up", 0.1)}
+            className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8"
+          >
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+              <div>
+                <h3 className="text-blue-800 font-medium">Loading</h3>
+                <p className="text-blue-600 text-sm">Fetching transaction status...</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
         {/* Transaction Header */}
         <motion.div
           variants={fadeIn("up", 0.1)}
@@ -166,7 +219,7 @@ const TransactionStatusPage = () => {
               </div>
             </div>
             <div className="font-mono text-sm bg-white p-3 rounded border break-all">
-              0xD65e013b123f5A37610aaAC35A8ab52Ba0C3F197
+              {transactionId || "No transaction ID provided"}
             </div>
             
             <div className="flex items-center justify-between mt-4 text-md text-gray-900">
