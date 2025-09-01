@@ -33,7 +33,7 @@ export interface TransactionStatus {
   transactionId: string;
   stage: number;
   status: string;
-  amount?: number;
+  price_inr?: number;
   currency?: string;
   productInfo?: object;
 }
