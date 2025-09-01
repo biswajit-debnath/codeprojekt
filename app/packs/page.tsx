@@ -86,7 +86,9 @@ const GiftPacksPage = () => {
       const purchaseData = {
         spuDetails: {
           product: "mobilelegends",
-          price: parseFloat(selectedPackDetails.price)
+          price: parseFloat(selectedPackDetails.price),
+          price_inr: parseFloat(selectedPackDetails.price_inr)
+          
         },
         spuType: "inGameItem",
         userDetails: {
