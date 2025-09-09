@@ -1,16 +1,16 @@
 export const API_BASE_URLS = {
   CODEPROJEKT_BACKEND:
     (process.env.CODEPROJEKT_BACKEND_BASE_URL as string) ||
-    "http://localhost:8000/v1",
+    "https://api.codeprojekt.shop",
 } as const;
 
 export const API_ENDPOINTS = {
-  PRODUCT_SPUS: "/product/:product/spus",
-  PLAYER_IGN: "/user/playerIGN",
-  PURCHASE_SPU: "/payment/purchase/:spuId",
-  USER_LOGIN: "/user/login/google",
-  USER_PROFILE: "/user/profile",
-  TRANSACTION_STATUS: "/payment/transaction/:transactionId/status",
+  PRODUCT_SPUS: "/v1/product/:product/spus",
+  PLAYER_IGN: "/v1/user/playerIGN",
+  PURCHASE_SPU: "/v1/payment/purchase/:spuId",
+  USER_LOGIN: "/v1/user/login/google",
+  USER_PROFILE: "/v1/user/profile",
+  TRANSACTION_STATUS: "/v1/payment/transaction/:transactionId/status",
 } as const;
 
 export const API_HEADERS = {
