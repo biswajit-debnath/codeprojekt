@@ -1,44 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app)..
+# 🎮 CodeProjekt Ventures - Game Merch & Collectibles Store
 
-## Tech Stack
+Welcome to the official repository for **CodeProjekt Ventures**, a modern e-commerce web application for selling game-inspired merchandise and collectibles like T-shirts, action figures, stickers, and posters.
 
-* Next.js  
-* Typescript
-* Firebase 
-* ES-lint
-* Tailwind
+---
 
-## Getting Started
+## 🛠️ Tech Stack
 
-First, run the development server:
+| Tech        | Purpose                              |
+|-------------|------------------------------------- |
+| Next.js     | Frontend, Routing, SSR               |
+| Firebase    | Authentication, Storage              |
+| MongoDB     | Product & order database             |
+| TailwindCSS | Styling                              |
+| Netlify     | Deployment                           |
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🧬 Branching Strategy – CodeProjekt
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+We follow a clear and consistent branching strategy to maintain code across different environments, ensuring clean development, testing, and deployment cycles.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧵 Main Branches
 
-To learn more about Next.js, take a look at the following resources:
+| Branch | Purpose |
+|--------|---------|
+| `main` | Production branch (live site: [codeprojekt.shop](https://codeprojekt.shop)) |
+| `stage` | Staging branch for finalized features |
+| `dev` | Experimental branch for compliance and core fixes |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🌿 Workflow
 
-## Deploy on Vercel
+### 🔧 Feature Development
+1. Create a new branch from `stage`.
+2. Develop your feature.
+3. Raise a Pull Request (PR) to `stage`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🧪 Compliance Fixes or Experimental Features
+1. Create a new branch from `dev`.
+2. Work on your changes.
+3. Raise a PR to `dev`.
+4. After testing, sync `dev` with `main` if necessary.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🛡️ Merge Guidelines
+
+- ✅ All merges to `main` must come **from `stage`**.
+- ✅ All merges to `stage` must come **via feature branches**.
+- ✅ All compliance or experimental work must go **through `dev`**.
+
+---
+
+## 💡 Why This Structure?
+
+This branching model ensures:
+- A **clean separation** between production-ready features, staging tests, and experimental code.
+- **Safe deployments** to production.
+- **Isolated environments** for development, staging, and testing.
+
+---
+
+## 🏢 About the Business
+
+**CodeProjekt Ventures** is a legally registered sole proprietorship based in **India**, specialized in:
+- Physical & digital delivery of game-themed products.
+- Fast, secure shopping experience.
+- Transparent policies and fair pricing.
+
+---
+
+## 🚀 Features
+
+- 🛒 Browse game merchandise by category
+- 🔐 Secure user authentication
+- 📦 Physical & digital product handling
+- 📱 Mobile-friendly responsive UI
+- 🧾 Admin panel for managing products & orders
+
+---
+
+

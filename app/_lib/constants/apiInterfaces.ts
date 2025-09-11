@@ -28,3 +28,34 @@ export interface UserLogin {
   profile: object;
   wallet: object;
 }
+
+export interface TransactionStatus {
+  transactionId: string;
+  stage: number;
+  status: string;
+  price_inr?: number;
+  currency?: string;
+  productInfo?: object;
+}
+
+export interface PurchaseRequest {
+  spuDetails: {
+    product: string;
+    price: number;
+  };
+  spuType: string;
+  userDetails: {
+    username: string;
+    uid: string;
+  };
+  playerDetails: {
+    userid: string;
+    zoneid: string;
+  };
+  redirectUrl: string;
+}
+
+export interface PurchaseResponse {
+  transactionId: string;
+  gatewayRedirectUrl: string;
+}

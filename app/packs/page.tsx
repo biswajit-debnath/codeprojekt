@@ -8,7 +8,7 @@ import { BackendApiClient } from "../_lib/services/backendApiClient";
 const GiftPacksPage = () => {
   const [userId, setUserId] = useState("");
   const [zoneId, setZoneId] = useState("");
-  const [selectedPack, setSelectedPack] = useState<number | null>(null);
+  const [selectedPack, setSelectedPack] = useState<string | null>(null);
   const [verificationStatus, setVerificationStatus] = useState<string>("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [giftPackCategories, setGiftPackCategories] = useState<{
@@ -16,6 +16,7 @@ const GiftPacksPage = () => {
   }>({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   useEffect(() => {
     const fetchGiftPacks = async () => {
@@ -64,13 +65,60 @@ const GiftPacksPage = () => {
     }
   };
 
-  const handleSelectPack = (index: number) => {
-    setSelectedPack(index);
-    console.log(`Selected pack ${index}:`, giftPackCategories[index]);
-
+  const handleSelectPack = (id: string) => {
+    
     if (!verificationStatus) {
       alert("Please verify your User ID and Zone ID first");
       return;
+    }
+    setSelectedPack(id);
+  };
+
+  const handlePurchase = async (selectedPackDetails: any) => {
+    if (!selectedPackDetails || !userId || !zoneId) {
+      alert("Please ensure all details are entered before proceeding");
+      return;
+    }
+
+    setIsProcessingPayment(true);
+
+    try {
+      const purchaseData = {
+        spuDetails: {
+          product: "mobilelegends",
+          price: parseFloat(selectedPackDetails.price),
+          price_inr: parseFloat(selectedPackDetails.price_inr)
+          
+        },
+        spuType: "inGameItem",
+        userDetails: {
+          username: "temp-username-" + Math.random().toString(36).substr(2, 9),
+          uid: "temp-uid-" + Math.random().toString(36).substr(2, 9)
+        },
+        playerDetails: {
+          userid: userId,
+          zoneid: zoneId
+        },
+        redirectUrl: window.location.origin + "/transaction-status"
+      };
+
+      
+      const response = await BackendApiClient.getInstance().purchaseSPU(
+        selectedPackDetails.id,
+        purchaseData
+      );
+
+      // Redirect to payment URL if provided
+      if (response.gatewayRedirectUrl) {
+        window.location.href = response.gatewayRedirectUrl;
+      } else {
+        alert("Payment URL not received. Please try again.");
+      }
+    } catch (error) {
+      console.error("Purchase error:", error);
+      alert(error instanceof Error ? error.message : "Purchase failed. Please try again.");
+    } finally {
+      setIsProcessingPayment(false);
     }
   };
 
@@ -162,7 +210,7 @@ const GiftPacksPage = () => {
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
                       placeholder="1234567890"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-base md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
                     />
                   </motion.div>
                 </div>
@@ -184,7 +232,7 @@ const GiftPacksPage = () => {
                       value={zoneId}
                       onChange={(e) => setZoneId(e.target.value)}
                       placeholder="12345"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-base md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
                     />
                   </motion.div>
                 </div>
@@ -351,9 +399,9 @@ const GiftPacksPage = () => {
                     (pack: any, index: number) => (
                       <motion.button
                         key={pack.id}
-                        onClick={() => handleSelectPack(index)}
+                        onClick={() => handleSelectPack(pack.id)}
                         className={`relative overflow-hidden text-white transition-all w-full max-w-[240px] ${
-                          selectedPack === index ? "ring-2 ring-red-600" : ""
+                          selectedPack === pack.id ? "ring-2 ring-red-600" : ""
                         }`}
                         style={{
                           borderRadius: "0 0 40px 0",
@@ -373,8 +421,6 @@ const GiftPacksPage = () => {
                         }}
                         whileHover={{
                           scale: 1.05,
-                          boxShadow:
-                            "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                           transition: { duration: 0.2 },
                         }}
                         whileTap={{ scale: 0.95 }}
@@ -401,7 +447,7 @@ const GiftPacksPage = () => {
                           </motion.div>
                           <div className="flex justify-between items-start">
                             <motion.span
-                              className="text-xl md:text-2xl sm:text-3xl md:text-4xl pt-1 md:pt-2"
+                              className="text-xl md:text-3xl sm:text-3xl pt-1 md:pt-2"
                               initial={{ opacity: 0, y: -10 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{
@@ -409,7 +455,7 @@ const GiftPacksPage = () => {
                                 duration: 0.3,
                               }}
                             >
-                              ₹ {pack.price_inr}
+                              ₹{pack.price_inr}
                             </motion.span>
                             <motion.div
                               className="ml-1 mr-2 md:mr-4"
@@ -468,7 +514,7 @@ const GiftPacksPage = () => {
                             </motion.div>
                           </div>
                           <motion.div
-                            className="text-md md:text-2xl mt-1 flex items-start"
+                            className="text-md md:text-xl mt-1 flex items-start text-left"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{
@@ -477,7 +523,7 @@ const GiftPacksPage = () => {
                             }}
                           >
                             {typeof pack.spu === "string"
-                              ? pack.spu.replace(/diamond/gi, "gift pack")
+                              ? pack.spu.replace(/diamond/gi, "gift pack").replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
                               : pack.spu}
                           </motion.div>
                         </div>
@@ -489,6 +535,215 @@ const GiftPacksPage = () => {
             ))
           )}
         </div>
+
+        {/* Step 3: Order Overview - Shows when pack is selected */}
+        {selectedPack && (
+          <motion.div
+            className="mt-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              className="flex items-start mb-6"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex items-center">
+                <motion.div
+                  className="w-6 h-6 md:w-7 md:h-7 rounded-full bg-gray-500 text-white flex items-center justify-center text-base md:text-lg mr-1"
+                  style={{ transform: "translateY(-4px)" }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20,
+                    delay: 0.1,
+                  }}
+                >
+                  3
+                </motion.div>
+                <motion.h2
+                  className="text-2xl sm:text-3xl md:text-4xl font-['The-Last-Shuriken']"
+                  style={{ lineHeight: "1" }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  ORDER OVERVIEW
+                </motion.h2>
+              </div>
+              <motion.div
+                className="ml-2 w-4 h-4 md:w-5 md:h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-[10px] md:text-xs font-bold"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 20,
+                  delay: 0.3,
+                }}
+                whileHover={{
+                  rotate: 360,
+                  scale: 1.2,
+                  transition: { duration: 0.5 },
+                }}
+              >
+                i
+              </motion.div>
+            </motion.div>
+
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Left side - Summary Card */}
+              <motion.div
+                className="lg:flex-1"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {(() => {
+                  // Find the selected pack details
+                  let selectedPackDetails = null;
+                  for (const category in giftPackCategories) {
+                    const pack = giftPackCategories[category].find((p: any) => p.id === selectedPack);
+                    if (pack) {
+                      selectedPackDetails = pack;
+                      break;
+                    }
+                  }
+
+                  if (!selectedPackDetails) return null;
+
+                  const packName = typeof selectedPackDetails.spu === "string"
+                    ? selectedPackDetails.spu.replace(/diamond/gi, "gift pack").replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
+                    : selectedPackDetails.spu;
+
+                  return (
+                    <div
+                      className="bg-black text-white p-8 md:p-10 relative overflow-hidden"
+                      style={{
+                        borderRadius: "0 0 40px 0",
+                      }}
+                    >
+                      {/* Background pattern */}
+                      <div className="absolute inset-0 opacity-10">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-red-500 rounded-full transform translate-x-16 -translate-y-16"></div>
+                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-red-500 rounded-full transform -translate-x-12 translate-y-12"></div>
+                      </div>
+                      
+                      <div className="relative z-10">
+                        <div className="flex items-center gap-3 mb-6">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <span className="text-lg md:text-xl font-bold uppercase tracking-wider">
+                            Your Selection
+                          </span>
+                        </div>
+                        
+                        <div className="mb-8">
+                          <h4 className="text-2xl md:text-3xl font-bold mb-3">
+                            {packName}
+                          </h4>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-4xl md:text-5xl font-black text-red-500">
+                              ₹{selectedPackDetails.price_inr}
+                            </span>
+                            <span className="text-gray-400">INR</span>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-3 text-gray-300">
+                          <div className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            <span>Instant delivery</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            <span>Secure payment</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            <span>24/7 support</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </motion.div>
+
+              {/* Right side - Payment Button */}
+              <motion.div
+                className="lg:w-80"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                {(() => {
+                  // Find the selected pack details for button
+                  let selectedPackDetails = null;
+                  for (const category in giftPackCategories) {
+                    const pack = giftPackCategories[category].find((p: any) => p.id === selectedPack);
+                    if (pack) {
+                      selectedPackDetails = pack;
+                      break;
+                    }
+                  }
+
+                  if (!selectedPackDetails) return null;
+
+                  return (
+                    <div className="h-full flex flex-col justify-center">
+                      <motion.button
+                        className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-6 md:py-8 px-8 text-xl md:text-2xl rounded-2xl shadow-2xl relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.6 }}
+                        whileHover={{ 
+                          scale: isProcessingPayment ? 1 : 1.02,
+                          transition: { duration: 0.2 }
+                        }}
+                        whileTap={{ scale: isProcessingPayment ? 1 : 0.98 }}
+                        disabled={isProcessingPayment}
+                        onClick={() => handlePurchase(selectedPackDetails)}
+                      >
+                        {/* Button background effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        
+                        {/* Button content */}
+                        <div className="relative z-10 flex items-center justify-center gap-3">
+                          <svg className="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                          <span>{isProcessingPayment ? "PROCESSING..." : "PAY NOW"}</span>
+                        </div>
+                        
+                        {/* Animated shine effect */}
+                        <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 transform translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                      </motion.button>
+                      
+                      <motion.div
+                        className="text-center mt-4 text-sm text-gray-600"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.8 }}
+                      >
+                        Powered by secure payment gateway
+                      </motion.div>
+                    </div>
+                  );
+                })()}
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
       </motion.div>
     </div>
   );
