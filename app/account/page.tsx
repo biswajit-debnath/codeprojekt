@@ -43,7 +43,7 @@ const AccountPage = () => {
         try {
           const userProfile: any =
             await BackendApiClient.getInstance().getUserProfile(
-              "TIu48HSiYFW52nSPnKOkF8Obk9e2" //replace with uid from firebase
+              user?.uid
             );
           setUserProfile({
             uid: userProfile.uid || "Not set",

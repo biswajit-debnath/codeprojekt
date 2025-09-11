@@ -52,10 +52,10 @@ export interface PurchaseRequest {
     userid: string;
     zoneid: string;
   };
-  statusPageRedirectUrl: string;
+  redirectUrl: string;
 }
 
 export interface PurchaseResponse {
   transactionId: string;
-  phonePayRedirectUrl: string;
+  gatewayRedirectUrl: string;
 }

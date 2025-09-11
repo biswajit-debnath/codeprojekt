@@ -1,12 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { subscribeToTransaction, unsubscribeFromTransaction } from "../_lib/utils/socketClient";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "../_styles/animations";
 
-const TransactionStatusPage = () => {
+const TransactionStatusContent = () => {
   const [currentStage, setCurrentStage] = useState(1); // Start at stage 1
   const [amount, setAmount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -67,6 +67,7 @@ const TransactionStatusPage = () => {
       setCopied(true);
       // Reset copied state after 2 seconds
       setTimeout(() => setCopied(false), 2000);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       // Fallback for older browsers
       const textArea = document.createElement('textarea');
@@ -358,4 +359,11 @@ const TransactionStatusPage = () => {
   );
 };
 
-export default TransactionStatusPage;
+// Outer wrapper with Suspense
+export default function TransactionStatusPage() {
+  return (
+    <Suspense fallback={<div>Loading transaction page...</div>}>
+      <TransactionStatusContent />
+    </Suspense>
+  );
+}
