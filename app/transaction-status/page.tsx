@@ -8,6 +8,7 @@ import { fadeIn, staggerContainer } from "../_styles/animations";
 
 const TransactionStatusPage = () => {
   const [currentStage, setCurrentStage] = useState(1); // Start at stage 1
+  const [isFailed, setIsFailed] = useState(false); // Track if current stage failed
   const [amount, setAmount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,6 +33,7 @@ const TransactionStatusPage = () => {
         const data = await BackendApiClient.getInstance().getTransactionStatus(transactionId);
         if (typeof data.stage === "number" && data.stage >= 1 && data.stage <= 4) {
           setCurrentStage(data.stage);
+          setIsFailed(data.isFailed || false);
           setAmount(data.price_inr|| null);
         }
         setError(null);
@@ -45,9 +47,10 @@ const TransactionStatusPage = () => {
     fetchStatus();
 
     // Socket integration - subscribe to transaction room
-    const handleTransactionUpdate = (payload: { transactionId: string; stage: number }) => {
+    const handleTransactionUpdate = (payload: { transactionId: string; stage: number; isFailed?: boolean }) => {
       if (payload.transactionId === transactionId && typeof payload.stage === "number") {
         setCurrentStage(payload.stage);
+        setIsFailed(payload.isFailed || false);
       }
     };
 
@@ -105,6 +108,7 @@ const TransactionStatusPage = () => {
 
   const getStageStatus = (stageId: number) => {
     if (stageId < currentStage) return "completed";
+    if (stageId === currentStage && isFailed) return "failed";
     if (stageId === currentStage) return "current";
     return "pending";
   };
@@ -124,6 +128,26 @@ const TransactionStatusPage = () => {
               strokeLinejoin="round"
               strokeWidth={2}
               d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+      );
+    }
+
+    if (status === "failed") {
+      return (
+        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg
+            className="w-3 h-3 sm:w-5 sm:h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
             />
           </svg>
         </div>
@@ -286,11 +310,13 @@ const TransactionStatusPage = () => {
                       <div className={`text-sm font-medium ${
                         getStageStatus(stage.id) === "completed" 
                           ? "text-green-600" 
+                          : getStageStatus(stage.id) === "failed"
+                          ? "text-red-600"
                           : getStageStatus(stage.id) === "current"
                           ? "text-blue-600"
                           : "text-gray-400"
                       }`}>
-                        {stage.title}
+                        {getStageStatus(stage.id) === "failed" ? "Failed" : stage.title}
                       </div>
                       <div className="text-xs text-gray-500 mt-1 sm:max-w-24">
                         {stage.description}
@@ -317,17 +343,42 @@ const TransactionStatusPage = () => {
           </div>
 
           {/* Current Stage Details */}
-          <div className="bg-blue-50 rounded-lg p-4 sm:p-6">
+          <div className={`rounded-lg p-4 sm:p-6 ${isFailed ? 'bg-red-50' : 'bg-blue-50'}`}>
             <div className="flex items-center">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></div>
+              <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0 ${
+                isFailed ? 'bg-red-500' : 'bg-blue-500'
+              }`}>
+                {isFailed ? (
+                  <svg
+                    className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></div>
+                )}
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="font-medium text-blue-900 text-sm sm:text-base">
-                  {stages[currentStage - 1]?.title}
+                <h3 className={`font-medium text-sm sm:text-base ${
+                  isFailed ? 'text-red-900' : 'text-blue-900'
+                }`}>
+                  {isFailed ? "Failed" : stages[currentStage - 1]?.title}
                 </h3>
-                <p className="text-blue-700 text-xs sm:text-sm">
-                  {stages[currentStage - 1]?.description}...
+                <p className={`text-xs sm:text-sm ${
+                  isFailed ? 'text-red-700' : 'text-blue-700'
+                }`}>
+                  {isFailed 
+                    ? `Transaction failed at ${stages[currentStage - 1]?.title}` 
+                    : `${stages[currentStage - 1]?.description}...`
+                  }
                 </p>
               </div>
             </div>
