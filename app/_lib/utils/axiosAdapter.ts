@@ -8,6 +8,7 @@ import axios, {
 interface RequestConfig extends AxiosRequestConfig {
   method: "GET" | "POST" | "PUT" | "DELETE";
   url: string;
+  authToken?: string; // Optional auth token for authenticated requests
 }
 
 class AxiosAdapter {
@@ -33,7 +34,12 @@ class AxiosAdapter {
     // Request interceptor
     this.axiosInstance.interceptors.request.use(
       (config) => {
-        // Add auth tokens or other headers here
+        // Check if authToken is provided in the config
+        if ((config as any).authToken) {
+          config.headers = config.headers || {};
+          config.headers['Authorization'] = `Bearer ${(config as any).authToken}`;
+        }
+        
         // Add logs
         console.log(`Request made to ${config.url}`);
         // Store request start time

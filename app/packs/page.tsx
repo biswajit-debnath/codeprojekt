@@ -115,6 +115,16 @@ const GiftPacksPage = () => {
     setIsProcessingPayment(true);
 
     try {
+      // Get the Firebase ID token for authenticated request
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Authentication error. Please sign in again.");
+        setIsProcessingPayment(false);
+        return;
+      }
+
+      const idToken = await user.getIdToken();
+
       const purchaseData = {
         spuDetails: {
           product: "mobilelegends",
@@ -137,7 +147,8 @@ const GiftPacksPage = () => {
       
       const response = await BackendApiClient.getInstance().purchaseSPU(
         selectedPackDetails.id,
-        purchaseData
+        purchaseData,
+        idToken // Pass the Firebase ID token for authorization
       );
 
       // Redirect to payment URL if provided

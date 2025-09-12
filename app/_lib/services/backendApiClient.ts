@@ -103,13 +103,14 @@ export class BackendApiClient {
     });
   }
 
-  public async purchaseSPU(spuId: string, purchaseData: PurchaseRequest): Promise<PurchaseResponse> {
+  public async purchaseSPU(spuId: string, purchaseData: PurchaseRequest, authToken?: string): Promise<PurchaseResponse> {
     const config = {
       ...API_REQUESTS.PURCHASE_SPU,
       url: `${this.baseUrl}${createUrl(API_REQUESTS.PURCHASE_SPU.url, {
         spuId,
       })}`,
       data: purchaseData,
+      authToken,
     };
     const response = await axiosAdapter.request<PurchaseResponse>(config);
     return get(response, "data", {
