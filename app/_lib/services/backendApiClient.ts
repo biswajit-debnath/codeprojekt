@@ -114,7 +114,7 @@ export class BackendApiClient {
     const response = await axiosAdapter.request<PurchaseResponse>(config);
     return get(response, "data", {
       transactionId: "",
-      phonePayRedirectUrl: ""
+      gatewayRedirectUrl: ""
     });
   }
 }

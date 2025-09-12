@@ -99,7 +99,7 @@ const GiftPacksPage = () => {
           userid: userId,
           zoneid: zoneId
         },
-        statusPageRedirectUrl: window.location.origin + "/transaction-status"
+        redirectUrl: window.location.origin + "/transaction-status"
       };
 
       
@@ -109,8 +109,8 @@ const GiftPacksPage = () => {
       );
 
       // Redirect to payment URL if provided
-      if (response.phonePayRedirectUrl) {
-        window.location.href = response.phonePayRedirectUrl;
+      if (response.gatewayRedirectUrl) {
+        window.location.href = response.gatewayRedirectUrl;
       } else {
         alert("Payment URL not received. Please try again.");
       }
