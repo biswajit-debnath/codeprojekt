@@ -37,6 +37,10 @@ export interface TransactionStatus {
   price_inr?: number;
   currency?: string;
   productInfo?: object;
+  spuDetails?: {
+    category: string;
+    spu: string;
+  };
 }
 
 export interface PurchaseRequest {

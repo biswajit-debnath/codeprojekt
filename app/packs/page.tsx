@@ -129,8 +129,9 @@ const GiftPacksPage = () => {
         spuDetails: {
           product: "mobilelegends",
           price: parseFloat(selectedPackDetails.price),
-          price_inr: parseFloat(selectedPackDetails.price_inr)
-          
+          price_inr: parseFloat(selectedPackDetails.price_inr),
+          spu: selectedPackDetails.spu.replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, ""),
+          category: selectedPackDetails.category,
         },
         spuType: "inGameItem",
         userDetails: {
@@ -566,7 +567,7 @@ const GiftPacksPage = () => {
                             }}
                           >
                             {typeof pack.spu === "string"
-                              ? pack.spu.replace(/diamond/gi, "gift pack").replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
+                              ? pack.spu.replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
                               : pack.spu}
                           </motion.div>
                         </div>
@@ -661,7 +662,7 @@ const GiftPacksPage = () => {
                   if (!selectedPackDetails) return null;
 
                   const packName = typeof selectedPackDetails.spu === "string"
-                    ? selectedPackDetails.spu.replace(/diamond/gi, "gift pack").replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
+                    ? selectedPackDetails.spu.replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
                     : selectedPackDetails.spu;
 
                   return (
@@ -736,7 +737,10 @@ const GiftPacksPage = () => {
                   for (const category in giftPackCategories) {
                     const pack = giftPackCategories[category].find((p: any) => p.id === selectedPack);
                     if (pack) {
-                      selectedPackDetails = pack;
+                      selectedPackDetails = {
+                        ...pack,
+                        category
+                      };
                       break;
                     }
                   }

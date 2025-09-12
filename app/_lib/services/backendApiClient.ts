@@ -85,12 +85,13 @@ export class BackendApiClient {
     });
   }
 
-  public async getTransactionStatus(transactionId: string): Promise<TransactionStatus> {
+  public async getTransactionStatus(transactionId: string, authToken?: string): Promise<TransactionStatus> {
     const config = {
       ...API_REQUESTS.GET_TRANSACTION_STATUS,
       url: `${this.baseUrl}${createUrl(API_REQUESTS.GET_TRANSACTION_STATUS.url, {
         transactionId,
       })}`,
+      authToken,
     };
     const response = await axiosAdapter.request<TransactionStatus>(config);
     return get(response, "data", {
