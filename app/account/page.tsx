@@ -273,7 +273,7 @@ const AccountPage = () => {
                       <h3 className="text-gray-400 mb-1">ACCOUNT ID</h3>
                       <p className="text-xl">
                         {userProfile.uid
-                          ? `CODEPRO${userProfile.uid}`
+                          ? `CODEPRO-${userProfile.uid}`
                           : "Not set"}
                       </p>
 

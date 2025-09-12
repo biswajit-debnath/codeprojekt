@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "../_styles/animations";
+import { auth } from "../../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,11 +14,25 @@ const Navbar = () => {
   const pathname = usePathname();
   const isAccountPage = pathname === "/account";
   const isAuthPage = pathname === "/signin" || pathname === "/signup";
+  const [currentUser, setCurrentUser] = useState<{ uid: string | null; displayName: string | null; photoURL: string | null }>({ uid: null, displayName: null, photoURL: null });
 
   const closeMenuAndResetScroll = () => {
     setIsMenuOpen(false);
     document.body.style.overflow = "unset";
   };
+
+  // Listen for authentication state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser({
+        uid: user?.uid || null,
+        displayName: user?.displayName || null,
+        photoURL: user?.photoURL || null,
+      });
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -249,13 +265,14 @@ const Navbar = () => {
             variants={fadeIn("left", 0.4)}
             className="flex items-center space-x-3 ml-auto"
           >
-            <div className="relative">
+            {/* Search Input */}
+            {/* <div className="relative">
               <input
                 type="text"
                 placeholder="search here"
                 className="bg-gray-700 rounded-full px-4 py-1 text-white placeholder-gray-400"
               />
-            </div>
+            </div> */}
             <div className="flex items-center space-x-2">
               <Link href="/account">
                 <motion.div
@@ -265,7 +282,7 @@ const Navbar = () => {
                   }`}
                 >
                   <Image
-                    src="/profile-image.png"
+                    src={currentUser.photoURL || "/profile-image.png"}
                     alt="Circle Image"
                     width={35}
                     height={50}
@@ -274,14 +291,23 @@ const Navbar = () => {
                 </motion.div>
               </Link>
             </div>
-            <Link href="/signin">
-              <motion.button
+            {currentUser.uid ? (
+              <motion.div
                 whileHover={{ scale: 1.03 }}
-                className="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-1 text-gray-300 pr-20"
+                className="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-1 text-gray-300 pr-10"
               >
-                <span>sign in/name</span>
-              </motion.button>
-            </Link>
+                <span>{currentUser.displayName || 'User'}</span>
+              </motion.div>
+            ) : (
+              <Link href="/signin">
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  className="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-1 text-gray-300 pr-20"
+                >
+                  <span>sign in</span>
+                </motion.button>
+              </Link>
+            )}
           </motion.div>
         </div>
 
@@ -318,7 +344,7 @@ const Navbar = () => {
                 }`}
               >
                 <Image
-                  src="/profile-image.png"
+                  src={currentUser.photoURL || "/profile-image.png"}
                   alt="Account"
                   width={30}
                   height={30}
@@ -455,20 +481,29 @@ const Navbar = () => {
                 animate="show"
                 className="space-y-4 mt-8"
               >
-                <input
+                {/* Search Input */}
+                {/* <input
                   type="text"
                   placeholder="search here"
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-white placeholder-gray-400"
-                />
+                /> */}
 
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
-                >
-                  <Link href="/signin" onClick={closeMenuAndResetScroll}>
-                    Sign In
-                  </Link>
-                </motion.button>
+                {currentUser.uid ? (
+                  <motion.div
+                    className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
+                  >
+                    {currentUser.displayName || 'User'}
+                  </motion.div>
+                ) : (
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
+                  >
+                    <Link href="/signin" onClick={closeMenuAndResetScroll}>
+                      Sign In
+                    </Link>
+                  </motion.button>
+                )}
                 {/* <motion.button
                   whileHover={{ scale: 1.03 }}
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"

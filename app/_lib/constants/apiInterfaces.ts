@@ -43,6 +43,7 @@ export interface PurchaseRequest {
   spuDetails: {
     product: string;
     price: number;
+    price_inr: number;
   };
   spuType: string;
   userDetails: {

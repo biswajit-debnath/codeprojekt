@@ -4,6 +4,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
+import { auth } from "../../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 const GiftPacksPage = () => {
   const [userId, setUserId] = useState("");
@@ -17,6 +19,7 @@ const GiftPacksPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [currentUser, setCurrentUser] = useState<{ uid: string | null; displayName: string | null }>({ uid: null, displayName: null });
 
   useEffect(() => {
     const fetchGiftPacks = async () => {
@@ -35,6 +38,18 @@ const GiftPacksPage = () => {
     };
 
     fetchGiftPacks();
+  }, []);
+
+  // Listen for authentication state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser({
+        uid: user?.uid || null,
+        displayName: user?.displayName || null,
+      });
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const verifyUserDetails = async () => {
@@ -66,17 +81,34 @@ const GiftPacksPage = () => {
   };
 
   const handleSelectPack = (id: string) => {
-    
     if (!verificationStatus) {
       alert("Please verify your User ID and Zone ID first");
       return;
     }
     setSelectedPack(id);
+    
+    // Smooth scroll to Order Overview section after a short delay
+    setTimeout(() => {
+      const orderOverviewElement = document.getElementById('order-overview');
+      if (orderOverviewElement) {
+        orderOverviewElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
+    }, 300); // Small delay to allow the component to render first
   };
 
   const handlePurchase = async (selectedPackDetails: any) => {
     if (!selectedPackDetails || !userId || !zoneId) {
       alert("Please ensure all details are entered before proceeding");
+      return;
+    }
+
+    // Check if user is authenticated
+    if (!currentUser.uid) {
+      alert("Please sign in to make a purchase");
       return;
     }
 
@@ -92,8 +124,8 @@ const GiftPacksPage = () => {
         },
         spuType: "inGameItem",
         userDetails: {
-          username: "temp-username-" + Math.random().toString(36).substr(2, 9),
-          uid: "temp-uid-" + Math.random().toString(36).substr(2, 9)
+          username: currentUser.displayName || '',
+          uid: currentUser.uid
         },
         playerDetails: {
           userid: userId,
@@ -205,12 +237,12 @@ const GiftPacksPage = () => {
                     transition={{ duration: 0.5, delay: 0.4 }}
                   >
                     <input
-                      type="text"
+                      type="number"
                       id="userId"
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
                       placeholder="1234567890"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </motion.div>
                 </div>
@@ -227,12 +259,12 @@ const GiftPacksPage = () => {
                     transition={{ duration: 0.5, delay: 0.5 }}
                   >
                     <input
-                      type="text"
+                      type="number"
                       id="zoneId"
                       value={zoneId}
                       onChange={(e) => setZoneId(e.target.value)}
                       placeholder="12345"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </motion.div>
                 </div>
@@ -539,6 +571,7 @@ const GiftPacksPage = () => {
         {/* Step 3: Order Overview - Shows when pack is selected */}
         {selectedPack && (
           <motion.div
+            id="order-overview"
             className="mt-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
