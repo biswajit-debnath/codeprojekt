@@ -3,10 +3,11 @@ import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { auth } from "../../firebaseConfig";
 import { signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
+import TransactionCard from "../_components/account/TransactionCard";
 
 type ContentRefKeys =
   | "id"
@@ -41,9 +42,13 @@ const AccountPage = () => {
       if (user) {
         // Call backend API to get user profile
         try {
+          // Get the Firebase ID token for authenticated request
+          const idToken = await user.getIdToken();
+          
           const userProfile: any =
             await BackendApiClient.getInstance().getUserProfile(
-              user?.uid
+              user?.uid,
+              idToken
             );
           setUserProfile({
             uid: userProfile.uid || "Not set",
@@ -58,6 +63,8 @@ const AccountPage = () => {
         } catch (err) {
           console.error("Failed to fetch backend profile:", err);
         }
+      } else {
+        redirect("/signin");
       }
     });
 
@@ -611,44 +618,11 @@ const AccountPage = () => {
                         <div className="space-y-4">
                           {profileData.transactions.map(
                             (tx: any, idx: number) => (
-                              <div
-                                key={idx}
-                                className="flex flex-col md:flex-row md:justify-between md:items-center border-b border-gray-700 pb-2"
-                              >
-                                <div>
-                                  <p className="font-semibold">
-                                    SPUID:{" "}
-                                    <span className="text-white">
-                                      {tx.spuId || "-"}
-                                    </span>
-                                  </p>
-                                  <p className="text-gray-400 text-sm">
-                                    UserID:{" "}
-                                    <span className="text-white">
-                                      {tx.playerDetails?.userid || "-"}
-                                    </span>
-                                    {" | "}
-                                    ZoneID:{" "}
-                                    <span className="text-white">
-                                      {tx.playerDetails?.zoneid || "-"}
-                                    </span>
-                                  </p>
-                                </div>
-                                <div className="text-right">
-                                  <p className="text-lg text-white">
-                                    Price:{" "}
-                                    <span className="font-semibold">
-                                      {tx.orderDetails?.price || "-"}
-                                    </span>
-                                  </p>
-                                  <p className="text-gray-400 text-sm">
-                                    Status:{" "}
-                                    <span className="text-white">
-                                      {tx.orderDetails?.message || "-"}
-                                    </span>
-                                  </p>
-                                </div>
-                              </div>
+                              <TransactionCard
+                                key={tx.transactionId || idx}
+                                transaction={tx}
+                                index={idx}
+                              />
                             )
                           )}
                         </div>

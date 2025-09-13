@@ -15,6 +15,8 @@ const Navbar = () => {
   const isAccountPage = pathname === "/account";
   const isAuthPage = pathname === "/signin" || pathname === "/signup";
   const [currentUser, setCurrentUser] = useState<{ uid: string | null; displayName: string | null; photoURL: string | null }>({ uid: null, displayName: null, photoURL: null });
+  const [profileImageError, setProfileImageError] = useState(false);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   const closeMenuAndResetScroll = () => {
     setIsMenuOpen(false);
@@ -29,10 +31,30 @@ const Navbar = () => {
         displayName: user?.displayName || null,
         photoURL: user?.photoURL || null,
       });
+      setProfileImageError(false); // Reset error state when user changes
+      setIsAuthLoading(false); // Auth loading complete
     });
 
     return () => unsubscribe();
   }, []);
+
+  const handleImageError = () => {
+    console.log("Image load error for:", currentUser.photoURL); // Debug log
+    setProfileImageError(true);
+  };
+
+  const handleImageLoad = () => {
+    console.log("Image loaded successfully:", currentUser.photoURL); // Debug log
+    setProfileImageError(false);
+  };
+
+  const getProfileImageSrc = () => {
+    // Always show the user's photo if available and no error occurred
+    if (currentUser.photoURL && !profileImageError) {
+      return currentUser.photoURL;
+    }
+    return "/profile-image.png";
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -273,23 +295,36 @@ const Navbar = () => {
                 className="bg-gray-700 rounded-full px-4 py-1 text-white placeholder-gray-400"
               />
             </div> */}
+            {/* Profile section - only show if user is logged in */}
+            {currentUser.uid && (
+              <div className="flex items-center space-x-2">
+                <Link href="/account">
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    className={`rounded-full ${
+                      isAccountPage ? "ring-2 ring-red-600 ring-offset-0" : ""
+                    }`}
+                  >
+                    {isAuthLoading ? (
+                      <div className="w-[35px] h-[35px] rounded-full bg-gray-600 animate-pulse"></div>
+                    ) : (
+                      <Image
+                        src={getProfileImageSrc()}
+                        alt="Circle Image"
+                        width={35}
+                        height={35}
+                        className="rounded-full"
+                        onError={handleImageError}
+                        onLoad={handleImageLoad}
+                        key={`desktop-${currentUser.photoURL || 'default'}`} // Force re-render when photoURL changes
+                        unoptimized={!!currentUser.photoURL} // Disable optimization for external URLs
+                      />
+                    )}
+                  </motion.div>
+                </Link>
+              </div>
+            )}
             <div className="flex items-center space-x-2">
-              <Link href="/account">
-                <motion.div
-                  whileHover={{ scale: 1.1 }}
-                  className={`rounded-full ${
-                    isAccountPage ? "ring-2 ring-red-600 ring-offset-0" : ""
-                  }`}
-                >
-                  <Image
-                    src={currentUser.photoURL || "/profile-image.png"}
-                    alt="Circle Image"
-                    width={35}
-                    height={50}
-                    className="rounded-full"
-                  />
-                </motion.div>
-              </Link>
             </div>
             {currentUser.uid ? (
               <motion.div
@@ -332,26 +367,36 @@ const Navbar = () => {
 
           {/* Container for right-side icons */}
           <div className="flex items-center space-x-3">
-            {/* Account Link */}
-            <Link
-              href="/account"
-              onClick={isMenuOpen ? closeMenuAndResetScroll : undefined}
-            >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                className={`rounded-full ${
-                  isAccountPage ? "ring-2 ring-red-600 ring-offset-0" : ""
-                }`}
+            {/* Account Link - only show if user is logged in */}
+            {currentUser.uid && (
+              <Link
+                href="/account"
+                onClick={isMenuOpen ? closeMenuAndResetScroll : undefined}
               >
-                <Image
-                  src={currentUser.photoURL || "/profile-image.png"}
-                  alt="Account"
-                  width={30}
-                  height={30}
-                  className="rounded-full"
-                />
-              </motion.div>
-            </Link>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  className={`rounded-full ${
+                    isAccountPage ? "ring-2 ring-red-600 ring-offset-0" : ""
+                  }`}
+                >
+                  {isAuthLoading ? (
+                    <div className="w-[30px] h-[30px] rounded-full bg-gray-600 animate-pulse"></div>
+                  ) : (
+                    <Image
+                      src={getProfileImageSrc()}
+                      alt="Account"
+                      width={30}
+                      height={30}
+                      className="rounded-full"
+                      onError={handleImageError}
+                      onLoad={handleImageLoad}
+                      key={`mobile-${currentUser.photoURL || 'default'}`} // Force re-render when photoURL changes
+                      unoptimized={!!currentUser.photoURL} // Disable optimization for external URLs
+                    />
+                  )}
+                </motion.div>
+              </Link>
+            )}
 
             {/* Menu Toggle Button */}
             <motion.button

@@ -71,10 +71,11 @@ export class BackendApiClient {
     });
   }
 
-  public async getUserProfile(uid: string): Promise<UserProfile> {
+  public async getUserProfile(uid: string, authToken?: string): Promise<UserProfile> {
     const config = {
       ...API_REQUESTS.USER_PROFILE,
       url: `${this.baseUrl}${API_REQUESTS.USER_PROFILE.url}/${uid}`,
+      authToken,
     };
     const response = await axiosAdapter.request<UserProfile>(config);
     return get(response, "data", {
