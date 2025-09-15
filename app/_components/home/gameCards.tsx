@@ -21,7 +21,7 @@ const GameCard = ({
   // Determine if this card should show the BUY MERCH overlay
   const isBuyTshirt = alt === "Buy Tshirt";
   const isBuyFigurines = alt === "Buy Figurines";
-  const isBuyPacks = alt === "Buy Packs";
+  //const isBuyPacks = alt === "Buy Packs";
   const card = (
     <motion.div
       className="relative aspect-[9/15] md:aspect-[9/20] max-w-[110px] md:max-w-[200px] lg:max-w-[280px] w-full sm:w-full md:w-1/2 lg:w-1/4"
@@ -113,7 +113,7 @@ const GameCard = ({
             </motion.div>
           </Link>
         )}
-        {isBuyPacks && (
+{/*         {isBuyPacks && (
           <Link
             href="/packs"
             className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken'] z-10"
@@ -140,7 +140,7 @@ const GameCard = ({
               </div>
             </motion.div>
           </Link>
-        )}
+        )} */}
       </motion.div>
     </motion.div>
   );
@@ -170,12 +170,12 @@ const GameCards = () => {
       <div className="max-w-[1550px] mx-auto">
         <div className="flex flex-wrap lg:flex-nowrap gap-2 md:gap-12">
           
-          <GameCard
+          {/* <GameCard
             imagePath="games/menu-image_ml.jpeg"
             alt="Buy Packs"
             isComingSoon={false}
             index={0}
-          />
+          /> */}
           <GameCard
             imagePath="games/menu-image0.png"
             alt="Buy Tshirt"
@@ -189,7 +189,7 @@ const GameCards = () => {
             index={2}
           />
 
-          {[2, 3].map((index) => (
+          {/* {[2, 3].map((index) => (
             <GameCard
               key={index}
               imagePath={`games/menu-image${index}.png`}
@@ -197,7 +197,7 @@ const GameCards = () => {
               isComingSoon
               index={index}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     </motion.div>
