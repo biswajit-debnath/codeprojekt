@@ -14,7 +14,11 @@ const Navbar = () => {
   const pathname = usePathname();
   const isAccountPage = pathname === "/account";
   const isAuthPage = pathname === "/signin" || pathname === "/signup";
-  const [currentUser, setCurrentUser] = useState<{ uid: string | null; displayName: string | null; photoURL: string | null }>({ uid: null, displayName: null, photoURL: null });
+  const [currentUser, setCurrentUser] = useState<{
+    uid: string | null;
+    displayName: string | null;
+    photoURL: string | null;
+  }>({ uid: null, displayName: null, photoURL: null });
   const [profileImageError, setProfileImageError] = useState(false);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
@@ -104,7 +108,7 @@ const Navbar = () => {
               </div>
             </motion.div>
 
-{/*             <motion.div
+            {/*             <motion.div
               variants={fadeIn("left", 0.3)}
               className="flex items-center space-x-3 ml-auto"
             >
@@ -201,6 +205,19 @@ const Navbar = () => {
               variants={staggerContainer(0.05)}
               className="flex space-x-10 text-white text-lg pl-6"
             >
+              <motion.div variants={fadeIn("up", 0.1)}>
+                <Link href="/packs" className="relative">
+                  <button className="hover:text-gray-300 transition-colors">
+                    GIFT PACKS
+                  </button>
+                  {pathname === "/packs" && (
+                    <motion.div
+                      layoutId="navIndicator"
+                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
+                    ></motion.div>
+                  )}
+                </Link>
+              </motion.div>
               <motion.div variants={fadeIn("up", 0.3)}>
                 <Link href="/merch" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
@@ -214,25 +231,12 @@ const Navbar = () => {
                   )}
                 </Link>
               </motion.div>
-              {/*               <motion.div variants={fadeIn("up", 0.1)}>
-                <Link href="/packs" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    GIFT PACKS
-                  </button>
-                  {pathname === "/packs" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div> */}
               <motion.div variants={fadeIn("up", 0.15)}>
-                <Link href="/event-pre-order" className="relative">
+                <Link href="/about" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    EVENT PRE-ORDER
+                    ABOUT US
                   </button>
-                  {pathname === "/event-pre-order" && (
+                  {pathname === "/about" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -241,11 +245,11 @@ const Navbar = () => {
                 </Link>
               </motion.div>
               <motion.div variants={fadeIn("up", 0.2)}>
-                <Link href="/redeem-code" className="relative">
+                <Link href="/contact" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    REDEEM CODE
+                    CONTACT US
                   </button>
-                  {pathname === "/redeem-code" && (
+                  {pathname === "/contact" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -254,11 +258,11 @@ const Navbar = () => {
                 </Link>
               </motion.div>
               <motion.div variants={fadeIn("up", 0.25)}>
-                <Link href="/esports" className="relative">
+                <Link href="/refund" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    ESPORTS
+                    REFUND POLICY
                   </button>
-                  {pathname === "/esports" && (
+                  {pathname === "/refund" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -268,11 +272,11 @@ const Navbar = () => {
               </motion.div>
 
               <motion.div variants={fadeIn("up", 0.35)}>
-                <Link href="/more" className="relative">
+                <Link href="/privacy" className="relative">
                   <button className="hover:text-gray-300 transition-colors">
-                    MORE
+                    PRIVACY POLICY
                   </button>
-                  {pathname === "/more" && (
+                  {pathname === "/privacy" && (
                     <motion.div
                       layoutId="navIndicator"
                       className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
@@ -316,7 +320,7 @@ const Navbar = () => {
                         className="rounded-full"
                         onError={handleImageError}
                         onLoad={handleImageLoad}
-                        key={`desktop-${currentUser.photoURL || 'default'}`} // Force re-render when photoURL changes
+                        key={`desktop-${currentUser.photoURL || "default"}`} // Force re-render when photoURL changes
                         unoptimized={!!currentUser.photoURL} // Disable optimization for external URLs
                       />
                     )}
@@ -324,14 +328,13 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
-            <div className="flex items-center space-x-2">
-            </div>
+            <div className="flex items-center space-x-2"></div>
             {currentUser.uid ? (
               <motion.div
                 whileHover={{ scale: 1.03 }}
                 className="flex items-center space-x-2 bg-gray-700 rounded-full px-4 py-1 text-gray-300 pr-10"
               >
-                <span>{currentUser.displayName || 'User'}</span>
+                <span>{currentUser.displayName || "User"}</span>
               </motion.div>
             ) : (
               <Link href="/signin">
@@ -390,7 +393,7 @@ const Navbar = () => {
                       className="rounded-full"
                       onError={handleImageError}
                       onLoad={handleImageLoad}
-                      key={`mobile-${currentUser.photoURL || 'default'}`} // Force re-render when photoURL changes
+                      key={`mobile-${currentUser.photoURL || "default"}`} // Force re-render when photoURL changes
                       unoptimized={!!currentUser.photoURL} // Disable optimization for external URLs
                     />
                   )}
@@ -466,39 +469,6 @@ const Navbar = () => {
                 </motion.div>
                 <motion.div variants={fadeIn("right", 0.2)}>
                   <Link
-                    href="/event-pre-order"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      EVENT PRE-ORDER
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.3)}>
-                  <Link
-                    href="/redeem-code"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      REDEEM CODE
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.4)}>
-                  <Link
-                    href="/esports"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      ESPORTS
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.5)}>
-                  <Link
                     href="/merch"
                     onClick={closeMenuAndResetScroll}
                     className="relative inline-block"
@@ -508,14 +478,47 @@ const Navbar = () => {
                     </button>
                   </Link>
                 </motion.div>
-                <motion.div variants={fadeIn("right", 0.6)}>
+                <motion.div variants={fadeIn("right", 0.3)}>
                   <Link
-                    href="/more"
+                    href="/about"
                     onClick={closeMenuAndResetScroll}
                     className="relative inline-block"
                   >
                     <button className="hover:text-gray-300 transition-colors">
-                      MORE
+                      ABOUT US
+                    </button>
+                  </Link>
+                </motion.div>
+                <motion.div variants={fadeIn("right", 0.4)}>
+                  <Link
+                    href="/contact"
+                    onClick={closeMenuAndResetScroll}
+                    className="relative inline-block"
+                  >
+                    <button className="hover:text-gray-300 transition-colors">
+                      CONTACT US
+                    </button>
+                  </Link>
+                </motion.div>
+                <motion.div variants={fadeIn("right", 0.5)}>
+                  <Link
+                    href="/refund"
+                    onClick={closeMenuAndResetScroll}
+                    className="relative inline-block"
+                  >
+                    <button className="hover:text-gray-300 transition-colors">
+                      REFUND POLICY
+                    </button>
+                  </Link>
+                </motion.div>
+                <motion.div variants={fadeIn("right", 0.6)}>
+                  <Link
+                    href="/privacy"
+                    onClick={closeMenuAndResetScroll}
+                    className="relative inline-block"
+                  >
+                    <button className="hover:text-gray-300 transition-colors">
+                      PRIVACY POLICY
                     </button>
                   </Link>
                 </motion.div>
@@ -534,10 +537,8 @@ const Navbar = () => {
                 /> */}
 
                 {currentUser.uid ? (
-                  <motion.div
-                    className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
-                  >
-                    {currentUser.displayName || 'User'}
+                  <motion.div className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300">
+                    {currentUser.displayName || "User"}
                   </motion.div>
                 ) : (
                   <motion.button
@@ -549,6 +550,14 @@ const Navbar = () => {
                     </Link>
                   </motion.button>
                 )}
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
+                >
+                  <Link href="/signin" onClick={closeMenuAndResetScroll}>
+                    Sign In
+                  </Link>
+                </motion.button>
                 {/* <motion.button
                   whileHover={{ scale: 1.03 }}
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
