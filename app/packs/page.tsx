@@ -4,6 +4,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeIn, slideIn, staggerContainer } from "../_styles/animations";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
+import { auth } from "../../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 const GiftPacksPage = () => {
   const [userId, setUserId] = useState("");
@@ -17,6 +19,7 @@ const GiftPacksPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [currentUser, setCurrentUser] = useState<{ uid: string | null; displayName: string | null }>({ uid: null, displayName: null });
 
   useEffect(() => {
     const fetchGiftPacks = async () => {
@@ -35,6 +38,18 @@ const GiftPacksPage = () => {
     };
 
     fetchGiftPacks();
+  }, []);
+
+  // Listen for authentication state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser({
+        uid: user?.uid || null,
+        displayName: user?.displayName || null,
+      });
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const verifyUserDetails = async () => {
@@ -66,12 +81,23 @@ const GiftPacksPage = () => {
   };
 
   const handleSelectPack = (id: string) => {
-    
     if (!verificationStatus) {
       alert("Please verify your User ID and Zone ID first");
       return;
     }
     setSelectedPack(id);
+    
+    // Smooth scroll to Order Overview section after a short delay
+    setTimeout(() => {
+      const orderOverviewElement = document.getElementById('order-overview');
+      if (orderOverviewElement) {
+        orderOverviewElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
+    }, 300); // Small delay to allow the component to render first
   };
 
   const handlePurchase = async (selectedPackDetails: any) => {
@@ -80,20 +106,37 @@ const GiftPacksPage = () => {
       return;
     }
 
+    // Check if user is authenticated
+    if (!currentUser.uid) {
+      alert("Please sign in to make a purchase");
+      return;
+    }
+
     setIsProcessingPayment(true);
 
     try {
+      // Get the Firebase ID token for authenticated request
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Authentication error. Please sign in again.");
+        setIsProcessingPayment(false);
+        return;
+      }
+
+      const idToken = await user.getIdToken();
+
       const purchaseData = {
         spuDetails: {
           product: "mobilelegends",
           price: parseFloat(selectedPackDetails.price),
-          price_inr: parseFloat(selectedPackDetails.price_inr)
-          
+          price_inr: parseFloat(selectedPackDetails.price_inr),
+          spu: selectedPackDetails.spu.replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, ""),
+          category: selectedPackDetails.category,
         },
         spuType: "inGameItem",
         userDetails: {
-          username: "temp-username-" + Math.random().toString(36).substr(2, 9),
-          uid: "temp-uid-" + Math.random().toString(36).substr(2, 9)
+          username: currentUser.displayName || '',
+          uid: currentUser.uid
         },
         playerDetails: {
           userid: userId,
@@ -105,7 +148,8 @@ const GiftPacksPage = () => {
       
       const response = await BackendApiClient.getInstance().purchaseSPU(
         selectedPackDetails.id,
-        purchaseData
+        purchaseData,
+        idToken // Pass the Firebase ID token for authorization
       );
 
       // Redirect to payment URL if provided
@@ -205,12 +249,12 @@ const GiftPacksPage = () => {
                     transition={{ duration: 0.5, delay: 0.4 }}
                   >
                     <input
-                      type="text"
+                      type="number"
                       id="userId"
                       value={userId}
                       onChange={(e) => setUserId(e.target.value)}
                       placeholder="1234567890"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </motion.div>
                 </div>
@@ -227,12 +271,12 @@ const GiftPacksPage = () => {
                     transition={{ duration: 0.5, delay: 0.5 }}
                   >
                     <input
-                      type="text"
+                      type="number"
                       id="zoneId"
                       value={zoneId}
                       onChange={(e) => setZoneId(e.target.value)}
                       placeholder="12345"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                   </motion.div>
                 </div>
@@ -523,7 +567,7 @@ const GiftPacksPage = () => {
                             }}
                           >
                             {typeof pack.spu === "string"
-                              ? pack.spu.replace(/diamond/gi, "gift pack").replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
+                              ? pack.spu.replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
                               : pack.spu}
                           </motion.div>
                         </div>
@@ -539,6 +583,7 @@ const GiftPacksPage = () => {
         {/* Step 3: Order Overview - Shows when pack is selected */}
         {selectedPack && (
           <motion.div
+            id="order-overview"
             className="mt-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -617,7 +662,7 @@ const GiftPacksPage = () => {
                   if (!selectedPackDetails) return null;
 
                   const packName = typeof selectedPackDetails.spu === "string"
-                    ? selectedPackDetails.spu.replace(/diamond/gi, "gift pack").replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
+                    ? selectedPackDetails.spu.replace(/mobilelegends BR ?/gi, "").replace(/&/gi, "+").replace(/mobile legends BR - /gi, "")
                     : selectedPackDetails.spu;
 
                   return (
@@ -692,7 +737,10 @@ const GiftPacksPage = () => {
                   for (const category in giftPackCategories) {
                     const pack = giftPackCategories[category].find((p: any) => p.id === selectedPack);
                     if (pack) {
-                      selectedPackDetails = pack;
+                      selectedPackDetails = {
+                        ...pack,
+                        category
+                      };
                       break;
                     }
                   }

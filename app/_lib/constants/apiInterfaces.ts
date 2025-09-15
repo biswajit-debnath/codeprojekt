@@ -33,15 +33,21 @@ export interface TransactionStatus {
   transactionId: string;
   stage: number;
   status: string;
+  isFailed?: boolean;
   price_inr?: number;
   currency?: string;
   productInfo?: object;
+  spuDetails?: {
+    category: string;
+    spu: string;
+  };
 }
 
 export interface PurchaseRequest {
   spuDetails: {
     product: string;
     price: number;
+    price_inr: number;
   };
   spuType: string;
   userDetails: {

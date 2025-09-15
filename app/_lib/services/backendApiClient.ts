@@ -71,10 +71,11 @@ export class BackendApiClient {
     });
   }
 
-  public async getUserProfile(uid: string): Promise<UserProfile> {
+  public async getUserProfile(uid: string, authToken?: string): Promise<UserProfile> {
     const config = {
       ...API_REQUESTS.USER_PROFILE,
       url: `${this.baseUrl}${API_REQUESTS.USER_PROFILE.url}/${uid}`,
+      authToken,
     };
     const response = await axiosAdapter.request<UserProfile>(config);
     return get(response, "data", {
@@ -85,12 +86,13 @@ export class BackendApiClient {
     });
   }
 
-  public async getTransactionStatus(transactionId: string): Promise<TransactionStatus> {
+  public async getTransactionStatus(transactionId: string, authToken?: string): Promise<TransactionStatus> {
     const config = {
       ...API_REQUESTS.GET_TRANSACTION_STATUS,
       url: `${this.baseUrl}${createUrl(API_REQUESTS.GET_TRANSACTION_STATUS.url, {
         transactionId,
       })}`,
+      authToken,
     };
     const response = await axiosAdapter.request<TransactionStatus>(config);
     return get(response, "data", {
@@ -103,13 +105,14 @@ export class BackendApiClient {
     });
   }
 
-  public async purchaseSPU(spuId: string, purchaseData: PurchaseRequest): Promise<PurchaseResponse> {
+  public async purchaseSPU(spuId: string, purchaseData: PurchaseRequest, authToken?: string): Promise<PurchaseResponse> {
     const config = {
       ...API_REQUESTS.PURCHASE_SPU,
       url: `${this.baseUrl}${createUrl(API_REQUESTS.PURCHASE_SPU.url, {
         spuId,
       })}`,
       data: purchaseData,
+      authToken,
     };
     const response = await axiosAdapter.request<PurchaseResponse>(config);
     return get(response, "data", {

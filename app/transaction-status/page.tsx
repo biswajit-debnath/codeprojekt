@@ -5,21 +5,41 @@ import { subscribeToTransaction, unsubscribeFromTransaction } from "../_lib/util
 import { BackendApiClient } from "../_lib/services/backendApiClient";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "../_styles/animations";
+import { auth } from "../../firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 const TransactionStatusContent = () => {
   const [currentStage, setCurrentStage] = useState(1); // Start at stage 1
+  const [isFailed, setIsFailed] = useState(false); // Track if current stage failed
   const [amount, setAmount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [user, setUser] = useState<any>(null); // Track authenticated user
+  const [authLoading, setAuthLoading] = useState(true); // Track auth loading state
+  const [category, setCategory] = useState<string | null>(null);
+  const [spu, setspu] = useState<string | null>(null);
   const searchParams = useSearchParams();
   
   // Get transaction ID from URL parameters
   const transactionId = searchParams.get('transactionId') || searchParams.get('id') || "";
 
+  // Listen for authentication state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      console.log("Auth state changed:", firebaseUser);
+      setUser(firebaseUser);
+      setAuthLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   // API integration: fetch transaction status and update stage
   useEffect(() => {
-    // Only proceed if we have a transaction ID
+    // Wait for auth to be determined and ensure we have a transaction ID
+    if (authLoading) return;
+    
     if (!transactionId) {
       setError("No transaction ID found in URL");
       setIsLoading(false);
@@ -29,10 +49,30 @@ const TransactionStatusContent = () => {
     const fetchStatus = async () => {
       try {
         setIsLoading(true);
-        const data = await BackendApiClient.getInstance().getTransactionStatus(transactionId);
+
+        // Get the Firebase ID token if user is authenticated
+        let idToken = undefined;
+        if (user) {
+          try {
+            idToken = await user.getIdToken();
+            console.log("Successfully got Firebase ID token");
+          } catch (tokenError) {
+            console.error("Failed to get Firebase ID token:", tokenError);
+            setError("Failed to get authentication token. Please sign in again.");
+            setIsLoading(false);
+            return;
+          }
+        } else {
+          console.log("No authenticated user, proceeding without auth token");
+        }
+        
+        const data = await BackendApiClient.getInstance().getTransactionStatus(transactionId, idToken);
         if (typeof data.stage === "number" && data.stage >= 1 && data.stage <= 4) {
           setCurrentStage(data.stage);
+          setIsFailed(data.isFailed || false);
           setAmount(data.price_inr|| null);
+          setCategory(data.spuDetails?.category || null);
+          setspu(data.spuDetails?.spu || null);
         }
         setError(null);
       } catch (err) {
@@ -45,9 +85,10 @@ const TransactionStatusContent = () => {
     fetchStatus();
 
     // Socket integration - subscribe to transaction room
-    const handleTransactionUpdate = (payload: { transactionId: string; stage: number }) => {
+    const handleTransactionUpdate = (payload: { transactionId: string; stage: number; isFailed?: boolean }) => {
       if (payload.transactionId === transactionId && typeof payload.stage === "number") {
         setCurrentStage(payload.stage);
+        setIsFailed(payload.isFailed || false);
       }
     };
 
@@ -56,7 +97,7 @@ const TransactionStatusContent = () => {
     return () => {
       unsubscribeFromTransaction(transactionId);
     };
-  }, [transactionId]);
+  }, [transactionId, user, authLoading]); // Add dependencies
 
   // Copy to clipboard function
   const copyToClipboard = async () => {
@@ -106,6 +147,7 @@ const TransactionStatusContent = () => {
 
   const getStageStatus = (stageId: number) => {
     if (stageId < currentStage) return "completed";
+    if (stageId === currentStage && isFailed) return "failed";
     if (stageId === currentStage) return "current";
     return "pending";
   };
@@ -125,6 +167,26 @@ const TransactionStatusContent = () => {
               strokeLinejoin="round"
               strokeWidth={2}
               d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+      );
+    }
+
+    if (status === "failed") {
+      return (
+        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg
+            className="w-3 h-3 sm:w-5 sm:h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
             />
           </svg>
         </div>
@@ -165,6 +227,24 @@ const TransactionStatusContent = () => {
         animate="show"
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-4xl"
       >
+        {/* Authentication Loading State */}
+        {authLoading && (
+          <motion.div
+            variants={fadeIn("up", 0.1)}
+            className="bg-yellow-50 border border-yellow-200 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-4 sm:mb-8"
+          >
+            <div className="flex items-center">
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-yellow-100 rounded-full flex items-center justify-center mr-3">
+                <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-yellow-600 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+              <div>
+                <h3 className="text-yellow-800 font-medium text-sm sm:text-base">Authenticating</h3>
+                <p className="text-yellow-600 text-xs sm:text-sm">Checking authentication status...</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Error State */}
         {error && (
           <motion.div
@@ -186,7 +266,7 @@ const TransactionStatusContent = () => {
         )}
 
         {/* Loading State */}
-        {isLoading && !error && (
+        {isLoading && !error && !authLoading && (
           <motion.div
             variants={fadeIn("up", 0.1)}
             className="bg-blue-50 border border-blue-200 rounded-lg sm:rounded-xl p-4 sm:p-6 mb-4 sm:mb-8"
@@ -225,7 +305,7 @@ const TransactionStatusContent = () => {
             </div>
             <div className="min-w-0 flex-1">
               <h1 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-800 leading-tight">
-                Bought Bonus Pack of 78 + 8 Diamonds
+                Bought {category} of {spu}
               </h1>
             </div>
           </div>
@@ -287,11 +367,13 @@ const TransactionStatusContent = () => {
                       <div className={`text-sm font-medium ${
                         getStageStatus(stage.id) === "completed" 
                           ? "text-green-600" 
+                          : getStageStatus(stage.id) === "failed"
+                          ? "text-red-600"
                           : getStageStatus(stage.id) === "current"
                           ? "text-blue-600"
                           : "text-gray-400"
                       }`}>
-                        {stage.title}
+                        {getStageStatus(stage.id) === "failed" ? "Failed" : stage.title}
                       </div>
                       <div className="text-xs text-gray-500 mt-1 sm:max-w-24">
                         {stage.description}
@@ -318,17 +400,42 @@ const TransactionStatusContent = () => {
           </div>
 
           {/* Current Stage Details */}
-          <div className="bg-blue-50 rounded-lg p-4 sm:p-6">
+          <div className={`rounded-lg p-4 sm:p-6 ${isFailed ? 'bg-red-50' : 'bg-blue-50'}`}>
             <div className="flex items-center">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></div>
+              <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mr-3 flex-shrink-0 ${
+                isFailed ? 'bg-red-500' : 'bg-blue-500'
+              }`}>
+                {isFailed ? (
+                  <svg
+                    className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                ) : (
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse"></div>
+                )}
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="font-medium text-blue-900 text-sm sm:text-base">
-                  {stages[currentStage - 1]?.title}
+                <h3 className={`font-medium text-sm sm:text-base ${
+                  isFailed ? 'text-red-900' : 'text-blue-900'
+                }`}>
+                  {isFailed ? "Failed" : stages[currentStage - 1]?.title}
                 </h3>
-                <p className="text-blue-700 text-xs sm:text-sm">
-                  {stages[currentStage - 1]?.description}...
+                <p className={`text-xs sm:text-sm ${
+                  isFailed ? 'text-red-700' : 'text-blue-700'
+                }`}>
+                  {isFailed 
+                    ? `Transaction failed at ${stages[currentStage - 1]?.title}` 
+                    : `${stages[currentStage - 1]?.description}...`
+                  }
                 </p>
               </div>
             </div>
