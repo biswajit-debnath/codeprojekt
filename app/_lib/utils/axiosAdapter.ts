@@ -52,6 +52,8 @@ class AxiosAdapter {
               }
             } catch (_e) {
               // Swallow token fetch errors here; request may still succeed without auth
+              console.log("Token fetch error:", _e);
+              
             }
           }
         }
@@ -111,6 +113,7 @@ class AxiosAdapter {
             }
           } catch (_e) {
             // If refresh fails, fall through to reject
+            console.log("Token refresh error:", _e);
           }
         }
         return Promise.reject(error);

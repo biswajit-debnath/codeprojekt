@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, Suspense } from "react";
+import { Copy, Check } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { subscribeToTransaction, unsubscribeFromTransaction } from "../_lib/utils/socketClient";
 import { BackendApiClient } from "../_lib/services/backendApiClient";
@@ -321,14 +322,9 @@ const TransactionStatusContent = () => {
                   title="Copy to clipboard"
                 >
                   {copied ? (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
+                    <Check className="w-4 h-4 sm:w-5 sm:h-5" />
                   ) : (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"></path>
-                      <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"></path>
-                    </svg>
+                    <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
                   )}
                 </button>
                 {copied && (
