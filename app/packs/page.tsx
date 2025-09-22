@@ -11,7 +11,8 @@ const GiftPacksPage = () => {
   const [userId, setUserId] = useState("");
   const [zoneId, setZoneId] = useState("");
   const [selectedPack, setSelectedPack] = useState<string | null>(null);
-  const [verificationStatus, setVerificationStatus] = useState<string>("");
+  const [verificationStatus, setVerificationStatus] = useState<boolean>(false);
+  const [verificationMessage, setVerificationMessage] = useState<string>("");
   const [isVerifying, setIsVerifying] = useState(false);
   const [giftPackCategories, setGiftPackCategories] = useState<{
     [category: string]: any;
@@ -56,12 +57,12 @@ const GiftPacksPage = () => {
     console.log("Verification started", { userId, zoneId });
 
     if (!userId || !zoneId) {
-      setVerificationStatus("Please enter both User ID and Zone ID");
+      setVerificationMessage("Please enter both User ID and Zone ID");
       return;
     }
 
     setIsVerifying(true);
-    setVerificationStatus("");
+    setVerificationMessage("");
 
     try {
       const data = await BackendApiClient.getInstance().getplayerIGN(
@@ -69,10 +70,12 @@ const GiftPacksPage = () => {
         zoneId
       );
 
-      setVerificationStatus(data.username || "Verification completed");
+      setVerificationMessage(data.username || "Verification completed");
+      setVerificationStatus(!!data.username);
     } catch (error) {
       console.error("Verification error:", error);
-      setVerificationStatus(
+      setVerificationStatus(false);
+      setVerificationMessage(
         error instanceof Error ? error.message : "Verification failed"
       );
     } finally {
@@ -290,14 +293,14 @@ const GiftPacksPage = () => {
                 >
                   {isVerifying ? "Verifying..." : "Verify Details"}
                 </motion.button>
-                {verificationStatus ? (
+                {verificationMessage ? (
                   <motion.div
                     className="text-base md:text-lg text-gray-500 pl-2 pt-1"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    {verificationStatus}
+                    {verificationMessage}
                   </motion.div>
                 ) : (
                   <motion.div
@@ -679,43 +682,141 @@ const GiftPacksPage = () => {
                       </div>
                       
                       <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-6">
-                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                          <span className="text-lg md:text-xl font-bold uppercase tracking-wider">
-                            Your Selection
-                          </span>
-                        </div>
-                        
-                        <div className="mb-8">
-                          <h4 className="text-2xl md:text-3xl font-bold mb-3">
-                            {packName}
-                          </h4>
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-4xl md:text-5xl font-black text-red-500">
-                              ₹{selectedPackDetails.price_inr}
-                            </span>
-                            <span className="text-gray-400">INR</span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          {/* Left Column - Your Selection */}
+                          <div>
+                            <div className="flex items-center gap-3 mb-6">
+                              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                              <span className="text-lg md:text-xl font-bold uppercase tracking-wider">
+                                Your Selection
+                              </span>
+                            </div>
+                            
+                            <div className="mb-8">
+                              <h4 className="text-2xl md:text-3xl font-bold mb-3">
+                                {packName}
+                              </h4>
+                              <div className="flex items-baseline gap-2">
+                                <span className="text-4xl md:text-5xl font-black text-red-500">
+                                  ₹{selectedPackDetails.price_inr}
+                                </span>
+                                <span className="text-gray-400">INR</span>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-3 text-gray-300">
+                              <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                                <span>Instant delivery</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                                <span>Secure payment</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                </svg>
+                                <span>24/7 support</span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        
-                        <div className="space-y-3 text-gray-300">
-                          <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                            </svg>
-                            <span>Instant delivery</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                            </svg>
-                            <span>Secure payment</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                            </svg>
-                            <span>24/7 support</span>
+
+                          {/* Right Column - Payment Methods */}
+                          <div>
+                            <div className="flex items-center gap-3 mb-6">
+                              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                              <span className="text-lg md:text-xl font-bold uppercase tracking-wider">
+                                We Accept
+                              </span>
+                            </div>
+                            
+                            <div className="grid grid-cols-6 md:grid-cols-4 gap-3">
+                              {/* Google Pay */}
+                              <div className="flex items-center justify-center h-12">
+                                <Image
+                                  src="/payment-modes/google-pay-alt.svg"
+                                  alt="Google Pay"
+                                  width={70}
+                                  height={40}
+                                  className="object-contain"
+                                />
+                              </div>
+
+                              {/* PhonePe */}
+                              <div className="flex items-center justify-center h-12">
+                                <Image
+                                  src="/payment-modes/phonepay.png"
+                                  alt="PhonePe"
+                                  width={70}
+                                  height={40}
+                                  className="object-contain"
+                                />
+                              </div>
+
+                              {/* Paytm */}
+                              <div className="flex items-center justify-center h-12">
+                                <Image
+                                  src="/payment-modes/paytm.png"
+                                  alt="Paytm"
+                                  width={70}
+                                  height={40}
+                                  className="object-contain"
+                                />
+                              </div>
+
+                              {/* Visa */}
+                              <div className="flex items-center justify-center h-12">
+                                <Image
+                                  src="/payment-modes/visa-alt.svg"
+                                  alt="Visa"
+                                  width={70}
+                                  height={40}
+                                  className="object-contain"
+                                />
+                              </div>
+
+                              {/* Mastercard */}
+                              <div className="flex items-center justify-center h-12">
+                                <Image
+                                  src="/payment-modes/mastercard-alt.svg"
+                                  alt="Mastercard"
+                                  width={70}
+                                  height={40}
+                                  className="object-contain"
+                                />
+                              </div>
+
+                              {/* Generic Cards */}
+                              <div className="flex items-center justify-center h-12">
+                                <Image
+                                  src="/payment-modes/card-generic-alt.svg"
+                                  alt="Credit/Debit Cards"
+                                  width={70}
+                                  height={40}
+                                  className="object-contain"
+                                />
+                              </div>
+                            </div>
+                            
+                            <div className="mt-6 md:mt-10 text-gray-400 text-sm">
+                              <div className="flex items-center gap-2 mb-2">
+                                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                </svg>
+                                <span>256-bit SSL encryption</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                </svg>
+                                <span>PCI DSS compliant</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
