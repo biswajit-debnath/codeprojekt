@@ -6,22 +6,98 @@ import FirebaseImageService from "@/app/_lib/services/firebaseStorage";
 import { motion } from "framer-motion";
 import { fadeIn, cardHover, staggerContainer } from "../../_styles/animations";
 import Link from "next/link";
+import { useRegion, Region } from "../../../context/RegionContext";
+
+// Game Card Configuration
+type GameCardConfig = {
+  imagePath: string;
+  label: string;
+  link?: string;
+  isComingSoon?: boolean;
+  showInRegions: Region[]; // Which regions should show this card
+};
+
+const GAME_CARDS_CONFIG: GameCardConfig[] = [
+  {
+    imagePath: "games/menu-image_ml.jpeg",
+    label: "BUY PACKS",
+    link: "/packs",
+    isComingSoon: false,
+    showInRegions: ["INT"], // Only show in international
+  },
+  {
+    imagePath: "games/menu-image0.png",
+    label: "BUY TSHIRT",
+    link: "/merch",
+    isComingSoon: false,
+    showInRegions: ["IND", "INT"], // Show in both regions
+  },
+  {
+    imagePath: "games/menu-image1.png",
+    label: "BUY FIGURINES",
+    link: "/merch",
+    isComingSoon: false,
+    showInRegions: ["IND", "INT"], // Show in both regions
+  },
+  {
+    imagePath: "games/menu-image2.png",
+    label: "COMING SOON",
+    isComingSoon: true,
+    showInRegions: ["INT"], // Only show in international
+  },
+  {
+    imagePath: "games/menu-image3.png",
+    label: "COMING SOON",
+    isComingSoon: true,
+    showInRegions: ["INT"], // Only show in international
+  },
+];
 
 const GameCard = ({
   imagePath,
-  alt,
+  label,
+  link,
   isComingSoon,
   index,
 }: {
   imagePath: string;
-  alt: string;
+  label: string;
+  link?: string;
   isComingSoon?: boolean;
   index: number;
 }) => {
-  // Determine if this card should show the BUY MERCH overlay
-  const isBuyTshirt = alt === "Buy Tshirt";
-  const isBuyFigurines = alt === "Buy Figurines";
-  const isBuyPacks = alt === "Buy Packs";
+  const hasLink = link && !isComingSoon;
+  const cardContent = (
+    <motion.div
+      className="w-full h-full relative overflow-hidden"
+      variants={cardHover}
+    >
+      <FirebaseImage path={imagePath} alt={label} fill objectFit="cover" />
+      <motion.div
+        className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken'] z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.3 }}
+      >
+        <div className="text-center w-full">
+          <motion.h3
+            className="text-white text-[0.7rem] md:text-lg font-bold tracking-wider"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.4 }}
+          >
+            {label.split(' ').map((word, i) => (
+              <React.Fragment key={i}>
+                {word}
+                {i < label.split(' ').length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </motion.h3>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+
   const card = (
     <motion.div
       className="relative aspect-[9/15] md:aspect-[9/20] max-w-[110px] md:max-w-[200px] lg:max-w-[280px] w-full sm:w-full md:w-1/2 lg:w-1/4"
@@ -31,131 +107,39 @@ const GameCard = ({
       initial="hidden"
       animate="show"
     >
-      <motion.div
-        className="w-full h-full relative overflow-hidden"
-        variants={cardHover}
-      >
-        <FirebaseImage path={imagePath} alt={alt} fill objectFit="cover" />
-        {isComingSoon && (
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken']"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.3 }}
-          >
-            <div className="text-center">
-              <motion.h3
-                className="text-white text-[0.7rem] md:text-lg font-bold tracking-wider"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.4 }}
-              >
-                COMING
-                <br />
-                SOON
-              </motion.h3>
-            </div>
-          </motion.div>
-        )}
-        {isBuyTshirt && (
-          <Link
-            href="/merch"
-            className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken'] z-10"
-            tabIndex={0}
-            aria-label="Buy Tshirt"
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.3 }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <div className="text-center w-full">
-                <motion.h3
-                  className="text-white text-[0.7rem] md:text-lg font-bold tracking-wider"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.7, duration: 0.4 }}
-                >
-                  BUY
-                  <br />
-                  TSHIRT
-                </motion.h3>
-              </div>
-            </motion.div>
-          </Link>
-        )}
-        {isBuyFigurines && (
-          <Link
-            href="/merch"
-            className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken'] z-10"
-            tabIndex={0}
-            aria-label="Buy Figurines"
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.3 }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <div className="text-center w-full">
-                <motion.h3
-                  className="text-white text-[0.7rem] md:text-lg font-bold tracking-wider"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.7, duration: 0.4 }}
-                >
-                  BUY
-                  <br />
-                  FIGURINES
-                </motion.h3>
-              </div>
-            </motion.div>
-          </Link>
-        )}
-        {isBuyPacks && (
-          <Link
-            href="/packs"
-            className="absolute inset-0 flex items-center justify-center bg-black/50 font-['The-Last-Shuriken'] z-10"
-            tabIndex={0}
-            aria-label="Buy Packs"
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.3 }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <div className="text-center w-full">
-                <motion.h3
-                  className="text-white text-[0.7rem] md:text-lg font-bold tracking-wider"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.7, duration: 0.4 }}
-                >
-                  BUY
-                  <br />
-                  PACKS
-                </motion.h3>
-              </div>
-            </motion.div>
-          </Link>
-        )}
-      </motion.div>
+      {hasLink ? (
+        <Link
+          href={link!}
+          className="block w-full h-full"
+          tabIndex={0}
+          aria-label={label}
+        >
+          {cardContent}
+        </Link>
+      ) : (
+        cardContent
+      )}
     </motion.div>
   );
+  
   return card;
 };
 
 const GameCards = () => {
+  // Get region from context
+  const { region, isHydrated } = useRegion();
+  
+  // Filter game cards based on current region
+  // Before hydration, show IND cards as default
+  const visibleCards = GAME_CARDS_CONFIG.filter(card => 
+    !isHydrated 
+      ? card.showInRegions.includes('IND')
+      : card.showInRegions.includes(region)
+  );
+  
   // Preload images
   useEffect(() => {
-    const imagePaths = [
-      "games/menu-image0.png",
-      "games/menu-image1.png",
-      "games/menu-image2.png",
-      "games/menu-image3.png",
-    ];
+    const imagePaths = GAME_CARDS_CONFIG.map(card => card.imagePath);
     FirebaseImageService.preloadImages(imagePaths);
   }, []);
 
@@ -169,32 +153,13 @@ const GameCards = () => {
     >
       <div className="max-w-[1550px] mx-auto">
         <div className="flex flex-wrap lg:flex-nowrap gap-2 md:gap-12">
-          
-          <GameCard
-            imagePath="games/menu-image_ml.jpeg"
-            alt="Buy Packs"
-            isComingSoon={false}
-            index={0}
-          />
-          <GameCard
-            imagePath="games/menu-image0.png"
-            alt="Buy Tshirt"
-            isComingSoon={false}
-            index={1}
-          />
-          <GameCard
-            imagePath="games/menu-image1.png"
-            alt="Buy Figurines"
-            isComingSoon={false}
-            index={2}
-          />
-
-          {[2, 3].map((index) => (
+          {visibleCards.map((card, index) => (
             <GameCard
-              key={index}
-              imagePath={`games/menu-image${index}.png`}
-              alt="Coming Soon"
-              isComingSoon
+              key={`${card.imagePath}-${index}`}
+              imagePath={card.imagePath}
+              label={card.label}
+              link={card.link}
+              isComingSoon={card.isComingSoon}
               index={index}
             />
           ))}
