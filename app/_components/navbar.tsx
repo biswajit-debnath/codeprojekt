@@ -8,6 +8,8 @@ import { fadeIn, staggerContainer } from "../_styles/animations";
 import { auth } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRegion, Region } from "../../context/RegionContext";
+import { Globe, ChevronDown } from "lucide-react";
+import FlagIcon from "react-world-flags";
 
 // Navigation Links Configuration
 type NavLink = {
@@ -19,7 +21,7 @@ type NavLink = {
 const NAV_LINKS_CONFIG: NavLink[] = [
   {
     href: "/packs",
-    label: "GIFT PACKS",
+    label: "DIAMOND PACKS",
     showInRegions: ["INT"], // Only show in international
   },
   {
@@ -30,22 +32,22 @@ const NAV_LINKS_CONFIG: NavLink[] = [
   {
     href: "/about",
     label: "ABOUT US",
-    showInRegions: ["INT"], // Only show in international
+    showInRegions: ["IND", "INT"], // Show in both regions
   },
   {
     href: "/contact",
     label: "CONTACT US",
-    showInRegions: ["INT"], // Only show in international
+    showInRegions: ["IND", "INT"], // Show in both regions
   },
   {
     href: "/refund",
     label: "REFUND POLICY",
-    showInRegions: ["INT"], // Only show in international
+    showInRegions: ["IND", "INT"], // Show in both regions
   },
   {
     href: "/privacy",
     label: "PRIVACY POLICY",
-    showInRegions: ["INT"], // Only show in international
+    showInRegions: ["IND", "INT"], // Show in both regions
   },
   // Example: Add region-specific links
   // {
@@ -61,6 +63,99 @@ const NAV_LINKS_CONFIG: NavLink[] = [
 ];
 
 const Navbar = () => {
+  // Reusable custom select for region so we can show icons inside dropdown items
+  const RegionSelect: React.FC<{
+    region: Region;
+    setRegion: (r: Region) => void;
+    className?: string;
+    iconSize?: number;
+  }> = ({ region, setRegion, className = "", iconSize = 18 }) => {
+    const [open, setOpen] = useState(false);
+    const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      const onDocClick = (e: MouseEvent) => {
+        if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+          setOpen(false);
+        }
+      };
+      document.addEventListener("mousedown", onDocClick);
+      return () => document.removeEventListener("mousedown", onDocClick);
+    }, []);
+
+    const OPTIONS: { value: Region; label: string }[] = [
+      { value: "IND", label: "India" },
+      { value: "INT", label: "International" },
+    ];
+
+    const toggle = () => setOpen((v) => !v);
+
+    const onKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Enter" || e.key === " ") setOpen((v) => !v);
+    };
+
+    return (
+      <div ref={wrapperRef} className={`relative ${className}`}>
+        <button
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          onClick={toggle}
+          onKeyDown={onKeyDown}
+          className="w-full flex items-center justify-between bg-gray-700 text-white rounded-2xl pl-10 pr-4 py-2 text-sm font-semibold cursor-pointer hover:bg-gray-600 transition-colors border border-gray-600 focus:outline-none"
+        >
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-white">
+            {region === "IND" ? (
+              <div className="overflow-hidden rounded-sm" style={{ width: iconSize, height: Math.round(iconSize * 0.66) }}>
+                <FlagIcon code="IN" height={Math.round(iconSize * 0.66)} />
+              </div>
+            ) : (
+              <Globe size={iconSize} />
+            )}
+          </div>
+
+          <span className="truncate text-left">{region === "IND" ? "India" : "International"}</span>
+          <ChevronDown size={16} />
+        </button>
+
+        {open && (
+          <ul
+            role="listbox"
+            tabIndex={-1}
+            className="absolute left-0 mt-2 w-full bg-gray-900 rounded-md shadow-lg py-1 z-50 border border-gray-700"
+          >
+            {OPTIONS.map((opt) => (
+              <li key={opt.value} role="option" aria-selected={region === opt.value}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRegion(opt.value);
+                    setOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2 text-sm text-left text-white hover:bg-gray-800 ${region === opt.value ? "bg-gray-800" : ""}`}
+                  style={{ minWidth: 0 }}
+                >
+                  <span className="flex-shrink-0">
+                    {opt.value === "IND" ? (
+                      <div className="overflow-hidden rounded-sm" style={{ width: iconSize - 2, height: Math.round((iconSize - 2) * 0.66) }}>
+                        <FlagIcon code="IN" height={Math.round((iconSize - 2) * 0.66)} />
+                      </div>
+                    ) : (
+                      <Globe size={iconSize - 2} />
+                    )}
+                  </span>
+                  <span className="flex-1 truncate">{opt.label}</span>
+                  {region === opt.value && <span className="text-green-300">✓</span>}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+  // using lucide-react icons (Globe, Flag) rendered absolutely inside the select wrapper
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -304,14 +399,8 @@ const Navbar = () => {
             variants={fadeIn("left", 0.3)}
             className="flex items-center ml-6"
           >
-            <select
-              value={region}
-              onChange={(e) => setRegion(e.target.value as Region)}
-              className="bg-gray-700 text-white rounded-2xl pl-3 pr-8 py-2 text-sm font-semibold cursor-pointer hover:bg-gray-600 transition-colors border border-gray-600 focus:outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg%20width%3d%2212%22%20height%3d%228%22%20viewBox%3d%220%200%2012%208%22%20fill%3d%22none%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cpath%20d%3d%22M1%201L6%206L11%201%22%20stroke%3d%22white%22%20stroke-width%3d%222%22%20stroke-linecap%3d%22round%22%20stroke-linejoin%3d%22round%22/%3e%3c/svg%3e')] bg-[length:12px] bg-[position:right_0.75rem_center] bg-no-repeat"
-            >
-              <option value="IND">🇮🇳 India</option>
-              <option value="INT">🌍 International</option>
-            </select>
+            {/* fixed width so it doesn't resize based on text */}
+            <RegionSelect region={region} setRegion={setRegion} className="w-44" />
           </motion.div>
             {currentUser.uid && (
               <div className="flex items-center space-x-2">
@@ -471,14 +560,7 @@ const Navbar = () => {
                 className="pb-6 mb-6 border-b border-gray-700"
               >
                 <div className="flex items-center justify-between">
-                  <select
-                    value={region}
-                    onChange={(e) => setRegion(e.target.value as Region)}
-                    className="bg-gray-700 text-white rounded-lg pl-3 pr-8 py-2 text-sm font-semibold cursor-pointer hover:bg-gray-600 transition-colors border border-gray-600 focus:outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg%20width%3d%2212%22%20height%3d%228%22%20viewBox%3d%220%200%2012%208%22%20fill%3d%22none%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cpath%20d%3d%22M1%201L6%206L11%201%22%20stroke%3d%22white%22%20stroke-width%3d%222%22%20stroke-linecap%3d%22round%22%20stroke-linejoin%3d%22round%22/%3e%3c/svg%3e')] bg-[length:12px] bg-[position:right_0.75rem_center] bg-no-repeat"
-                  >
-                    <option value="IND">🇮🇳 India</option>
-                    <option value="INT">🌍 International</option>
-                  </select>
+                  <RegionSelect region={region} setRegion={setRegion} className="w-44" iconSize={16} />
                 </div>
               </motion.div>
 

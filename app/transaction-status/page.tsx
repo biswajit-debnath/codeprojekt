@@ -10,7 +10,7 @@ import { auth } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 
 // WhatsApp Support Configuration
-const WHATSAPP_SUPPORT_NUMBER = "917002936200"; // Replace with your actual WhatsApp support number
+const WHATSAPP_SUPPORT_NUMBER = "917002181285";
 const WHATSAPP_MESSAGE_TEMPLATE = "Hi, I need support with my transaction. Transaction ID: {transactionId}";
 
 const TransactionStatusContent = () => {

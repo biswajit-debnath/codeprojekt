@@ -23,8 +23,8 @@ const HERO_CONTENT_CONFIG: Record<Region, HeroContent> = {
     showInRegions: ["IND"],
   },
   INT: {
-    headline: "GIFT-PACKS | T-SHIRTS | FIGURINES",
-    buttonText: "BUY GIFT PACKS",
+    headline: "DIAMOND-PACKS | T-SHIRTS | FIGURINES",
+    buttonText: "BUY DIAMOND PACKS",
     buttonLink: "/packs",
     showInRegions: ["INT"],
   },

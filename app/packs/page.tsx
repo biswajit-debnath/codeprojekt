@@ -31,7 +31,7 @@ const GiftPacksPage = () => {
         setGiftPackCategories(data);
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Failed to fetch gift packs"
+          err instanceof Error ? err.message : "Failed to fetch  packs"
         );
       } finally {
         setIsLoading(false);
@@ -419,7 +419,7 @@ const GiftPacksPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              Loading gift packs...
+              Loading  packs...
             </motion.div>
           ) : error ? (
             <motion.div
