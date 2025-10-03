@@ -7,6 +7,58 @@ import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "../_styles/animations";
 import { auth } from "../../firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+import { useRegion, Region } from "../../context/RegionContext";
+
+// Navigation Links Configuration
+type NavLink = {
+  href: string;
+  label: string;
+  showInRegions: Region[]; // Which regions should show this link
+};
+
+const NAV_LINKS_CONFIG: NavLink[] = [
+  {
+    href: "/packs",
+    label: "GIFT PACKS",
+    showInRegions: ["INT"], // Only show in international
+  },
+  {
+    href: "/merch",
+    label: "MERCH",
+    showInRegions: ["IND", "INT"], // Show in both regions
+  },
+  {
+    href: "/about",
+    label: "ABOUT US",
+    showInRegions: ["INT"], // Only show in international
+  },
+  {
+    href: "/contact",
+    label: "CONTACT US",
+    showInRegions: ["INT"], // Only show in international
+  },
+  {
+    href: "/refund",
+    label: "REFUND POLICY",
+    showInRegions: ["INT"], // Only show in international
+  },
+  {
+    href: "/privacy",
+    label: "PRIVACY POLICY",
+    showInRegions: ["INT"], // Only show in international
+  },
+  // Example: Add region-specific links
+  // {
+  //   href: "/india-exclusive",
+  //   label: "INDIA EXCLUSIVE",
+  //   showInRegions: ["IND"], // Only show in India
+  // },
+  // {
+  //   href: "/global-offers",
+  //   label: "GLOBAL OFFERS",
+  //   showInRegions: ["INT"], // Only show internationally
+  // },
+];
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +73,14 @@ const Navbar = () => {
   }>({ uid: null, displayName: null, photoURL: null });
   const [profileImageError, setProfileImageError] = useState(false);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+  
+  // Get region context
+  const { region, setRegion } = useRegion();
+
+  // Filter navigation links based on current region
+  const visibleNavLinks = NAV_LINKS_CONFIG.filter(link => 
+    link.showInRegions.includes(region)
+  );
 
   const closeMenuAndResetScroll = () => {
     setIsMenuOpen(false);
@@ -205,85 +265,24 @@ const Navbar = () => {
               variants={staggerContainer(0.05)}
               className="flex space-x-10 text-white text-lg pl-6"
             >
-              <motion.div variants={fadeIn("up", 0.1)}>
-                <Link href="/packs" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    GIFT PACKS
-                  </button>
-                  {pathname === "/packs" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div>
-              <motion.div variants={fadeIn("up", 0.3)}>
-                <Link href="/merch" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    MERCH
-                  </button>
-                  {pathname === "/merch" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div>
-              <motion.div variants={fadeIn("up", 0.15)}>
-                <Link href="/about" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    ABOUT US
-                  </button>
-                  {pathname === "/about" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div>
-              <motion.div variants={fadeIn("up", 0.2)}>
-                <Link href="/contact" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    CONTACT US
-                  </button>
-                  {pathname === "/contact" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div>
-              <motion.div variants={fadeIn("up", 0.25)}>
-                <Link href="/refund" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    REFUND POLICY
-                  </button>
-                  {pathname === "/refund" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div>
-
-              <motion.div variants={fadeIn("up", 0.35)}>
-                <Link href="/privacy" className="relative">
-                  <button className="hover:text-gray-300 transition-colors">
-                    PRIVACY POLICY
-                  </button>
-                  {pathname === "/privacy" && (
-                    <motion.div
-                      layoutId="navIndicator"
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
-                    ></motion.div>
-                  )}
-                </Link>
-              </motion.div>
+              {visibleNavLinks.map((link, index) => (
+                <motion.div 
+                  key={link.href} 
+                  variants={fadeIn("up", 0.1 + index * 0.05)}
+                >
+                  <Link href={link.href} className="relative">
+                    <button className="hover:text-gray-300 transition-colors">
+                      {link.label}
+                    </button>
+                    {pathname === link.href && (
+                      <motion.div
+                        layoutId="navIndicator"
+                        className="absolute -bottom-2 left-0 w-full h-1 bg-red-600"
+                      ></motion.div>
+                    )}
+                  </Link>
+                </motion.div>
+              ))}
             </motion.div>
           </motion.div>
 
@@ -300,6 +299,20 @@ const Navbar = () => {
               />
             </div> */}
             {/* Profile section - only show if user is logged in */}
+            {/* Region Selector */}
+          <motion.div
+            variants={fadeIn("left", 0.3)}
+            className="flex items-center ml-6"
+          >
+            <select
+              value={region}
+              onChange={(e) => setRegion(e.target.value as Region)}
+              className="bg-gray-700 text-white rounded-2xl pl-3 pr-8 py-2 text-sm font-semibold cursor-pointer hover:bg-gray-600 transition-colors border border-gray-600 focus:outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg%20width%3d%2212%22%20height%3d%228%22%20viewBox%3d%220%200%2012%208%22%20fill%3d%22none%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cpath%20d%3d%22M1%201L6%206L11%201%22%20stroke%3d%22white%22%20stroke-width%3d%222%22%20stroke-linecap%3d%22round%22%20stroke-linejoin%3d%22round%22/%3e%3c/svg%3e')] bg-[length:12px] bg-[position:right_0.75rem_center] bg-no-repeat"
+            >
+              <option value="IND">🇮🇳 India</option>
+              <option value="INT">🌍 International</option>
+            </select>
+          </motion.div>
             {currentUser.uid && (
               <div className="flex items-center space-x-2">
                 <Link href="/account">
@@ -450,81 +463,53 @@ const Navbar = () => {
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="fixed top-0 right-0 h-screen w-64 bg-gray-900 p-6 z-50 overflow-y-auto"
             >
+              {/* Mobile Region Selector */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5, duration: 0.3 }}
+                className="pb-6 mb-6 border-b border-gray-700"
+              >
+                <div className="flex items-center justify-between">
+                  <select
+                    value={region}
+                    onChange={(e) => setRegion(e.target.value as Region)}
+                    className="bg-gray-700 text-white rounded-lg pl-3 pr-8 py-2 text-sm font-semibold cursor-pointer hover:bg-gray-600 transition-colors border border-gray-600 focus:outline-none appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg%20width%3d%2212%22%20height%3d%228%22%20viewBox%3d%220%200%2012%208%22%20fill%3d%22none%22%20xmlns%3d%22http://www.w3.org/2000/svg%22%3e%3cpath%20d%3d%22M1%201L6%206L11%201%22%20stroke%3d%22white%22%20stroke-width%3d%222%22%20stroke-linecap%3d%22round%22%20stroke-linejoin%3d%22round%22/%3e%3c/svg%3e')] bg-[length:12px] bg-[position:right_0.75rem_center] bg-no-repeat"
+                  >
+                    <option value="IND">🇮🇳 India</option>
+                    <option value="INT">🌍 International</option>
+                  </select>
+                </div>
+              </motion.div>
+
               <motion.div
                 variants={staggerContainer(0.1)}
                 initial="hidden"
                 animate="show"
-                className="flex flex-col space-y-6 text-white mt-16"
+                className="flex flex-col space-y-6 text-white mt-2"
               >
-                <motion.div variants={fadeIn("right", 0.1)}>
-                  <Link
-                    href="/packs"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
+                
+                {visibleNavLinks.map((link, index) => (
+                  <motion.div 
+                    key={link.href} 
+                    variants={fadeIn("right", 0.1 + index * 0.1)}
                   >
-                    <button className="hover:text-gray-300 transition-colors">
-                      GIFT PACKS
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.2)}>
-                  <Link
-                    href="/merch"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      MERCH
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.3)}>
-                  <Link
-                    href="/about"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      ABOUT US
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.4)}>
-                  <Link
-                    href="/contact"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      CONTACT US
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.5)}>
-                  <Link
-                    href="/refund"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      REFUND POLICY
-                    </button>
-                  </Link>
-                </motion.div>
-                <motion.div variants={fadeIn("right", 0.6)}>
-                  <Link
-                    href="/privacy"
-                    onClick={closeMenuAndResetScroll}
-                    className="relative inline-block"
-                  >
-                    <button className="hover:text-gray-300 transition-colors">
-                      PRIVACY POLICY
-                    </button>
-                  </Link>
-                </motion.div>
+                    <Link
+                      href={link.href}
+                      onClick={closeMenuAndResetScroll}
+                      className="relative inline-block"
+                    >
+                      <button className="hover:text-gray-300 transition-colors">
+                        {link.label}
+                      </button>
+                    </Link>
+                  </motion.div>
+                ))}
               </motion.div>
+              
+              
               <motion.div
-                variants={fadeIn("up", 0.7)}
+                variants={fadeIn("up", 0.8)}
                 initial="hidden"
                 animate="show"
                 className="space-y-4 mt-8"
@@ -550,14 +535,14 @@ const Navbar = () => {
                     </Link>
                   </motion.button>
                 )}
-                <motion.button
+                {/* <motion.button
                   whileHover={{ scale: 1.03 }}
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
                 >
                   <Link href="/signin" onClick={closeMenuAndResetScroll}>
                     Sign In
                   </Link>
-                </motion.button>
+                </motion.button> */}
                 {/* <motion.button
                   whileHover={{ scale: 1.03 }}
                   className="w-full bg-gray-700 rounded-md px-4 py-1 text-gray-300"
