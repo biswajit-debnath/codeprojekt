@@ -1,3 +1,5 @@
+![Hacktoberfest](https://img.shields.io/badge/Hacktoberfest-2025-blueviolet?style=flat-square&logo=github)
+
 # 🎮 CodeProjekt Ventures - Game Merch & Collectibles Store
 
 Welcome to the official repository for **CodeProjekt Ventures**, a modern e-commerce web application for selling game-inspired merchandise and collectibles like T-shirts, action figures, stickers, and posters.
@@ -82,5 +84,6 @@ This branching model ensures:
 - 🧾 Admin panel for managing products & orders
 
 ---
+
 
 
