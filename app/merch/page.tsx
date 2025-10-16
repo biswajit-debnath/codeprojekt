@@ -218,6 +218,8 @@ export default function ShopPage() {
 
   // Modal state
   const [showModal, setShowModal] = useState(false);
+  // Show out-of-stock notice when proceeding to payment
+  const [showOutOfStock, setShowOutOfStock] = useState(false);
   const [recipient, setRecipient] = useState({
     name: "",
     phone: "",
@@ -230,7 +232,12 @@ export default function ShopPage() {
   const [formError, setFormError] = useState("");
 
   const handleProceed = () => {
-    setShowModal(true);
+    // Show out-of-stock notice before payment
+    setShowOutOfStock(true);
+  };
+
+  const handleCloseOutOfStock = () => {
+    setShowOutOfStock(false);
   };
 
   const handleCloseModal = () => {
@@ -726,6 +733,49 @@ export default function ShopPage() {
             </div>
           </aside>
         </div>
+        {/* Out of Stock Modal */}
+        {showOutOfStock && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div
+              className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md relative"
+              style={{
+                fontFamily: "'Rentukka-Regular', Helvetica, sans-serif",
+              }}
+            >
+              <button
+                className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl font-bold"
+                onClick={handleCloseOutOfStock}
+                aria-label="Close"
+                type="button"
+              >
+                ×
+              </button>
+              <h3
+                className="text-2xl font-bold mb-4 text-center"
+                style={{
+                  color: "var(--primaryColor)",
+                  fontFamily: "'The-Last-Shuriken', cursive",
+                }}
+              >
+                Out of Stock
+              </h3>
+              <p className="text-center text-gray-700 mb-4">
+                Items are currently out of stock. For pre-orders, please contact
+                <span className="font-bold"> +91 98630 73368</span>.
+              </p>
+              <div className="flex justify-center">
+                <button
+                  className={`mt-2 px-6 py-2 rounded-lg text-white font-bold text-lg transition-colors ${styles["custom-button"]}`}
+                  style={{ background: "var(--primaryColor)" }}
+                  onClick={handleCloseOutOfStock}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Modal */}
         {showModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">

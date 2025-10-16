@@ -1,7 +1,7 @@
 export const API_BASE_URLS = {
   CODEPROJEKT_BACKEND:
     (process.env.CODEPROJEKT_BACKEND_BASE_URL as string) ||
-    "https://api.codeprojekt.shop",
+    "https://api-zg.codeprojekt.shop",
 } as const;
 
 export const API_ENDPOINTS = {

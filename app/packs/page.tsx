@@ -10,6 +10,8 @@ import { onAuthStateChanged } from "firebase/auth";
 const GiftPacksPage = () => {
   const [userId, setUserId] = useState("");
   const [zoneId, setZoneId] = useState("");
+  const [lastUserIdSuggestion, setLastUserIdSuggestion] = useState<string>("");
+  const [lastZoneIdSuggestion, setLastZoneIdSuggestion] = useState<string>("");
   const [selectedPack, setSelectedPack] = useState<string | null>(null);
   const [verificationStatus, setVerificationStatus] = useState<boolean>(false);
   const [verificationMessage, setVerificationMessage] = useState<string>("");
@@ -31,7 +33,7 @@ const GiftPacksPage = () => {
         setGiftPackCategories(data);
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Failed to fetch gift packs"
+          err instanceof Error ? err.message : "Failed to fetch  packs"
         );
       } finally {
         setIsLoading(false);
@@ -39,6 +41,33 @@ const GiftPacksPage = () => {
     };
 
     fetchGiftPacks();
+  }, []);
+
+  // Load last entered userId/zoneId suggestions from localStorage
+  useEffect(() => {
+    try {
+      const lastUserRaw = localStorage.getItem("lastUserId");
+      const lastZoneRaw = localStorage.getItem("lastZoneId");
+
+      // sanitize stored values to digits-only (handles old entries with special chars)
+      const sanitize = (s: string | null) => {
+        if (!s) return "";
+        const trimmed = s.trim();
+        return trimmed.replace(/\D+/g, "");
+      };
+
+      const lastUser = sanitize(lastUserRaw);
+      const lastZone = sanitize(lastZoneRaw);
+
+      if (lastUser) setLastUserIdSuggestion(lastUser);
+      if (lastZone) setLastZoneIdSuggestion(lastZone);
+
+      // Prefill the inputs so the values remain when navigating between pages
+      if (lastUser) setUserId(lastUser);
+      if (lastZone) setZoneId(lastZone);
+    } catch {
+      // ignore localStorage errors
+    }
   }, []);
 
   // Listen for authentication state changes
@@ -252,13 +281,36 @@ const GiftPacksPage = () => {
                     transition={{ duration: 0.5, delay: 0.4 }}
                   >
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       id="userId"
+                      list="userIdSuggestions"
                       value={userId}
-                      onChange={(e) => setUserId(e.target.value)}
+                      onChange={(e) => {
+                        // allow digits only
+                        const digits = e.target.value.replace(/\D+/g, "");
+                        setUserId(digits);
+                      }}
+                      onBlur={() => {
+                        try {
+                          if (userId && userId.trim()) {
+                            // store numeric-only trimmed value
+                            const v = userId.trim().replace(/\D+/g, "");
+                            localStorage.setItem("lastUserId", v);
+                            setLastUserIdSuggestion(v);
+                            setUserId(v);
+                          }
+                        } catch {}
+                      }}
                       placeholder="1234567890"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
                     />
+                    <datalist id="userIdSuggestions">
+                      {lastUserIdSuggestion && (
+                        <option value={lastUserIdSuggestion} />
+                      )}
+                    </datalist>
                   </motion.div>
                 </div>
                 <div>
@@ -274,13 +326,34 @@ const GiftPacksPage = () => {
                     transition={{ duration: 0.5, delay: 0.5 }}
                   >
                     <input
-                      type="number"
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
                       id="zoneId"
+                      list="zoneIdSuggestions"
                       value={zoneId}
-                      onChange={(e) => setZoneId(e.target.value)}
+                      onChange={(e) => {
+                        const digits = e.target.value.replace(/\D+/g, "");
+                        setZoneId(digits);
+                      }}
+                      onBlur={() => {
+                        try {
+                          if (zoneId && zoneId.trim()) {
+                            const v = zoneId.trim().replace(/\D+/g, "");
+                            localStorage.setItem("lastZoneId", v);
+                            setLastZoneIdSuggestion(v);
+                            setZoneId(v);
+                          }
+                        } catch {}
+                      }}
                       placeholder="12345"
-                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="w-full px-3 py-2 md:px-5 md:py-2 bg-gray-300 text-black md:text-lg"
                     />
+                    <datalist id="zoneIdSuggestions">
+                      {lastZoneIdSuggestion && (
+                        <option value={lastZoneIdSuggestion} />
+                      )}
+                    </datalist>
                   </motion.div>
                 </div>
                 <motion.button
@@ -333,7 +406,7 @@ const GiftPacksPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.3 }}
             >
-              NEW FEATURES:
+              COMING SOON
             </motion.h2>
 
             <motion.div
@@ -347,14 +420,28 @@ const GiftPacksPage = () => {
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
               >
-                Wallet System Added
+                Wallet System (Top Up, Withdraw)
               </motion.div>
               <motion.div
                 className="text-gray-800"
                 whileHover={{ x: 5 }}
                 transition={{ duration: 0.2 }}
               >
-                Through Wallet Get Gifts Instantly
+                More Games (BGMI, Valorant and more)
+              </motion.div>
+                            <motion.div
+                className="text-gray-800"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                Achievement Badges
+              </motion.div>
+                            <motion.div
+                className="text-gray-800"
+                whileHover={{ x: 5 }}
+                transition={{ duration: 0.2 }}
+              >
+                Redeem Code System
               </motion.div>
             </motion.div>
           </motion.div>
@@ -393,24 +480,7 @@ const GiftPacksPage = () => {
                 SELECT YOUR PACKS
               </motion.h2>
             </div>
-            <motion.div
-              className="ml-2 w-4 h-4 md:w-5 md:h-5 rounded-full bg-[--primaryColor] text-white flex items-center justify-center text-[10px] md:text-xs font-bold"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-                delay: 1.1,
-              }}
-              whileHover={{
-                rotate: 360,
-                scale: 1.2,
-                transition: { duration: 0.5 },
-              }}
-            >
-              i
-            </motion.div>
+
           </motion.div>
 
           {isLoading ? (
@@ -419,7 +489,7 @@ const GiftPacksPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              Loading gift packs...
+              Loading  packs...
             </motion.div>
           ) : error ? (
             <motion.div

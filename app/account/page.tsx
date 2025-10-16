@@ -173,28 +173,28 @@ const AccountPage = () => {
                 isActive={activeSection === "id"}
               />
               <NavItem
+                id="personal"
+                label="PERSONAL INFORMATION"
+                onClick={scrollToSection}
+                isActive={activeSection === "personal"}
+              />
+               <NavItem
+                id="history"
+                label="TRANSACTION HISTORY"
+                onClick={scrollToSection}
+                isActive={activeSection === "history"}
+              />
+              <NavItem
                 id="wallet"
                 label="MY WALLET"
                 onClick={scrollToSection}
                 isActive={activeSection === "wallet"}
               />
               <NavItem
-                id="personal"
-                label="PERSONAL INFORMATION"
-                onClick={scrollToSection}
-                isActive={activeSection === "personal"}
-              />
-              <NavItem
                 id="achievements"
                 label="ACHIEVEMENTS"
                 onClick={scrollToSection}
                 isActive={activeSection === "achievements"}
-              />
-              <NavItem
-                id="history"
-                label="TRANSACTION HISTORY"
-                onClick={scrollToSection}
-                isActive={activeSection === "history"}
               />
               <NavItem
                 id="rewards"
@@ -303,100 +303,6 @@ const AccountPage = () => {
                 </div>
               </motion.div>
 
-              {/* Wallet Section - Stacks on mobile, row on md+ */}
-              <motion.div
-                ref={contentRefs.wallet}
-                className="mb-6"
-                variants={fadeIn("up", 0.1)}
-                initial="hidden"
-                animate="show"
-              >
-                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
-                  <motion.div
-                    className="w-full md:w-64 bg-[#2c2c2c] p-6 flex flex-col pb-4 md:pb-14 items-center md:items-start"
-                    variants={slideIn("right", 0.2)}
-                  >
-                    <motion.h2
-                      className="text-xl md:text-2xl mb-6 font-['The-Last-Shuriken'] opacity-70 text-center md:text-left"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 0.7, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.2 }}
-                    >
-                      MY WALLET
-                    </motion.h2>
-                    <div className="w-full flex justify-center">
-                      <motion.div
-                        className="relative w-24 h-24 md:w-32 md:h-32"
-                        animate={{
-                          y: [0, -5, 0],
-                        }}
-                        transition={{
-                          repeat: Infinity,
-                          duration: 2.5,
-                          ease: "easeInOut",
-                        }}
-                      >
-                        <Image
-                          src="/profile-image.png"
-                          alt="Profile"
-                          className="rounded-full"
-                          fill
-                          objectFit="cover"
-                        />
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                  {/* Padding adjusts for mobile */}
-                  <motion.div
-                    className="flex-1 px-4 md:px-10 py-12"
-                    variants={fadeIn("left", 0.3)}
-                  >
-                    <div>
-                      <motion.p
-                        className="text-gray-400 pl-0 md:pl-7 text-center md:text-left"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: 0.3 }}
-                      >
-                        WALLET BALANCE - Codepro coins
-                      </motion.p>
-                      {/* Button layout stacks on mobile */}
-                      <motion.div
-                        className="flex flex-col md:flex-row justify-between items-center mt-2 bg-[#2c2c2c] p-4"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.4 }}
-                      >
-                        <p className="text-2xl pl-0 md:pl-4 mb-4 md:mb-0">
-                          00.00
-                        </p>
-                        <motion.button
-                          className="bg-[--primaryColor] text-white px-4 md:px-6 py-3 md:py-4 flex items-center text-md md:text-lg w-full md:w-auto justify-center"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <span className="mr-2 md:mr-4 text-2xl md:text-4xl">
-                            +
-                          </span>{" "}
-                          ADD WALLET BALANCE
-                        </motion.button>
-                      </motion.div>
-                    </div>
-                    <motion.div
-                      className="mt-2"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: 0.5 }}
-                    >
-                      <p className="text-gray-400 pl-0 md:pl-7 text-lg text-center md:text-left">
-                        Wallet Transactions
-                      </p>
-                    </motion.div>
-                  </motion.div>
-                </div>
-              </motion.div>
-
               {/* Personal Information Section - Stacks on mobile, row/grid on md+ */}
               <motion.div
                 ref={contentRefs.personal}
@@ -479,108 +385,7 @@ const AccountPage = () => {
                   </motion.div>
                 </div>
               </motion.div>
-
-              {/* Achievements Section - Stacks on mobile, row/grid on md+ */}
-              <motion.div
-                ref={contentRefs.achievements}
-                className="mb-6"
-                variants={fadeIn("up", 0.1)}
-                initial="hidden"
-                animate="show"
-              >
-                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
-                  <motion.div
-                    className="w-full md:w-64 bg-[#2c2c2c] p-6"
-                    variants={slideIn("right", 0.2)}
-                  >
-                    <motion.h2
-                      className="text-xl md:text-2xl font-['The-Last-Shuriken'] opacity-70 text-center md:text-left"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 0.7, x: 0 }}
-                      transition={{ duration: 0.4, delay: 0.2 }}
-                    >
-                      ACHIEVEMENT
-                    </motion.h2>
-                  </motion.div>
-                  {/* Padding adjusts for mobile */}
-                  <motion.div
-                    className="flex-1 px-4 md:px-10 py-12"
-                    variants={fadeIn("left", 0.3)}
-                  >
-                    {/* Grid stacks on mobile */}
-                    <motion.div
-                      className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                      variants={staggerContainer(0.1, 0.1)}
-                      initial="hidden"
-                      animate="show"
-                    >
-                      <motion.div
-                        className="flex flex-col"
-                        variants={fadeIn("up", 0.3)}
-                      >
-                        <motion.div
-                          className="bg-[#2c2c2c] p-6 mb-2"
-                          whileHover={{ scale: 1.03 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <p className="text-gray-400 mb-4 font-medium">
-                            INVITES
-                          </p>
-                          <motion.p
-                            className="text-4xl font-semibold"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.4 }}
-                          >
-                            12
-                          </motion.p>
-                        </motion.div>
-                        <div className="w-full bg-gray-800 h-[0.7rem] mt-1 border-2 border-white">
-                          <motion.div
-                            className="bg-white h-[0.6rem]"
-                            style={{ width: "10%" }}
-                            initial={{ width: "0%" }}
-                            animate={{ width: "10%" }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                          />
-                        </div>
-                      </motion.div>
-                      <motion.div
-                        className="flex flex-col"
-                        variants={fadeIn("up", 0.4)}
-                      >
-                        <motion.div
-                          className="bg-[#2c2c2c] p-6 mb-2"
-                          whileHover={{ scale: 1.03 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <p className="text-gray-400 mb-4 font-medium">
-                            PURCHASE
-                          </p>
-                          <motion.p
-                            className="text-4xl font-semibold"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.4 }}
-                          >
-                            128
-                          </motion.p>
-                        </motion.div>
-                        <div className="w-full bg-gray-800 h-[0.7rem] mt-1 border-2 border-white">
-                          <motion.div
-                            className="bg-white h-[0.6rem]"
-                            style={{ width: "10%" }}
-                            initial={{ width: "0%" }}
-                            animate={{ width: "10%" }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                          />
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  </motion.div>
-                </div>
-              </motion.div>
-
+              
               {/* Transaction History Section - Stacks on mobile, row on md+ */}
               <motion.div
                 ref={contentRefs.history}
@@ -641,6 +446,110 @@ const AccountPage = () => {
                 </div>
               </motion.div>
 
+              {/* Wallet Section - Stacks on mobile, row on md+ */}
+              <motion.div
+                ref={contentRefs.wallet}
+                className="mb-6"
+                variants={fadeIn("up", 0.1)}
+                initial="hidden"
+                animate="show"
+              >
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <motion.div
+                    className="w-full md:w-64 bg-[#2c2c2c] p-6 flex flex-col pb-4 md:pb-14 items-center md:items-start"
+                    variants={slideIn("right", 0.2)}
+                  >
+                    <motion.h2
+                      className="text-xl md:text-2xl mb-6 font-['The-Last-Shuriken'] opacity-70 text-center md:text-left"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 0.7, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 }}
+                    >
+                      MY WALLET
+                    </motion.h2>
+                    <div className="w-full flex justify-center">
+                      <motion.div
+                        className="relative w-24 h-24 md:w-32 md:h-32"
+                        animate={{
+                          y: [0, -5, 0],
+                        }}
+                        transition={{
+                          repeat: Infinity,
+                          duration: 2.5,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        <Image
+                          src="/profile-image.png"
+                          alt="Profile"
+                          className="rounded-full"
+                          fill
+                          objectFit="cover"
+                        />
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                  {/* Padding adjusts for mobile */}
+                  <motion.div
+                    className="flex-1 px-4 md:px-10 py-12"
+                    variants={fadeIn("left", 0.3)}
+                  >
+                    <div className="flex items-center justify-center h-40 bg-[#2c2c2c] p-6">
+                      <motion.p
+                        className="text-gray-300 text-xl"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                      >
+                        Coming soon
+                      </motion.p>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Achievements Section - Stacks on mobile, row/grid on md+ */}
+              <motion.div
+                ref={contentRefs.achievements}
+                className="mb-6"
+                variants={fadeIn("up", 0.1)}
+                initial="hidden"
+                animate="show"
+              >
+                <div className="flex flex-col md:flex-row bg-[#1c1a1b] text-white overflow-hidden">
+                  <motion.div
+                    className="w-full md:w-64 bg-[#2c2c2c] p-6"
+                    variants={slideIn("right", 0.2)}
+                  >
+                    <motion.h2
+                      className="text-xl md:text-2xl font-['The-Last-Shuriken'] opacity-70 text-center md:text-left"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 0.7, x: 0 }}
+                      transition={{ duration: 0.4, delay: 0.2 }}
+                    >
+                      ACHIEVEMENT
+                    </motion.h2>
+                  </motion.div>
+                  {/* Padding adjusts for mobile */}
+                  <motion.div
+                    className="flex-1 px-4 md:px-10 py-12"
+                    variants={fadeIn("left", 0.3)}
+                  >
+                    <div className="flex items-center justify-center h-40 bg-[#2c2c2c] p-6">
+                      <motion.p
+                        className="text-gray-300 text-xl"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                      >
+                        Coming soon
+                      </motion.p>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+
               {/* Rewards Section - Stacks on mobile, row on md+ */}
               <motion.div
                 ref={contentRefs.rewards}
@@ -668,20 +577,16 @@ const AccountPage = () => {
                     className="flex-1 px-4 md:px-10 py-12"
                     variants={fadeIn("left", 0.3)}
                   >
-                    <motion.div
-                      className="bg-[#2c2c2c] p-4"
-                      whileHover={{ scale: 1.01 }}
-                      transition={{ duration: 0.2 }}
-                    >
+                    <div className="flex items-center justify-center h-40 bg-[#2c2c2c] p-6">
                       <motion.p
-                        className="text-gray-400"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.4 }}
+                        className="text-gray-300 text-xl"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
                       >
-                        No rewards available
+                        Coming soon
                       </motion.p>
-                    </motion.div>
+                    </div>
                   </motion.div>
                 </div>
               </motion.div>

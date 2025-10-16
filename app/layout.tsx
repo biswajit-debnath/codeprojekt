@@ -4,6 +4,7 @@ import "./globals.css";
 import "./_styles/fonts.css";
 import Navbar from './_components/navbar';
 import Footer from './_components/footer';
+import { RegionProvider } from '../context/RegionContext';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,9 +34,11 @@ export default function RootLayout({
       <body
         className={`min-h-screen flex flex-col ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <RegionProvider>
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </RegionProvider>
       </body>
     </html>
   );
