@@ -5,9 +5,39 @@ import styles from "../../_styles/Home.module.css";
 import { motion } from "framer-motion";
 import { fadeIn, slideIn } from "../../_styles/animations";
 import Link from "next/link";
+import { useRegion, Region } from "@/context/RegionContext";
+
+// Hero Content Configuration
+type HeroContent = {
+  headline: string;
+  buttonText: string;
+  buttonLink: string;
+  showInRegions: Region[]; // Which regions should show this content
+};
+
+const HERO_CONTENT_CONFIG: Record<Region, HeroContent> = {
+  IND: {
+    headline: "T-SHIRTS | FIGURINES",
+    buttonText: "BUY MERCH",
+    buttonLink: "/merch",
+    showInRegions: ["IND"],
+  },
+  INT: {
+    headline: "DIAMOND-PACKS | T-SHIRTS | FIGURINES",
+    buttonText: "BUY DIAMOND PACKS",
+    buttonLink: "/packs",
+    showInRegions: ["INT"],
+  },
+};
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { region, isHydrated } = useRegion();
+
+  // Get hero content based on region, default to IND before hydration
+  const heroContent = !isHydrated 
+    ? HERO_CONTENT_CONFIG.IND 
+    : HERO_CONTENT_CONFIG[region];
 
   useEffect(() => {
     // Simulate loading delay for animation
@@ -59,18 +89,18 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
           >
-            T-SHIRTS | FIGURINES
+            {heroContent.headline}
           </motion.h1>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <Link href="/merch">
+            <Link href={heroContent.buttonLink} scroll={false}>
               <button
                 className={`text-white transition-colors px-6 lg:px-20 py-1 md:py-3 lg:pt-5 lg:pb-4 text-[0.7rem] md:text-xl lg:text-3xl ${styles["custom-button"]}`}
               >
-                BUY MERCHANDISE
+                {heroContent.buttonText}
               </button>
             </Link>
           </motion.div>

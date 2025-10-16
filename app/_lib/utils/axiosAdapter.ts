@@ -4,7 +4,6 @@ import axios, {
   AxiosResponse,
   AxiosError,
 } from "axios";
-import { auth } from "../../../firebaseConfig";
 
 interface RequestConfig extends AxiosRequestConfig {
   method: "GET" | "POST" | "PUT" | "DELETE";
@@ -34,30 +33,13 @@ class AxiosAdapter {
   private setupInterceptors(): void {
     // Request interceptor
     this.axiosInstance.interceptors.request.use(
-      async (config) => {
-        // Prefer explicit authToken passed by callers
-        const explicitToken = (config as any).authToken as string | undefined;
-        if (explicitToken) {
+      (config) => {
+        // Check if authToken is provided in the config
+        if ((config as any).authToken) {
           config.headers = config.headers || {};
-          (config.headers as any)["Authorization"] = `Bearer ${explicitToken}`;
-        } else {
-          // If not explicitly provided, attach current Firebase ID token when available
-          const currentUser = auth.currentUser;
-          if (currentUser) {
-            try {
-              const token = await currentUser.getIdToken(/* forceRefresh */ false);
-              if (token) {
-                config.headers = config.headers || {};
-                (config.headers as any)["Authorization"] = `Bearer ${token}`;
-              }
-            } catch (_e) {
-              // Swallow token fetch errors here; request may still succeed without auth
-              console.log("Token fetch error:", _e);
-              
-            }
-          }
+          config.headers['Authorization'] = `Bearer ${(config as any).authToken}`;
         }
-
+        
         // Add logs
         console.log(`Request made to ${config.url}`);
         // Store request start time
@@ -83,7 +65,7 @@ class AxiosAdapter {
         }
         return response;
       },
-      async (error: AxiosError) => {
+      (error: AxiosError) => {
         // Calculate and log response time for errors
         if (error.config && (error.config as any).metadata?.startTime) {
           const endTime = new Date();
@@ -93,27 +75,17 @@ class AxiosAdapter {
             `Error response from ${error.config.url} took ${duration} ms`
           );
         }
-        // Retry once on 401 by forcing a token refresh
-        const originalRequest = error.config as any;
-        if (
-          error.response?.status === 401 &&
-          originalRequest &&
-          !originalRequest.__isRetryRequest
-        ) {
-          try {
-            const currentUser = auth.currentUser;
-            if (currentUser) {
-              const freshToken = await currentUser.getIdToken(true);
-              if (freshToken) {
-                originalRequest.__isRetryRequest = true;
-                originalRequest.headers = originalRequest.headers || {};
-                originalRequest.headers["Authorization"] = `Bearer ${freshToken}`;
-                return this.axiosInstance.request(originalRequest);
-              }
-            }
-          } catch (_e) {
-            // If refresh fails, fall through to reject
-            console.log("Token refresh error:", _e);
+        if (error.response) {
+          // Handle specific error status codes
+          switch (error.response.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 500:
+              break;
           }
         }
         return Promise.reject(error);

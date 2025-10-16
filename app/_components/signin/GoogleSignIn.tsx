@@ -63,14 +63,14 @@ const GoogleSignIn = () => {
         >
           {/* Left side with Image - Visible only on md+ screens */}
           <motion.div
-            className="hidden md:block w-[450px] relative overflow-hidden"
+            className="hidden md:block w-[450px] relative overflow-hidden rounded-lg"
             variants={slideIn("right", 0.3)}
           >
             <motion.div
               initial={{ scale: 1.2, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
-              className="h-full w-full"
+              className="w-full min-h-[calc(100vh-280px)]"
             >
               <Image
                 src="/hero-image.png"
@@ -88,10 +88,10 @@ const GoogleSignIn = () => {
           >
             <div className="w-full max-w-3xl md:pr-14">
               <motion.div
-                className="block md:hidden w-full mb-8"
+                className="block md:hidden w-full mb-6"
                 variants={fadeIn("up", 0.2)}
               >
-                <div className="relative w-full h-48">
+                <div className="relative w-full h-[30vh] overflow-hidden rounded-lg">
                   <Image
                     src="/hero-image.png"
                     alt="Game Character"
@@ -122,7 +122,7 @@ const GoogleSignIn = () => {
                 </motion.p>
               </motion.div>
               <motion.div
-                className="flex justify-center items-center py-12"
+                className="flex justify-center items-center py-6"
                 variants={fadeIn("up", 0.6)}
               >
                 <button

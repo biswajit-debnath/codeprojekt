@@ -13,7 +13,7 @@
 // interface AuthContextType {
 //     user: any; // Replace with a proper user type if available
 //     signup: (email: string, password: string) => Promise<void>;
-//     login: (email: string, password: string) => Promise<void>;
+//     signin: (email: string, password: string) => Promise<void>;
 //     logout: () => Promise<void>;
 // }
 
@@ -35,7 +35,7 @@
 //         await createUserWithEmailAndPassword(auth, email, password);
 //     };
 
-//     const login = async (email: string, password: string) => {
+//     const signin = async (email: string, password: string) => {
 //         await signInWithEmailAndPassword(auth, email, password);
 //     };
 
@@ -44,7 +44,7 @@
 //     };
 
 //     return (
-//         <AuthContext.Provider value={{ user, signup, login, logout }}>
+//         <AuthContext.Provider value={{ user, signup, signin, logout }}>
 //             {children}
 //         </AuthContext.Provider>
 //     );
