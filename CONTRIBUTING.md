@@ -37,9 +37,6 @@ Thanks for your interest in contributing to this project! Contributions are what
 
 ---
 
-Here is the formatted section. You can paste this directly into your `CONTRIBUTING.md` file, for example, right after the "Getting Started" section.
-
------
 
 ## 🛠️ Running the Project Locally
 
